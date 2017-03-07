@@ -1,0 +1,15 @@
+.tab-container{
+    border: black solid 1px;
+    padding: 25px;
+    height: 500px;
+}
+
+.tab-nav{
+    margin-top: 80px;
+}
+
+.tab-center{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+}

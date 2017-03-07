@@ -35,5 +35,14 @@
 }
 
 .input{
-    background: lightblue;
+    background: #678CB6;
+    color: white;
+}
+
+.input::-webkit-input-placeholder{
+    color: white;
+}
+
+.input::-moz-placeholder{
+    color: white;
 }

@@ -4,7 +4,6 @@ import {Form, FormControl, FormGroup, Button, Row, Col, Image} from 'react-boots
 import '../css/login.css'
 
 export default class Login extends Component {
-
     generateCaptcha(){
          // this.captcha1 = ccap().get();
          // fs.writeFile("/captcha.png", this.captcha1[1],"binary", ()=> {
