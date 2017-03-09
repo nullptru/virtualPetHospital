@@ -1,47 +1,48 @@
 @media screen and (min-width: 1300px){
-    .flex-content{
-        display: block;
-        justify-content : center;
-        align-items:center;
-        position : relative;
-    }
+}
 
-    .responsive-image{
-        width: 80%;
-        height : auto;
-        min-width : 650px;
-    }
+.flex-content{
+    display: block;
+    justify-content : center;
+    align-items:center;
+    position : relative;
+}
 
-    .login-background{
-        background: url("/login_background.png") no-repeat center;
-        min-height: 650px;
-        min-width: 1200px;
-        background-size: contain;
-    }
+.responsive-image{
+    width: 80%;
+    height : auto;
+    min-width : 650px;
+}
 
-    .login{
-        width : 25%;
-        min-width:200px;
-        position: absolute;
-        padding : 20px;
-        left: 13%;
-        top : 40%;
-    }
+.login-background{
+    background: url("/assets/login_background.png") no-repeat center;
+    min-height: 650px;
+    min-width: 1200px;
+    background-size: contain;
+}
 
-    .white-opacity-50{
-        background: rgba(255,255,255, 0.5);
-    }
+.login{
+    width : 25%;
+    min-width:200px;
+    position: absolute;
+    padding : 20px;
+    left: 13%;
+    top : 40%;
+}
 
-    .input{
-        background: #678CB6;
-        color: white;
-    }
+.white-opacity-50{
+    background: rgba(255,255,255, 0.5);
+}
 
-    .input::-webkit-input-placeholder{
-        color: white;
-    }
+.input{
+    background: #678CB6;
+    color: white;
+}
 
-    .input::-moz-placeholder{
-        color: white;
-    }
+.input::-webkit-input-placeholder{
+    color: white;
+}
+
+.input::-moz-placeholder{
+    color: white;
 }
