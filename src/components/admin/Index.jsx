@@ -2,12 +2,12 @@ import React, {Component, PropTypes} from 'react'
 import {Grid, Row, Col, Tab, Nav, NavItem} from 'react-bootstrap/lib'
 import '../../css/index.css'
 
-import Case from '../Tab/CaseManagement'
-import Medicine from '../Tab/MedicineManagement'
-import Price from '../Tab/PriceManagement'
-import Role from '../Tab/RoleManagement'
-import Subject from '../Tab/SubjectManagement'
-import User from '../Tab/UserManagement'
+import Case from './tab/CaseManagement'
+import Medicine from './tab/MedicineManagement'
+import Price from './tab/PriceManagement'
+import Role from './tab/RoleManagement'
+import Subject from './tab/SubjectManagement'
+import User from './tab/UserManagement'
 
 const defaultJson = [{
         'id' : 1,
