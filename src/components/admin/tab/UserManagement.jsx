@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Row, Col, Table, Button,Label} from 'react-bootstrap/lib'
 
 export default class UserManagement extends Component {

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Col, Row, Table, Button,Label} from 'react-bootstrap/lib'
 
 export default class SubjectManagement extends Component {

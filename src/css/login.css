@@ -15,10 +15,12 @@
 }
 
 .login-background{
-    background: url("/assets/login_background.png") no-repeat center;
-    min-height: 650px;
+    min-height: 700px;
     min-width: 1200px;
-    background-size: contain;
+    background: url("/assets/login_background.png") no-repeat center;
+    height: auto;
+    -webkit-background-size:;
+    background-size:80% 100%;
 }
 
 .login{
@@ -26,8 +28,8 @@
     min-width:200px;
     position: absolute;
     padding : 20px;
-    left: 13%;
-    top : 40%;
+    left: 12%;
+    top : 42%;
 }
 
 .white-opacity-50{

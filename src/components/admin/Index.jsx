@@ -1,5 +1,6 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Grid, Row, Col, Tab, Nav, NavItem} from 'react-bootstrap/lib'
+import {Link} from 'react-router';
 import '../../css/index.css'
 
 import Case from './tab/CaseManagement'
@@ -53,7 +54,6 @@ export default class Index extends Component {
 
 
         const tabsInstance = (
-            <Grid style={{margin:'50px'}}>
                 <Tab.Container defaultActiveKey={this.sections[0]} onSelect={this.handleSelect} id="adminMenu" ref={(container)=>this.container = container}>
                 <Row className="clearfix">
                     <Col sm={3} md={3} className="tab-nav">
@@ -68,42 +68,50 @@ export default class Index extends Component {
                     </Col>
                 </Row>
             </Tab.Container>
-            </Grid>
         );
 
-        return tabsInstance
+        return (
+            <Grid style={{margin:'50px'}}>
+                <Row>
+                    <Col md={3}>
+                        <Link to='/main'>{'<< '}返回上级</Link>
+                    </Col>
+                </Row>
+                {tabsInstance}
+            </Grid>
+        )
     }
 
     getPanels(){
         let panelsDom = [];
         panelsDom.push(
             <Tab.Pane eventKey={this.sections[0]}>
-                <User tables = {this.state.tables}/>
+                <User tables={this.state.tables}/>
             </Tab.Pane>);
 
         panelsDom.push(
             <Tab.Pane eventKey={this.sections[1]}>
-                <Subject tables = {this.state.tables}/>
+                <Subject tables={this.state.tables}/>
             </Tab.Pane>);
 
         panelsDom.push(
             <Tab.Pane eventKey={this.sections[2]}>
-                <Role tables = {this.state.tables}/>
+                <Role tables={this.state.tables}/>
             </Tab.Pane>);
 
         panelsDom.push(
             <Tab.Pane eventKey={this.sections[3]}>
-                <Medicine tables = {this.state.tables}/>
+                <Medicine tables={this.state.tables}/>
             </Tab.Pane>);
 
         panelsDom.push(
             <Tab.Pane eventKey={this.sections[4]}>
-                <Price tables = {this.state.tables}/>
+                <Price tables={this.state.tables}/>
             </Tab.Pane>);
 
         panelsDom.push(
             <Tab.Pane eventKey={this.sections[5]}>
-                <Case tables = {this.state.tables}/>
+                <Case tables={this.state.tables}/>
             </Tab.Pane>);
         return panelsDom;
     }
