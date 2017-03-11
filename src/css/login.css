@@ -2,7 +2,7 @@
 }
 
 .flex-content{
-    display: block;
+    display: flex;
     justify-content : center;
     align-items:center;
     position : relative;
@@ -19,7 +19,7 @@
     min-width: 1200px;
     background: url("/assets/login_background.png") no-repeat center;
     height: auto;
-    -webkit-background-size:;
+    -webkit-background-size:80% 100%;
     background-size:80% 100%;
 }
 
@@ -47,4 +47,9 @@
 
 .input::-moz-placeholder{
     color: white;
+}
+
+.validate-error{
+    color: red;
+    font-size: 1em;
 }
