@@ -27,7 +27,7 @@ export default class Login extends Component {
 
     componentDidMount(){
         //this.generateCaptcha();
-        sessionStorage.setItem('isValidate', false);
+        sessionStorage.setItem('userType', -1);
     }
 
     handleSubmit(e){
@@ -35,7 +35,7 @@ export default class Login extends Component {
         this.validate()
             .then((json)=> {
                 if (json.isValidate){
-                    sessionStorage.setItem('isValidate', true);
+                    sessionStorage.setItem('userType', json.userType);
                     const path = '/main';
                     browserHistory.push(path);
                 }else{//验证不通过显示错误
