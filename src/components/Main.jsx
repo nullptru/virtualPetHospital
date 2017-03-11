@@ -1,19 +1,15 @@
 import React, {Component} from 'react'
 import {Image, Grid, Row, Col} from 'react-bootstrap/lib'
 import {browserHistory ,IndexLink} from 'react-router';
+import reactMixin from 'react-mixin'
 
 import '../css/main.css'
+import logoutMixin from '../mixin/LogoutHandle'
 
 export default class Main extends Component {
     constructor(){
         super();
         this.handleClick = this.handleClick.bind(this);
-    }
-
-    componentDidMount(){
-        if (sessionStorage.getItem('userType') === '-1'){
-            browserHistory.push('/');
-        }
     }
 
     handleClick(e){
@@ -56,3 +52,5 @@ export default class Main extends Component {
         return imageShapeInstance;
     }
 }
+
+reactMixin.onClass(Main, logoutMixin);

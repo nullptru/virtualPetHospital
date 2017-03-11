@@ -10,6 +10,10 @@ import Role from './tab/RoleManagement'
 import Subject from './tab/SubjectManagement'
 import User from './tab/UserManagement'
 
+import logoutMixin from '../../mixin/LogoutHandle'
+import reactMixin from 'react-mixin'
+
+
 const defaultJson = [{
         'id' : 1,
         'username' : "abc",
@@ -116,3 +120,5 @@ export default class Index extends Component {
         return panelsDom;
     }
 }
+
+reactMixin.onClass(Index, logoutMixin);
