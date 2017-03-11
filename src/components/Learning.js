@@ -22,7 +22,7 @@ export default class Learning extends Component {
         const imageShapeInstance = (
             <Grid style={{margin:'100px auto', width:'60%'}}>
                 <Row>
-                    <IndexLink to='/'>{'<< '}返回上级</IndexLink>
+                    <IndexLink to='/main'>{'<< '}返回上级</IndexLink>
                 </Row>
                 <Row onClick={this.handleClick} className="main-container">
                     <Col md={col}>
@@ -33,7 +33,7 @@ export default class Learning extends Component {
                     </Col>
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="learn"/>
+                            <Image src="/assets/test.jpg" circle className="clicked" name="/learning/casenav"/>
                             <div className="img-label">病例学习</div>
                         </div>
                     </Col>

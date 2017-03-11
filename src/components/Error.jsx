@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {} from 'react-bootstrap/lib'
 import {browserHistory} from 'react-router'
 

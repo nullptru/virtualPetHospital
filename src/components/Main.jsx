@@ -36,13 +36,13 @@ export default class Main extends Component {
                     </Col>
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="main/learning"/>
+                            <Image src="/assets/test.jpg" circle className="clicked" name="/learning"/>
                             <div className="img-label">职能学习</div>
                         </div>
                     </Col>
                     {userType === 1 ? <Col md={col}>
                             <div className="div-center">
-                                <Image src="/assets/test.jpg" circle className="clicked" name="admin"/>
+                                <Image src="/assets/test.jpg" circle className="clicked" name="/admin"/>
                                 <div className="img-label">后台管理</div>
                             </div>
                         </Col> : ''}

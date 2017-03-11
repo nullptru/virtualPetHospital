@@ -11,14 +11,29 @@ import Learning from './components/Learning';
 import ErrorPage from './components/Error';
 import CasePage from './components/case/CaseStudyNav'
 
+import Case from './components/admin/tab/CaseManagement'
+import Medicine from './components/admin/tab/MedicineManagement'
+import Price from './components/admin/tab/PriceManagement'
+import Role from './components/admin/tab/RoleManagement'
+import Subject from './components/admin/tab/SubjectManagement'
+import User from './components/admin/tab/UserManagement'
+
 export default
 (
     <Route path="/" >
         <IndexRoute component={Login}/>
         <Route path='/error' component={ErrorPage}/>
-        <Route path='/admin' component={AdminIndex}/>
+        <Route path='/admin' component={AdminIndex}>
+            <IndexRoute component={User}/>
+            <Route path='/admin/user' component={User}/>
+            <Route path='/admin/subject' component={Subject}/>
+            <Route path='/admin/medicine' component={Medicine}/>
+            <Route path='/admin/case' component={Case}/>
+            <Route path='/admin/price' component={Price}/>
+            <Route path='/admin/role' component={Role}/>
+        </Route>
         <Route path='/main' component={Main}/>
-        <Route path='/main/learning' component={Learning}/>
-        <Route path='/main/learning/casenav' component={CasePage}/>
+        <Route path='/learning' component={Learning}/>
+        <Route path='/learning/casenav' component={CasePage}/>
     </Route>
 )

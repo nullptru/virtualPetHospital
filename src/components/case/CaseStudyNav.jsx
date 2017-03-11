@@ -1,18 +1,26 @@
-import React, {Component, ProtoType} from 'react';
+import React, {Component} from 'react';
 import {
-    View, Grid, Form,
+    Grid,
     Nav, NavItem, Button, FormGroup, FormControl,
-    Navbar, Row, Col, Tab, Table
-} from 'react-bootstrap';
+    Row, Col, Table
+} from 'react-bootstrap/lib';
+import {Link, browserHistory} from 'react-router';
+import logoutMixin from '../../mixin/LogoutHandle'
+import reactMixin from 'react-mixin'
 
 export default class CaseStudyNav extends Component {
     constructor() {
         super();
         this.caseClass = ['传染病', '寄生虫病', '内科病例', '外产科病例', '常用手术', '免疫'];//list
+        this.handleSelect = this.handleSelect.bind(this);
+        this.state = {
+            activeKey: this.caseClass[0]
+        }
     }
 
-    handleSelect() {
-
+    handleSelect(e){
+        this.setState({activeKey: e});
+        //browserHistory.push(`/learning/casenav/${e}`)
     }
 
     render() {
@@ -23,17 +31,17 @@ export default class CaseStudyNav extends Component {
         });
 
         const headerInstance = (
-            <Navbar >
-                <Navbar.Header inline>
-                    <Button type="button">返回</Button>
-                    <Navbar.Form pullRight>
-                        <FormGroup>
-                            <FormControl type="text" placeholder="Case Search"/>
-                        </FormGroup>
-                        <Button type="submit">Search</Button>
-                    </Navbar.Form>
-                </Navbar.Header>
-            </Navbar>
+            <Row>
+                <Col md={2}><Link to='/learning'>{'<<'}返回上级</Link></Col>
+                <Col md={3} mdPush={1}  style={{padding: 0}}>
+                    <FormGroup>
+                        <FormControl type="text" placeholder="Case Search" />
+                    </FormGroup>
+                </Col>
+                <Col md={2} mdPush={1}>
+                    <Button type="submit">Search</Button>
+                </Col>
+            </Row>
         );
 
         const tabContent = (
@@ -65,38 +73,22 @@ export default class CaseStudyNav extends Component {
             </Table>
         );
 
-        const tabsInstance = (
-            <Grid style={{margin: '50px'}}>
-                <Tab.Container defaultActiveKey={this.caseClass[0]} onSelect={this.handleSelect} id="caseStudyMenu">
-                    <Row className="clearfix">
-                        <Col sm={3} md={3} className="tab-nav">
-                            <Nav bsStyle="pills" stacked>
-                                {caseClassDom}
-                            </Nav>
-                        </Col>
-                        <Col sm={9} md={9} className="tab-container">
-                            <Tab.Content animation>
-                                <Tab.Pane eventKey={this.caseClass[0]}>
-                                    {tabContent}
-                                </Tab.Pane>
-                            </Tab.Content>
-                        </Col>
-                    </Row>
-                </Tab.Container>
-            </Grid>);
-
         const pageInstance = (
-            <div id="caseStudyNav">
-                <div id="caseStudyNav-header">
-                    {headerInstance}
-                </div>
-                <div id="caseStudyNav-tabContent">
-                    {tabsInstance}
-                </div>
-            </div>
+            <Grid style={{margin: '50px'}}>
+                {headerInstance}
+                <Row id="caseStudyNav-tabContent">
+                    <Col sm={3} md={3} className="tab-nav">
+                        <Nav bsStyle="pills" stacked activeKey={this.state.activeKey} onSelect={this.handleSelect}>
+                            {caseClassDom}
+                        </Nav>
+                    </Col>
+                    <Col sm={9} md={9} className="tab-container">
+                        {tabContent}
+                    </Col>
+                </Row>
+            </Grid>
         );
         return pageInstance;
     }
-
-
 }
+reactMixin.onClass(CaseStudyNav, logoutMixin);
