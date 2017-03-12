@@ -53,7 +53,7 @@ export default function BaseAdminComponent(props){
                 </tbody>
             </Table>
         </Row>
-        <BaseModal show={props.show}
+        <BaseModal show={props.show} title={props.modalTitle}
                    onClose={props.onClose} onSubmit={props.onSubmit}>
             {props.children}
         </BaseModal>

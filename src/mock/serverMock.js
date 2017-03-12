@@ -69,4 +69,60 @@ fetchMock
             response.data = {result : true};
         }
         return isMatch;
-    }, response);
+    }, response)
+    .get(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/medicine') && (opts === undefined || opts.method.toLowerCase() === 'get');
+        if (isMatch){
+            console.log(`match get: ${url}`, opts);
+            response.data = [{
+                'id' : 1,
+                'medicineName' : "风油精",
+                'medicinePrice' : 100,
+                'medicineType' : 0,
+                'description' : '试了就知道',
+            },
+                {
+                    'id' : 2,
+                    'medicineName' : "碳酸水",
+                    'medicinePrice' : 200,
+                    'medicineType' : 0,
+                    'description' : '试了就知道',
+                },
+                {
+                    'id' : 3,
+                    'medicineName' : "蜡烛",
+                    'medicinePrice' : 200,
+                    'medicineType' : 1,
+                    'description' : '试了就知道试了就知道试了就知道试了就知道试了就知道',
+                }];
+        }
+        return isMatch;
+    }, response)
+    .delete(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        if (isMatch){
+            console.log(`match delete: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .post(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        if (isMatch){
+            console.log(`match post: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .put(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        if (isMatch){
+            console.log(`match put: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response);;

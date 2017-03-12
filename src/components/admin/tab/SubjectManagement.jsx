@@ -1,46 +1,172 @@
 import React, {Component} from 'react'
-import {Col, Row, Table, Button,Label} from 'react-bootstrap/lib'
+import {FormGroup, FormControl, Radio, HelpBlock, ControlLabel} from 'react-bootstrap/lib'
+import 'whatwg-fetch'
 
-export default class SubjectManagement extends Component {
-    render() {
-        let tableJson = this.props.tables;
+import BaseAdminComponent from './BaseAdminComponent'
 
-        let tableDoms = [];
-        tableJson.forEach((row)=>{
-            tableDoms.push(<tr key={row.id}>
-                <td>{row.username}</td>
-                <td>{row.accessSections}</td>
-                <td>
-                    <input type="checkbox" id="isActive" defaultChecked={row.isActive}/>
-                </td>
-                <td><Button bsSize='xsmall'>修改</Button>&nbsp;&nbsp;<Button bsSize='xsmall'>删除</Button></td>
-            </tr>);
+function FieldGroup({ id, label, help, ...props }) {
+    return (
+        <FormGroup controlId={id}>
+            <ControlLabel>{label}</ControlLabel>
+            <FormControl {...props} />
+            {help && <HelpBlock>{help}</HelpBlock>}
+        </FormGroup>
+    );
+}
+
+export default class UserManagement extends Component {
+    constructor(){
+        super();
+        //进行函数绑定，防止this指向错误
+        this.onDeleteHandle = this.onDeleteHandle.bind(this);
+        this.onEditModal = this.onEditModal.bind(this);
+        this.onSubmitHandle = this.onSubmitHandle.bind(this);
+
+        this.state = {
+            show : false,
+            title : '科室管理',
+            add : '新增科室',
+            header : ["科室id", '科室名', '操作'],
+            username : '',
+            password : '',
+            passwordConfirm : '',
+            userType : 0,
+            modalType: 0,//0表示新建，1表示编辑
+            tableJson : []
+        };
+    }
+
+    componentDidMount(){
+        this.onDataFetch()
+    }
+
+    onDataFetch(){
+        fetch('http://localhost:3001/admin/user')
+            .then((response)=>{
+                return response.json();
+            }).then((json)=>{
+            let data = json.data;
+            data.forEach((dadium)=>{
+                for (let key in dadium){
+                    if (key === 'userType'){
+                        dadium[key] = dadium[key] === '0' ? '普通用户' : '管理员';
+                    }
+                }
+            });
+            this.setState({tableJson : json.data});
+        }).catch((ex)=>{
+            console.log(ex);
         });
-        return <div>
-            <Row>
-                <Col sm={4} md={4}>
-                    <h3>科室管理</h3>
-                </Col>
-                <Col sm={3} md={3} mdOffset={4} smOffset={4}>
-                    <a><h5 style={{marginTop: '40px'}}><Label>+</Label> 添加角色</h5></a>
-                </Col>
-            </Row>
-            <Row>
-                <Table striped bordered condensed hover responsive>
-                    <thead>
-                    <tr>
-                        <th>角色名</th>
-                        <th>可访问科室</th>
-                        <th>是否启用</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {tableDoms}
-                    </tbody>
-                </Table>
-            </Row>
-            <Button className="tab-center">保存</Button>
-        </div>
+    }
+
+    onDeleteHandle(id){
+        fetch('http://localhost:3001/admin/user',{
+            method : 'delete',
+            body : {
+                id : id
+            }
+        })
+            .then((response)=>{
+                return response.json();
+            }).then((json)=>{
+            let data = json.data;
+            if (data.result === true){
+                this.onDataFetch()
+            }
+            console.log(json)
+        }).catch((ex)=>{
+            console.log(ex);
+        });
+    }
+
+    onSubmitHandle(){
+        fetch('http://localhost:3001/admin/user',{
+            method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
+            body : {
+                username : this.state.username,
+                password : this.state.password,
+                userType : this.state.userType
+            }
+        })
+            .then((response)=>{
+                return response.json();
+            }).then((json)=>{
+            let data = json.data;
+            if (data.result === true){
+                this.onDataFetch();
+                this.setState({show : false});
+            }
+        }).catch((ex)=>{
+            console.log(ex);
+        });
+    }
+
+    onEditModal(id){
+        let username = '', userType = '';
+        this.state.tableJson.forEach((item)=>{
+            if (item.id === id){
+                username = item.username;
+                userType = item.userType === '普通用户' ? 0 : 1;
+            }
+        });
+        this.setState({show: true, username : username, userType: userType, modalType: 1})
+    }
+
+    getForm(){
+        const formInstance = (
+            <form>
+                <FieldGroup
+                    id="formControlsName"
+                    type="text"
+                    label="用户名"
+                    placeholder="输入用户名"
+                    value={this.state.username}
+                    onChange={(e)=>{this.setState({username : e.target.value})}}
+                />
+                <FieldGroup
+                    id="formControlsPassword"
+                    type="password"
+                    label="密码"
+                    placeholder="输入密码"
+                    value={this.state.password}
+                    onChange={(e)=>{this.setState({password : e.target.value})}}
+                />
+
+                <FieldGroup
+                    id="formControlsPasswordConfirm"
+                    label="确认密码"
+                    type="password"
+                    placeholder="再次输入密码"
+                    value={this.state.passwordConfirm}
+                    onChange={(e)=>{this.setState({passwordConfirm : e.target.value})}}
+                />
+
+                <FormGroup>
+                    <ControlLabel>用户类型</ControlLabel>
+                    &nbsp;&nbsp;&nbsp;
+                    <Radio inline value="0" name="userType" checked={this.state.userType === 0} onChange={(e)=>{this.setState({userType : 0})}}>
+                        普通用户
+                    </Radio>
+                    {' '}
+                    <Radio inline value="1" name="userType" checked={this.state.userType === 1} onChange={(e)=>{this.setState({userType : 1})}}>
+                        管理员用户
+                    </Radio>
+                    {' '}
+                </FormGroup>
+            </form>
+        );
+        return formInstance;
+    }
+
+    render() {
+        let {username,
+            password,
+            passwordConfirm,
+            userType,...other} = this.state;
+        //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
+        return <BaseAdminComponent {...other} onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0})}}
+                                   onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle}>
+            {this.getForm()}
+        </BaseAdminComponent>
     }
 }

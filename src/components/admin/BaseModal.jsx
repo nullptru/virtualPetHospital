@@ -9,7 +9,7 @@ export default function BaseModal(props){
             onHide={props.onClose}
         >
             <Modal.Header closeButton>
-                <Modal.Title>新建用户</Modal.Title>
+                <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {props.children}

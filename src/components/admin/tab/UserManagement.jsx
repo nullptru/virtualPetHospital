@@ -32,6 +32,7 @@ export default class UserManagement extends Component {
             passwordConfirm : '',
             userType : 0,
             modalType: 0,//0表示新建，1表示编辑
+            modalTitle: '新增用户',//0表示新建，1表示编辑
             tableJson : []
         };
     }
@@ -109,7 +110,7 @@ export default class UserManagement extends Component {
                 userType = item.userType === '普通用户' ? 0 : 1;
             }
         });
-        this.setState({show: true, username : username, userType: userType, modalType: 1})
+        this.setState({show: true, username : username, userType: userType, modalType: 1, modalTitle : '修改用户'})
     }
 
     getForm(){
@@ -164,7 +165,8 @@ export default class UserManagement extends Component {
             passwordConfirm,
             userType,...other} = this.state;
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
-        return <BaseAdminComponent {...other} onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0})}}
+        return <BaseAdminComponent {...other}
+                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0, modalTitle : '新增用户'})}}
                                    onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle}>
             {this.getForm()}
         </BaseAdminComponent>

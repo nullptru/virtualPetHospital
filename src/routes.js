@@ -9,7 +9,7 @@ import AdminIndex from './components/admin/Index';
 import Main from './components/Main';
 import Learning from './components/Learning';
 import ErrorPage from './components/Error';
-import CasePage from './components/case/CaseStudyNav'
+import CasePage from './components/case/CaseCatalog'
 
 import Case from './components/admin/tab/CaseManagement'
 import Medicine from './components/admin/tab/MedicineManagement'
