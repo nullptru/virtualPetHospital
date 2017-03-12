@@ -5,7 +5,7 @@ import 'whatwg-fetch'
 
 import '../css/login.css'
 
-import '../mock/loginMock' //用于测试
+import '../mock/serverMock' //用于测试
 
 export default class Login extends Component {
     constructor(){
