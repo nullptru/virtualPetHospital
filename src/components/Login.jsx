@@ -34,12 +34,12 @@ export default class Login extends Component {
         e.preventDefault();
         this.validate()
             .then((json)=> {
-                if (json.isValidate){
-                    sessionStorage.setItem('userType', json.userType);
+                if (json.data.isValidate){
+                    sessionStorage.setItem('userType', json.data.userType);
                     const path = '/main';
                     browserHistory.push(path);
                 }else{//验证不通过显示错误
-                    this.setState({errorMsg: json.errorMsg});
+                    this.setState({errorMsg: json.err});
                 }
             })
             .catch(function (ex) {

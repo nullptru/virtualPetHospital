@@ -28,6 +28,8 @@ export default class UserManagement extends Component {
             title : '用户管理',
             add : '新增用户',
             header : ["用户名", '用户类型', '操作'],
+            //modal Info
+            id: '',
             username : '',
             password : '',
             passwordConfirm : '',
@@ -85,13 +87,15 @@ export default class UserManagement extends Component {
     }
 
     onSubmitHandle(){
+        let body = {
+            username : this.state.username,
+            password : this.state.password,
+            userType : this.state.userType
+        };
+        if (this.state.modalType === 1){body.id = this.state.id;}
         fetch(`http://localhost:3001/admin/user`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : {
-                username : this.state.username,
-                password : this.state.password,
-                userType : this.state.userType
-            }
+            body : body
         })
         .then((response)=>{
             return response.json();
@@ -114,7 +118,7 @@ export default class UserManagement extends Component {
                 userType = item.userType === '普通用户' ? 0 : 1;
             }
         });
-        this.setState({show: true, username : username, userType: userType, modalType: 1, modalTitle : '修改用户'})
+        this.setState({show: true, id: id, username : username, userType: userType, modalType: 1, modalTitle : '修改用户'})
     }
 
     onPageSelect(activePage){

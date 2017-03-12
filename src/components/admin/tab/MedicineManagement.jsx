@@ -28,6 +28,8 @@ export default class UserManagement extends Component {
             title : '药品管理',
             add : '新增药品',
             header : ["药品名称", '药品价位', '药品类型','药品描述', '操作'],
+            //modal Info
+            id : '',
             medicineName : '',
             medicinePrice : 0,
             medicineType : 0,
@@ -85,14 +87,16 @@ export default class UserManagement extends Component {
     }
 
     onSubmitHandle(){
+        let body = {
+            medicine_name : this.state.medicineName,
+            medicine_price : this.state.medicinePrice,
+            medicine_type : this.state.medicineType,
+            description : this.state.description
+        };
+        if (this.state.modalType === 1){body.id = this.state.id;}
         fetch('http://localhost:3001/admin/medicine',{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : {
-                medicine_name : this.state.medicineName,
-                medicine_price : this.state.medicinePrice,
-                medicine_type : this.state.medicineType,
-                description : this.state.description
-            }
+            body : body
         })
             .then((response)=>{
                 return response.json();
@@ -119,6 +123,7 @@ export default class UserManagement extends Component {
         });
         this.setState({
             show: true,
+            id : id,
             medicineName : medicineName,
             medicineType: medicineType,
             medicinePrice : medicinePrice,

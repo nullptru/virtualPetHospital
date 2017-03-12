@@ -12,10 +12,10 @@ fetchMock
         clear();
         let isMatch = (url === 'http://localhost:3001/login/validate');
         if (isMatch){
-            let bodyObj = JSON.parse(opts.body);
-            response.isValidate = (bodyObj.username === 'test' && bodyObj.password === 'test') || (bodyObj.username === 'admin' && bodyObj.password === 'admin');
-            if (!response.isValidate) response.errorMsg = "输入信息有误, 请重新输入";
-            if (response.isValidate && bodyObj.username === 'admin'){response.userType = 1} else response.userType = 0;
+            let bodyObj = JSON.parse(opts.body), isValidate = (bodyObj.username === 'test' && bodyObj.password === 'test') || (bodyObj.username === 'admin' && bodyObj.password === 'admin');
+            response.data = {validate : isValidate};
+            if (!isValidate) response.err = "输入信息有误, 请重新输入";
+            if (isValidate && bodyObj.username === 'admin'){response.data.userType = 1} else response.data.userType = 0;
             console.log(url, opts);
         }
         return isMatch;
