@@ -13,8 +13,8 @@ export default class Index extends Component {
          tmpArr = location.split('/');
         let activeKey = tmpArr[tmpArr.length - 1];
         this.handleSelect = this.handleSelect.bind(this);
-        this.sections = ['用户管理','科室管理','角色管理','药品管理','收费管理','病例管理'];
-        this.titles = ['user','subject','role','medicine','price','case'];
+        this.sections = ['用户管理','药品管理','档案管理', '角色管理','科室管理','收费管理','病例管理'];
+        this.titles = ['user','medicine','record', 'role','subject','price','case'];
         this.state = {
             activeKey : activeKey
         };

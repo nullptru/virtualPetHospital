@@ -17,6 +17,7 @@ import Price from './components/admin/tab/PriceManagement'
 import Role from './components/admin/tab/RoleManagement'
 import Subject from './components/admin/tab/SubjectManagement'
 import User from './components/admin/tab/UserManagement'
+import Record from './components/admin/tab/RecordManagement'
 
 export default
 (
@@ -31,6 +32,7 @@ export default
             <Route path='/admin/case' component={Case}/>
             <Route path='/admin/price' component={Price}/>
             <Route path='/admin/role' component={Role}/>
+            <Route path='/admin/record' component={Record}/>
         </Route>
         <Route path='/main' component={Main}/>
         <Route path='/learning' component={Learning}/>

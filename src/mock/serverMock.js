@@ -127,4 +127,65 @@ fetchMock
             response.data = {result : true};
         }
         return isMatch;
-    }, response);;
+    }, response)
+
+    .get(function (url, opts) {
+        clear();
+        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/record(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        if (isMatch){
+            console.log(`match get: ${url}`, opts);
+            response.data = [{
+                'id' : 1,
+                'time' : "2015-11-11",
+                'petName':'Kity',
+                'petType' : '猫科动物🐱',
+                'description' : '打死',
+                'price' : 100,
+            },
+                {
+                    'id' : 2,
+                    'time' : "2016-11-11",
+                    'petName':'Cheese',
+                    'petType' : '犬科动物🐩',
+                    'description' : '打死',
+                    'price' : 100,
+                },
+                {
+                    'id' : 3,
+                    'time' : "2017-11-11",
+                    'petName':'YMR',
+                    'petType' : '猫科动物🐱',
+                    'description' : '打死',
+                    'price' : 100,
+                }];
+            response.pages = 3;
+        }
+        return isMatch;
+    }, response)
+    .delete(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        if (isMatch){
+            console.log(`match delete: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .post(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        if (isMatch){
+            console.log(`match post: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .put(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        if (isMatch){
+            console.log(`match put: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response);
