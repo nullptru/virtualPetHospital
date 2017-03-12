@@ -22,7 +22,7 @@ fetchMock
     }, response)
     .get(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/user') && (opts === undefined || opts.method.toLowerCase() === 'get');
+        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/user(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch){
             console.log(`match get: ${url}`, opts);
             response.data = [{
@@ -40,6 +40,7 @@ fetchMock
                 'username' : "DG",
                 'userType' : '1'
             }];
+            response.pages = 3;
         }
         return isMatch;
     }, response)
@@ -72,7 +73,7 @@ fetchMock
     }, response)
     .get(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/medicine') && (opts === undefined || opts.method.toLowerCase() === 'get');
+        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/medicine(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch){
             console.log(`match get: ${url}`, opts);
             response.data = [{
@@ -96,6 +97,7 @@ fetchMock
                     'medicineType' : 1,
                     'description' : '试了就知道试了就知道试了就知道试了就知道试了就知道',
                 }];
+            response.pages = 3;
         }
         return isMatch;
     }, response)

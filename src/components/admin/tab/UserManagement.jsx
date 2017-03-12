@@ -21,6 +21,7 @@ export default class UserManagement extends Component {
         this.onDeleteHandle = this.onDeleteHandle.bind(this);
         this.onEditModal = this.onEditModal.bind(this);
         this.onSubmitHandle = this.onSubmitHandle.bind(this);
+        this.onPageSelect = this.onPageSelect.bind(this);
 
         this.state = {
             show : false,
@@ -33,7 +34,10 @@ export default class UserManagement extends Component {
             userType : 0,
             modalType: 0,//0表示新建，1表示编辑
             modalTitle: '新增用户',//0表示新建，1表示编辑
-            tableJson : []
+            tableJson : [],
+            //分页
+            pages: 1,
+            activePage : 1
         };
     }
 
@@ -42,7 +46,7 @@ export default class UserManagement extends Component {
     }
 
     onDataFetch(){
-        fetch('http://localhost:3001/admin/user')
+        fetch(`http://localhost:3001/admin/user/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
@@ -54,7 +58,7 @@ export default class UserManagement extends Component {
                     }
                 }
             });
-            this.setState({tableJson : json.data});
+            this.setState({tableJson : json.data, pages: json.pages});
         }).catch((ex)=>{
             console.log(ex);
         });
@@ -81,7 +85,7 @@ export default class UserManagement extends Component {
     }
 
     onSubmitHandle(){
-        fetch('http://localhost:3001/admin/user',{
+        fetch(`http://localhost:3001/admin/user`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
             body : {
                 username : this.state.username,
@@ -111,6 +115,12 @@ export default class UserManagement extends Component {
             }
         });
         this.setState({show: true, username : username, userType: userType, modalType: 1, modalTitle : '修改用户'})
+    }
+
+    onPageSelect(activePage){
+        this.setState({activePage: activePage}, ()=>{
+            this.onDataFetch();
+        });
     }
 
     getForm(){
@@ -167,7 +177,7 @@ export default class UserManagement extends Component {
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
         return <BaseAdminComponent {...other}
                                    onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0, modalTitle : '新增用户'})}}
-                                   onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle}>
+                                   onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}
         </BaseAdminComponent>
     }

@@ -21,6 +21,7 @@ export default class UserManagement extends Component {
         this.onDeleteHandle = this.onDeleteHandle.bind(this);
         this.onEditModal = this.onEditModal.bind(this);
         this.onSubmitHandle = this.onSubmitHandle.bind(this);
+        this.onPageSelect = this.onPageSelect.bind(this);
 
         this.state = {
             show : false,
@@ -33,7 +34,10 @@ export default class UserManagement extends Component {
             description : '',
             modalType: 0,//0表示新建，1表示编辑
             modalTitle : '新增药品',
-            tableJson : []
+            tableJson : [],
+            //分页
+            pages: 1,
+            activePage : 1
         };
     }
 
@@ -42,7 +46,7 @@ export default class UserManagement extends Component {
     }
 
     onDataFetch(){
-        fetch('http://localhost:3001/admin/medicine')
+        fetch(`http://localhost:3001/admin/medicine/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
@@ -54,7 +58,7 @@ export default class UserManagement extends Component {
                     }
                 }
             });
-            this.setState({tableJson : json.data});
+            this.setState({tableJson : json.data, pages: json.pages});
         }).catch((ex)=>{
             console.log(ex);
         });
@@ -124,6 +128,12 @@ export default class UserManagement extends Component {
         })
     }
 
+    onPageSelect(activePage){
+        this.setState({activePage: activePage}, ()=>{
+            this.onDataFetch();
+        });
+    }
+
     getForm(){
         const formInstance = (
             <form>
@@ -178,7 +188,7 @@ export default class UserManagement extends Component {
         return <BaseAdminComponent {...other}
            onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, medicineName: '',medicinePrice : 0,
             medicineType: 0, description:'', modalType: 0, modalTitle : '修改药品'})}}
-           onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle}>
+           onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}
         </BaseAdminComponent>
     }

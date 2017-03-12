@@ -1,8 +1,9 @@
 import React from 'react'
-import {Row, Col, Table, Button, Label} from 'react-bootstrap/lib'
+import {Row, Col, Table, Button, Label, Pagination} from 'react-bootstrap/lib'
 import 'whatwg-fetch'
 
 import BaseModal from '../BaseModal'
+import '../../../css/index.css'
 
 let getHeader = function getHeader(headers){
     let headerDoms = [];
@@ -52,6 +53,18 @@ export default function BaseAdminComponent(props){
                 {tableDoms}
                 </tbody>
             </Table>
+        </Row>
+        <Row
+            className="tab-center">
+            <Pagination
+                prev
+                next
+                ellipsis
+                boundaryLinks
+                items={props.pages}
+                maxButtons={5}
+                activePage={props.activePage}
+                onSelect={props.onPageSelect} />
         </Row>
         <BaseModal show={props.show} title={props.modalTitle}
                    onClose={props.onClose} onSubmit={props.onSubmit}>
