@@ -1,21 +1,34 @@
 import React, {Component, ProtoType} from 'react';
 import {
-    Panel,PageHeader
+    Panel, PageHeader
 } from 'react-bootstrap';
 
 export default class CaseDescription extends Component {
     constructor() {
         super();
+        //详细病例所包含的部分
         this.caseContentClass = ['症状', '相关检查', '化验指标', '治疗手段'];//list
         this.caseName = "病例名称";
     }
 
-    render() {
-        const pageHeaderInstance = (
+    /*    constructor(case_name) {
+     constructor();
+     this.caseName = case_name;
+     }*/
+    rendCaseNameHeader() {
+        return (
             <PageHeader>
                 <small>{this.caseName}</small>
-            </PageHeader>
-        );
+            </PageHeader>);
+    }
+
+
+    render() {
+        /*const pageHeaderInstance = (
+         <PageHeader>
+         <small>{this.caseName}</small>
+         </PageHeader>
+         );*/
         let caseContentDom = [];
         this.caseContentClass.forEach((case_content) => {
             caseContentDom.push(<Panel header={case_content}>{case_content}的内容</Panel>);
@@ -25,7 +38,7 @@ export default class CaseDescription extends Component {
         const pageInstance = (
             <div id="caseDescription">
                 <div id="caseDescription-header">
-                    {pageHeaderInstance}
+                    {this.rendCaseNameHeader()}
                 </div>
                 <div id="caseDescription-panel">
                     {caseContentDom}
