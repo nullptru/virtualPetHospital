@@ -34,7 +34,8 @@ export default class Login extends Component {
         e.preventDefault();
         this.validate()
             .then((json)=> {
-                if (json.data.isValidate){
+            console.log(json);
+                if (json.data.validate){
                     sessionStorage.setItem('userType', json.data.userType);
                     const path = '/main';
                     browserHistory.push(path);

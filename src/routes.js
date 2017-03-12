@@ -2,7 +2,7 @@
  * Created by Burgess on 2017/3/1.
  */
 import React from 'react';
-import {Route, IndexRoute} from 'react-router'
+import {Route, IndexRoute, IndexRedirect} from 'react-router'
 
 import Login from './components/Login';
 import AdminIndex from './components/admin/Index';
@@ -25,7 +25,7 @@ export default
         <IndexRoute component={Login}/>
         <Route path='/error' component={ErrorPage}/>
         <Route path='/admin' component={AdminIndex}>
-            <IndexRoute component={User}/>
+            <IndexRedirect to="/admin/user" />
             <Route path='/admin/user' component={User}/>
             <Route path='/admin/subject' component={Subject}/>
             <Route path='/admin/medicine' component={Medicine}/>
