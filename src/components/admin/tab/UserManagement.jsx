@@ -3,7 +3,7 @@ import {Row, Col, Table, Button,Label} from 'react-bootstrap/lib'
 
 export default class UserManagement extends Component {
     render() {
-        let tableJson = this.props.tables;
+        let tableJson = this.props.tables || [];
 
         let tableDoms = [];
         tableJson.forEach((row)=>{

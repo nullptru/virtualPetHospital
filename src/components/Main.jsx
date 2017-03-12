@@ -1,19 +1,15 @@
 import React, {Component} from 'react'
 import {Image, Grid, Row, Col} from 'react-bootstrap/lib'
 import {browserHistory ,IndexLink} from 'react-router';
+import reactMixin from 'react-mixin'
 
 import '../css/main.css'
+import logoutMixin from '../mixin/LogoutHandle'
 
 export default class Main extends Component {
     constructor(){
         super();
         this.handleClick = this.handleClick.bind(this);
-    }
-
-    componentDidMount(){
-        if (sessionStorage.getItem('userType') == '-1'){
-            browserHistory.push('/');
-        }
     }
 
     handleClick(e){
@@ -22,7 +18,7 @@ export default class Main extends Component {
     }
 
     render() {
-        let userType = Number.parseInt(sessionStorage.getItem('userType')), col = 6;
+        let userType = Number.parseInt(sessionStorage.getItem('userType'), 10), col = 6;
         console.log(userType);
         if (userType === 1) col = 4;
         else  col = 6;
@@ -40,13 +36,13 @@ export default class Main extends Component {
                     </Col>
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="learn"/>
+                            <Image src="/assets/test.jpg" circle className="clicked" name="/learning"/>
                             <div className="img-label">职能学习</div>
                         </div>
                     </Col>
                     {userType === 1 ? <Col md={col}>
                             <div className="div-center">
-                                <Image src="/assets/test.jpg" circle className="clicked" name="admin"/>
+                                <Image src="/assets/test.jpg" circle className="clicked" name="/admin"/>
                                 <div className="img-label">后台管理</div>
                             </div>
                         </Col> : ''}
@@ -56,3 +52,5 @@ export default class Main extends Component {
         return imageShapeInstance;
     }
 }
+
+reactMixin.onClass(Main, logoutMixin);

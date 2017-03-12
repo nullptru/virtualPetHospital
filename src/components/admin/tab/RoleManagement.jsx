@@ -19,7 +19,7 @@ export default class RoleManagement extends Component {
         return <div>
             <Row>
                 <Col sm={4} md={4}>
-                    <h3>用户管理</h3>
+                    <h3>角色管理</h3>
                 </Col>
                 <Col sm={3} md={3} mdOffset={4} smOffset={4}>
                     <a><h5 style={{marginTop: '40px'}}><Label>+</Label> 添加角色</h5></a>
