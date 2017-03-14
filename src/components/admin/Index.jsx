@@ -6,34 +6,17 @@ import '../../css/index.css'
 import logoutMixin from '../../mixin/LogoutHandle'
 import reactMixin from 'react-mixin'
 
-
-const defaultJson = [{
-        'id' : 1,
-        'username' : "abc",
-        'accessSections' : 'a,bc,d,sd',
-        'isActive' : true
-    },{
-        'id' : 2,
-        'username' : "abc",
-        'accessSections' : 'a,bc,d,sd',
-        'isActive' : true
-    },
-    {
-        'id' : 3,
-        'username' : "abc",
-        'accessSections' : 'a,bc,d,sd',
-        'isActive' : true
-    }];
-
 export default class Index extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        let location = this.props.location.pathname,
+         tmpArr = location.split('/');
         this.handleSelect = this.handleSelect.bind(this);
-        this.sections = ['用户管理','科室管理','角色管理','药品管理','收费管理','病例管理'];
-        this.titles = ['user','subject','role','medicine','price','case'];
+        this.sections = ['用户管理','药品管理','档案管理', '角色管理','科室管理','收费管理','病例管理'];
+        this.titles = ['user','medicine','record', 'role','subject','price','case'];
+        let activeKey = tmpArr[tmpArr.length - 1] || this.titles[0];
         this.state = {
-            tables: defaultJson,
-            activeKey : this.titles[0]
+            activeKey : activeKey
         };
 
     }
@@ -64,7 +47,7 @@ export default class Index extends Component {
                         </Nav>
                     </Col>
                     <Col sm={9} md={9} className="tab-container">
-                        {React.cloneElement(this.props.children, {tables : this.state.tables})}
+                        {this.props.children}
                     </Col>
                 </Row>
             </Grid>

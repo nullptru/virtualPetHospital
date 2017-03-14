@@ -5,7 +5,7 @@ import 'whatwg-fetch'
 
 import '../css/login.css'
 
-import '../mock/loginMock' //用于测试
+import '../mock/serverMock' //用于测试
 
 export default class Login extends Component {
     constructor(){
@@ -34,12 +34,13 @@ export default class Login extends Component {
         e.preventDefault();
         this.validate()
             .then((json)=> {
-                if (json.isValidate){
-                    sessionStorage.setItem('userType', json.userType);
+            console.log(json);
+                if (json.data.validate){
+                    sessionStorage.setItem('userType', json.data.userType);
                     const path = '/main';
                     browserHistory.push(path);
                 }else{//验证不通过显示错误
-                    this.setState({errorMsg: json.errorMsg});
+                    this.setState({errorMsg: json.err});
                 }
             })
             .catch(function (ex) {

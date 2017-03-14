@@ -1,3 +1,7 @@
+/**
+ * Created by Burgess on 2017/3/12.
+ */
+
 import React, {Component} from 'react'
 import {FormGroup, FormControl, Radio, HelpBlock, ControlLabel} from 'react-bootstrap/lib'
 import 'whatwg-fetch'
@@ -14,7 +18,7 @@ function FieldGroup({ id, label, help, ...props }) {
     );
 }
 
-export default class MedicineManagement extends Component {
+export default class RecordManagement extends Component {
     constructor(){
         super();
         //进行函数绑定，防止this指向错误
@@ -25,18 +29,20 @@ export default class MedicineManagement extends Component {
 
         this.state = {
             show : false,
-            title : '药品管理',
-            add : '新增药品',
-            header : ["药品名称", '药品价位', '药品类型','药品描述', '操作'],
-            //modal Info
-            id : '',
-            medicineName : '',
-            medicinePrice : 0,
-            medicineType : 0,
-            description : '',
-            modalType: 0,//0表示新建，1表示编辑
-            modalTitle : '新增药品',
+            title : '档案管理',
+            add : '新增档案',
+            header : ["就诊时间", '患宠名', '宠物种类','就诊详情', '总收费', '操作'],
             tableJson : [],
+            //modal Info
+            id: '',
+            time : '',
+            petName : '',
+            petType : '',
+            description : '',
+            price : 0,
+            //modal
+            modalType: 0,//0表示新建，1表示编辑
+            modalTitle: '新增档案',//0表示新建，1表示编辑
             //分页
             pages: 1,
             activePage : 1
@@ -48,18 +54,10 @@ export default class MedicineManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:3001/admin/medicine/${this.state.activePage}`)
+        fetch(`http://localhost:3001/admin/record/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
-            data.forEach((dadium)=>{
-                for (let key in dadium){
-                    if (key === 'medicineType'){
-                        dadium[key] = dadium[key] === 0 ? '药品' : '疫苗';
-                    }
-                }
-            });
             this.setState({tableJson : json.data, pages: json.pages});
         }).catch((ex)=>{
             console.log(ex);
@@ -67,7 +65,7 @@ export default class MedicineManagement extends Component {
     }
 
     onDeleteHandle(id){
-        fetch('http://localhost:3001/admin/medicine',{
+        fetch('http://localhost:3001/admin/record',{
             method : 'delete',
             body : {
                 id : id
@@ -88,13 +86,14 @@ export default class MedicineManagement extends Component {
 
     onSubmitHandle(){
         let body = {
-            medicine_name : this.state.medicineName,
-            medicine_price : this.state.medicinePrice,
-            medicine_type : this.state.medicineType,
-            description : this.state.description
+            time : this.state.time,
+            petName : this.state.petName,
+            petType : this.state.petType,
+            description : this.state.description,
+            price : this.state.price
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
-        fetch('http://localhost:3001/admin/medicine',{
+        fetch(`http://localhost:3001/admin/record`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
             body : body
         })
@@ -112,25 +111,19 @@ export default class MedicineManagement extends Component {
     }
 
     onEditModal(id){
-        let medicineName = '', medicineType = '', medicinePrice = '', description = '';
+        let time = '', petName = '' , petType ='',description = '',price = '';
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
-                medicineName = item.medicineName;
-                medicineType = item.medicineType === '药品' ? 0 : 1;
-                medicinePrice = item.medicinePrice;
+                time = item.time;
+                petName = item.petName;
+                petType = item.petType;
                 description = item.description;
+                price = item.price;
             }
         });
-        this.setState({
-            show: true,
-            id : id,
-            medicineName : medicineName,
-            medicineType: medicineType,
-            medicinePrice : medicinePrice,
-            description : description,
-            modalType: 1,
-            modalTitle : '修改药品'
-        })
+        this.setState({show: true, id: id,
+            time : time, petName: petName, petType : petType, description : description, price : price,
+            modalType: 1, modalTitle : '修改档案'})
     }
 
     onPageSelect(activePage){
@@ -144,55 +137,59 @@ export default class MedicineManagement extends Component {
             <form>
                 <FieldGroup
                     id="formControlsName"
-                    type="text"
-                    label="药品名"
-                    placeholder="输入药品名"
-                    value={this.state.medicineName}
-                    onChange={(e)=>{this.setState({medicineName : e.target.value})}}
+                    type="datetime"
+                    label="就诊时间"
+                    placeholder="输入就诊时间"
+                    value={this.state.time}
+                    onChange={(e)=>{this.setState({time : e.target.value})}}
                 />
                 <FieldGroup
-                    id="formControlsPrice"
+                    id="formControlsPassword"
                     type="text"
-                    label="价格"
-                    placeholder="输入药品价格"
-                    value={this.state.medicinePrice}
-                    onChange={(e)=>{if(e.target.value === '' || !isNaN(Number.parseFloat(e.target.value)))
-                        this.setState({medicinePrice : !isNaN(Number.parseFloat(e.target.value)) ? Number.parseFloat(e.target.value) : 0}
-                        )}}
+                    label="患宠名"
+                    placeholder="输入患宠名"
+                    value={this.state.petName}
+                    onChange={(e)=>{this.setState({petName : e.target.value})}}
                 />
 
+                <FieldGroup
+                    id="formControlsPasswordConfirm"
+                    label="宠物种类"
+                    type="text"
+                    placeholder="输入宠物种类"
+                    value={this.state.petType}
+                    onChange={(e)=>{this.setState({petType : e.target.value})}}
+                />
                 <FormGroup>
-                    <ControlLabel>药品描述</ControlLabel>
-                    <FormControl componentClass="textarea" id="description" placeholder="输入药品描述"
+                    <ControlLabel>就诊详情</ControlLabel>
+                    <FormControl componentClass="textarea" id="description" placeholder="输入就诊详情"
                                  value={this.state.description} onChange={(e)=>{this.setState({description : e.target.value})}}/>
                 </FormGroup>
 
-                <FormGroup>
-                    <ControlLabel>药品类型</ControlLabel>
-                    &nbsp;&nbsp;&nbsp;
-                    <Radio inline value="0" name="medicineType" checked={this.state.medicineType === 0} onChange={(e)=>{this.setState({medicineType : 0})}}>
-                        药品
-                    </Radio>
-                    {' '}
-                    <Radio inline value="1" name="medicineType" checked={this.state.medicineType === 1} onChange={(e)=>{this.setState({medicineType : 1})}}>
-                        疫苗
-                    </Radio>
-                    {' '}
-                </FormGroup>
+                <FieldGroup
+                    id="formControlsPrice"
+                    type="text"
+                    label="总收费"
+                    placeholder="输入费用"
+                    value={this.state.price}
+                    onChange={(e)=>{if(e.target.value === '' || !isNaN(Number.parseFloat(e.target.value)))
+                        this.setState({price : !isNaN(Number.parseFloat(e.target.value)) ? Number.parseFloat(e.target.value) : 0}
+                        )}}
+                />
             </form>
         );
         return formInstance;
     }
 
     render() {
-        let {medicineName,
-            medicinePrice,
-            medicineType,
-            description,...other} = this.state;
+        let {time,petName,
+            petType,
+            description,
+            price,...other} = this.state;
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
         return <BaseAdminComponent {...other}
-           onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, medicineName: '',medicinePrice : 0,
-            medicineType: 0, description:'', modalType: 0, modalTitle : '修改药品'})}}
+           onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, time : '', petName: '', petType : '', description : '', price : ''
+            , modalType: 0, modalTitle : '新增档案'})}}
            onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}
         </BaseAdminComponent>
