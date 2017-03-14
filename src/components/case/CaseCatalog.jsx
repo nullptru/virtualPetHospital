@@ -6,15 +6,22 @@ import {
 } from 'react-bootstrap';
 import CaseCatalogTab from './tab/CaseCatalogTab';
 import {Link} from 'react-router';
-import CaseSearchTab from './tab/CaseSearchTab'
 
-const caseJson = [
-    {'caseId': 'c01', 'caseName': '传染病1'},
-    {'caseId': 'c02', 'caseName': '传染病2'},
-    {'caseId': 'c03', 'caseName': '传染病3'},
-    {'caseId': 'c04', 'caseName': '传染病4'},
-    {'caseId': 'c05', 'caseName': '传染病5'},
-];
+const caseList = [
+    {'caseName': 'cn01', 'caseId': 'cid01'},
+    {'caseName': 'cn02', 'caseId': 'cid02'},
+    {'caseName': 'cn03', 'caseId': 'cid03'},
+    {'caseName': 'cn04', 'caseId': 'cid04'},
+    {'caseName': 'cn05', 'caseId': 'cid05'},
+    {'caseName': 'cn06', 'caseId': 'cid06'},
+    {'caseName': 'cn07', 'caseId': 'cid07'},
+    {'caseName': 'cn08', 'caseId': 'cid08'},
+    {'caseName': 'cn09', 'caseId': 'cid09'},
+    {'caseName': 'cn10', 'caseId': 'cid10'},
+    {'caseName': 'cn11', 'caseId': 'cid11'},
+    {'caseName': 'cn12', 'caseId': 'cid12'},
+    {'caseName': 'cn13', 'caseId': 'cid13'},
+]
 
 export default class CaseStudyNav extends Component {
     constructor() {
@@ -25,7 +32,7 @@ export default class CaseStudyNav extends Component {
         this.searchKeyword = "";
         this.state = {
             activeKey: this.caseKey[0],
-            // caseTabContent: caseJson
+            caseList: caseList
         };
     }
 
@@ -33,6 +40,7 @@ export default class CaseStudyNav extends Component {
         this.setState({activeKey: e});
     }
 
+    /*构建nav标签*/
     getCaseClassNav() {
         let caseClassDom = [], count = 0;
         this.caseKey.forEach((case_key) => {
@@ -102,15 +110,12 @@ export default class CaseStudyNav extends Component {
                     <Row className="clearfix">
                         <Col sm={3} md={3} className="tab-nav">
                             <Nav bsStyle="pills" stacked activeKey={this.state.activeKey} onSelect={this.handleSelect}
-                                 id="caseStudyMenu"
-                                 ref={(container) => this.container = container}>
+                                 id="caseStudyMenu">
                                 {this.getCaseClassNav()}
                             </Nav>
                         </Col>
                         <Col sm={9} md={9} className="tab-container">
-                            <Tab.Content animation>
-                                {this.getCaseClassContent()}
-                            </Tab.Content>
+                            {this.props.children}
                         </Col>
                     </Row>
                 </Tab.Container>
