@@ -9,7 +9,6 @@ import AdminIndex from './components/admin/Index';
 import Main from './components/Main';
 import Learning from './components/Learning';
 import ErrorPage from './components/Error';
-import CasePage from './components/case/CaseStudyNav'
 
 import Case from './components/admin/tab/CaseManagement'
 import Medicine from './components/admin/tab/MedicineManagement'
@@ -17,10 +16,12 @@ import Price from './components/admin/tab/PriceManagement'
 import Role from './components/admin/tab/RoleManagement'
 import Subject from './components/admin/tab/SubjectManagement'
 import User from './components/admin/tab/UserManagement'
+import CaseCatalog from './components/case/CaseCatalog'
+import CaseDescription from './components/case/CaseDescription'
 
 export default
 (
-    <Route path="/" >
+    <Route path="/">
         <IndexRoute component={Login}/>
         <Route path='/error' component={ErrorPage}/>
         <Route path='/admin' component={AdminIndex}>
@@ -34,6 +35,7 @@ export default
         </Route>
         <Route path='/main' component={Main}/>
         <Route path='/learning' component={Learning}/>
-        <Route path='/learning/casenav' component={CasePage}/>
+        <Route path='/learning/casenav' component={CaseCatalog}/>
+        <Route path='/learning/casedes' component={CaseDescription}/>
     </Route>
 )
