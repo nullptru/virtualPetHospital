@@ -1,6 +1,6 @@
 import React, {Component, ProtoType} from 'react';
 import {
-    Panel, PageHeader, Grid, Row, Col
+    PageHeader, Grid, Row, Col
 } from 'react-bootstrap';
 import DescriptionPanel from './tab/DescriptionPanel';
 import {Link} from 'react-router';
@@ -14,12 +14,12 @@ const testJson = [
 ]
 
 export default class CaseDescription extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         //详细病例所包含的部分
         this.caseContentClass = ['症状', '相关检查', '化验指标', '治疗手段'];
         this.caseName = "病例名称";
-        this.caseId = 'C01';//this.props.params.caseId;//病例的id
+        this.caseId = this.props.params.id;//病例的id
         this.content = {
             description: testJson
         };
@@ -51,7 +51,7 @@ export default class CaseDescription extends Component {
                 <Row id="caseDescription-caseName">
                     <Col md={5}>
                         <PageHeader>
-                            <small>{this.caseName}</small>
+                            <small>{this.caseId}:{this.caseName}</small>
                         </PageHeader>
                     </Col>
                 </Row>

@@ -2,10 +2,9 @@ import React, {Component, ProtoType} from 'react';
 import {
     View, Grid, Form,
     Nav, NavItem, Button, FormGroup, FormControl,
-    Navbar, Row, Col, Tab, Table
+    Row, Col,
 } from 'react-bootstrap';
-import CaseCatalogTab from './tab/CaseCatalogTab';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 
 const caseList = [
     {'caseName': 'cn01', 'caseId': 'cid01'},
@@ -24,20 +23,26 @@ const caseList = [
 ]
 
 export default class CaseStudyNav extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleSelect = this.handleSelect.bind(this);
+        //病例分类的名称
         this.caseClass = ['传染病', '寄生虫病', '内科病例', '外产科病例', '常用手术', '免疫'];
+        //对应caseClass的key
         this.caseKey = ['contagion', 'parasitosis', 'internal', 'obstetrics', 'surgery', 'immune'];
-        this.searchKeyword = "";
+
+        let location = this.props.location.pathname, keysArr = location.split('/');
+        console.log("caseKey=" + keysArr[keysArr.length - 1]);
+        let activeKey = keysArr[keysArr.length - 1] || this.caseKey[0];
         this.state = {
-            activeKey: this.caseKey[0],
+            activeKey: activeKey,
             caseList: caseList
         };
     }
 
     handleSelect(e) {
         this.setState({activeKey: e});
+        browserHistory.push(`/learning/casenav/${e}`);
     }
 
     /*构建nav标签*/
@@ -47,42 +52,6 @@ export default class CaseStudyNav extends Component {
             caseClassDom.push(<NavItem eventKey={case_key} key={case_key}>{this.caseClass[count++]}</NavItem>);
         });
         return caseClassDom;
-    }
-
-    getCaseClassContent() {
-        let classContent = [];
-        classContent.push(
-            <Tab.Pane eventKey={this.caseKey[0]}>
-                <CaseCatalogTab caseClassName={this.caseClass[0]} classId="0"/>
-            </Tab.Pane>
-        );
-        classContent.push(
-            <Tab.Pane eventKey={this.caseKey[1]}>
-                <CaseCatalogTab caseClassName={this.caseClass[1]} classId="1"/>
-            </Tab.Pane>
-        );
-        classContent.push(
-            <Tab.Pane eventKey={this.caseKey[2]}>
-                <CaseCatalogTab caseClassName={this.caseClass[2]} classId="2"/>
-            </Tab.Pane>
-        );
-        classContent.push(
-            <Tab.Pane eventKey={this.caseKey[3]}>
-                <CaseCatalogTab caseClassName={this.caseClass[3]} classId="3"/>
-            </Tab.Pane>
-        );
-        classContent.push(
-            <Tab.Pane eventKey={this.caseKey[4]}>
-                <CaseCatalogTab caseClassName={this.caseClass[4]} classId="4"/>
-            </Tab.Pane>
-        );
-        classContent.push(
-            <Tab.Pane eventKey={this.caseKey[5]}>
-                <CaseCatalogTab caseClassName={this.caseClass[0]} classId="5"/>
-            </Tab.Pane>
-        );
-
-        return classContent;
     }
 
     getPageHeader() {
@@ -104,21 +73,21 @@ export default class CaseStudyNav extends Component {
     }
 
     render() {
-        return (<Grid style={{margin: '50px'}}>
+        return (
+            <Grid style={{margin: '50px'}}>
                 {this.getPageHeader()}
-                <Tab.Container defaultActiveKey={this.state.activeKey}>
-                    <Row className="clearfix">
-                        <Col sm={3} md={3} className="tab-nav">
-                            <Nav bsStyle="pills" stacked activeKey={this.state.activeKey} onSelect={this.handleSelect}
-                                 id="caseStudyMenu">
-                                {this.getCaseClassNav()}
-                            </Nav>
-                        </Col>
-                        <Col sm={9} md={9} className="tab-container">
-                            {this.props.children}
-                        </Col>
-                    </Row>
-                </Tab.Container>
+                <Row className="clearfix">
+                    <Col sm={3} md={3} className="tab-nav">
+                        <Nav bsStyle="pills" stacked activeKey={this.state.activeKey} onSelect={this.handleSelect}
+                             id="caseStudyMenu">
+                            {this.getCaseClassNav()}
+                        </Nav>
+                    </Col>
+
+                    <Col sm={9} md={9} className="tab-container">
+                        {this.props.children}
+                    </Col>
+                </Row>
             </Grid>
         );
     }
