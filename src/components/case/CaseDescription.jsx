@@ -2,7 +2,7 @@ import React, {Component, ProtoType} from 'react';
 import {
     PageHeader, Grid, Row, Col
 } from 'react-bootstrap';
-import DescriptionPanel from './tab/DescriptionPanel';
+import DescriptionPanel from './content/DescriptionPanel';
 import {Link} from 'react-router';
 
 /*下面内容是从数据库中获得的，根据caseId*/

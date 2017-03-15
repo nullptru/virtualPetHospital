@@ -30,17 +30,17 @@ export default class CaseCatalogTab extends Component {
     }
 
     btnClick(e) {
-        console.log(e, 'entered');
         browserHistory.push(`/learning/casedes/${e}`);
     }
 
     render() {
-        let caseRow = [];
+        let caseRow = [], countCol = 0;
         this.state.caseList.forEach((case_name) => {
             caseRow.push(
-                <Col md={3}>
+                <Col md={3} key={countCol++}>
                     <td><Button bsSize="large"
-                                onClick={this.btnClick.bind(this, case_name.caseId)}>
+                                onClick={this.btnClick.bind(this, case_name.caseId)}
+                                id={case_name.caseId}>
                         {case_name.caseName},{case_name.caseId}</Button>
                     </td>
                 </Col>);
