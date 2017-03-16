@@ -1,5 +1,6 @@
 import React, {Component, ProtoType} from 'react';
 import {Panel, Grid, Row, Col} from 'react-bootstrap';
+import {Link} from 'react-router';
 
 export default class DescriptionPanel extends Component {
     render() {
@@ -8,7 +9,7 @@ export default class DescriptionPanel extends Component {
 
         return (
             <Panel header={panelName}>
-                <Grid id={panelName}>
+                <Grid>
                     <Row>
                         <Col md={8}>
                             {panelContent.text}
@@ -19,7 +20,7 @@ export default class DescriptionPanel extends Component {
                     </Row>
                     <Row>
                         <Col xsOffset={8}>
-                            {panelContent.video}
+                            <Link to=''>{panelContent.video}</Link>
                         </Col>
                     </Row>
                 </Grid>
