@@ -47,7 +47,6 @@ export default
             <Route path="/learning/obstetrics" component={CaseCatalogTab}/>
             <Route path="/learning/surgery" component={CaseCatalogTab}/>
             <Route path="/learning/immune" component={CaseCatalogTab}/>
-            <Route path="/learning/immune" component={CaseCatalogTab}/>
         </Route>
         <Route path='/learning/casedes/:id' component={CaseDescription}/>
     </Route>
