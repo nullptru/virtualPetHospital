@@ -6,7 +6,6 @@ import {
 } from 'react-bootstrap';
 import {Link, browserHistory} from 'react-router';
 import SearchModal from './content/SearchModal';
-import CaseCatalogTab from './content/CaseCatalogTab'
 
 const caseList = [
     {'caseName': 'cn01', 'caseId': 'cid01'},
