@@ -9,11 +9,11 @@ import reactMixin from 'react-mixin'
 export default class Index extends Component {
     constructor(props){
         super(props);
-        let location = this.props.location.pathname,
+        let location = this.props.location.pathname, // /admin/user
          tmpArr = location.split('/');
         this.handleSelect = this.handleSelect.bind(this);
-        this.sections = ['用户管理','药品管理','档案管理', '角色管理','科室管理','收费管理','病例管理'];
-        this.titles = ['user','medicine','record', 'role','subject','price','case'];
+        this.sections = ['用户管理','药品管理','档案管理', '角色管理','科室管理','化验项目管理','病例管理','住院管理'];
+        this.titles = ['user','medicine','record', 'role','subject','examination','case', 'hospitalRecord'];
         let activeKey = tmpArr[tmpArr.length - 1] || this.titles[0];
         this.state = {
             activeKey : activeKey

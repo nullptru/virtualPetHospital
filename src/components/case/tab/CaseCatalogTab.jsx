@@ -16,17 +16,17 @@ export default class CaseCatalogTab extends Component {
         let caseClassName = this.props.caseClassName;
         let caseList=this.props.caseList;
 
-        let caseDom = [];
-        tableJson.forEach((row)=>{
-            tableDoms.push(<tr key={row.id}>
-                <td>{row.username}</td>
-                <td>{row.accessSections}</td>
-                <td>
-                    <input type="checkbox" id="isActive" defaultChecked={row.isActive}/>
-                </td>
-                <td><Button bsSize='xsmall'>修改</Button>&nbsp;&nbsp;<Button bsSize='xsmall'>删除</Button></td>
-            </tr>);
-        });
+        // let caseDom = [];
+        // tableJson.forEach((row)=>{
+        //     tableDoms.push(<tr key={row.id}>
+        //         <td>{row.username}</td>
+        //         <td>{row.accessSections}</td>
+        //         <td>
+        //             <input type="checkbox" id="isActive" defaultChecked={row.isActive}/>
+        //         </td>
+        //         <td><Button bsSize='xsmall'>修改</Button>&nbsp;&nbsp;<Button bsSize='xsmall'>删除</Button></td>
+        //     </tr>);
+        // });
 
         let col = 2, row = 1;
         const catalogTab = (

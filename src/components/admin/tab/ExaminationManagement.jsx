@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Row, Col, Table,Button, Label} from 'react-bootstrap/lib'
 
-export default class PriceManagement extends Component {
+export default class ExaminationManagement extends Component {
     render() {
         let tableJson = this.props.tables;
 

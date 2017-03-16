@@ -154,7 +154,7 @@ fetchMock
                     'id' : 3,
                     'time' : "2017-11-11",
                     'petName':'YMR',
-                    'petType' : '猫科动物🐱',
+                    'petType' : '犬科动物🐩',
                     'description' : '打死',
                     'price' : 100,
                 }];
@@ -186,6 +186,118 @@ fetchMock
         if (isMatch){
             console.log(`match put: ${url}`, opts);
             response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .get(function (url, opts) {
+        clear();
+        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/role(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        if (isMatch){
+            console.log(`match get: ${url}`, opts);
+            response.data = [{
+                'id' : 1,
+                'roleName' : '前台',
+                'subjects' : [
+                    {
+                        'id' : 1,
+                        'name' : '手术室'
+                    },
+                    {
+                        'id' : 2,
+                        'name' : '病房'
+                    },
+                    {
+                        'id' : 3,
+                        'name' : '化验室'
+                    },
+                ]
+            },
+                {
+                    'id' : 2,
+                    'roleName' : '前台',
+                    'subjects' : [
+                        {
+                            'id' : 1,
+                            'name' : '手术室'
+                        },
+                        {
+                            'id' : 2,
+                            'name' : '病房'
+                        },
+                        {
+                            'id' : 3,
+                            'name' : '化验室'
+                        },
+                    ]
+                },
+                {
+                    'id' : 3,
+                    'roleName' : '前台',
+                    'subjects' : [
+                        {
+                            'id' : 1,
+                            'name' : '手术室'
+                        },
+                        {
+                            'id' : 2,
+                            'name' : '病房'
+                        },
+                        {
+                            'id' : 3,
+                            'name' : '化验室'
+                        },
+                    ]
+                }];
+            response.pages = 3;
+        }
+        return isMatch;
+    }, response)
+    .delete(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        if (isMatch){
+            console.log(`match delete: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .post(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        if (isMatch){
+            console.log(`match post: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .put(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:3001/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        if (isMatch){
+            console.log(`match put: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .get(function (url, opts) {
+        clear();
+        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/subject(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        if (isMatch){
+            console.log(`match get: ${url}`, opts);
+            response.data = [
+                {
+                    'id' : 1,
+                    'name' : '手术室'
+                },
+                {
+                    'id' : 2,
+                    'name' : '病房'
+                },
+                {
+                    'id' : 3,
+                    'name' : '化验室'
+                }];
+            response.pages = 3;
         }
         return isMatch;
     }, response);

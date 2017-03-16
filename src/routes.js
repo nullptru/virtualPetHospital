@@ -12,7 +12,7 @@ import ErrorPage from './components/Error';
 
 import Case from './components/admin/tab/CaseManagement'
 import Medicine from './components/admin/tab/MedicineManagement'
-import Price from './components/admin/tab/PriceManagement'
+import Examination from './components/admin/tab/ExaminationManagement'
 import Role from './components/admin/tab/RoleManagement'
 import Subject from './components/admin/tab/SubjectManagement'
 import User from './components/admin/tab/UserManagement'
@@ -33,7 +33,7 @@ export default
             <Route path='/admin/subject' component={Subject}/>
             <Route path='/admin/medicine' component={Medicine}/>
             <Route path='/admin/case' component={Case}/>
-            <Route path='/admin/price' component={Price}/>
+            <Route path='/admin/examination' component={Examination}/>
             <Route path='/admin/role' component={Role}/>
             <Route path='/admin/record' component={Record}/>
         </Route>
