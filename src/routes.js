@@ -21,7 +21,7 @@ import HospitalRecord from './components/admin/tab/HospitalRecordManagement'
 
 import CaseCatalog from './components/case/CaseCatalog'
 import CaseDescription from './components/case/CaseDescription'
-import CaseCatalogTab from'./components/case/tab/CaseCatalogTab'
+import CaseCatalogTab from'./components/case/content/CaseCatalogTab'
 
 export default
 (
@@ -42,15 +42,14 @@ export default
         <Route path='/main' component={Main}/>
         <Route path='/learning' component={Learning}/>
         <Route path='/learning/casenav' component={CaseCatalog}>
-            <IndexRedirect to="/learning/contagion"/>
-            <Route path="learning/contagion" component={CaseCatalogTab}/>
-            <Route path="learning/parasitosis" component={CaseCatalogTab}/>
-            <Route path="learning/internal" component={CaseCatalogTab}/>
-            <Route path="learning/obstetrics" component={CaseCatalogTab}/>
-            <Route path="learning/surgery" component={CaseCatalogTab}/>
-            <Route path="learning/immune" component={CaseCatalogTab}/>
-            <Route path="learning/immune" component={CaseCatalogTab}/>
+            <IndexRedirect to="/learning/casenav/contagion"/>
+            <Route path="/learning/casenav/contagion" component={CaseCatalogTab}/>
+            <Route path="/learning/casenav/parasitosis" component={CaseCatalogTab}/>
+            <Route path="/learning/casenav/internal" component={CaseCatalogTab}/>
+            <Route path="/learning/casenav/obstetrics" component={CaseCatalogTab}/>
+            <Route path="/learning/casenav/surgery" component={CaseCatalogTab}/>
+            <Route path="/learning/casenav/immune" component={CaseCatalogTab}/>
         </Route>
-        <Route path='/learning/casedes' component={CaseDescription}/>
+        <Route path='/learning/casedes/:id' component={CaseDescription}/>
     </Route>
 )
