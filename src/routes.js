@@ -17,6 +17,7 @@ import Role from './components/admin/tab/RoleManagement'
 import Subject from './components/admin/tab/SubjectManagement'
 import User from './components/admin/tab/UserManagement'
 import Record from './components/admin/tab/RecordManagement'
+import HospitalRecord from './components/admin/tab/HospitalRecordManagement'
 
 import CaseCatalog from './components/case/CaseCatalog'
 import CaseDescription from './components/case/CaseDescription'
@@ -36,6 +37,7 @@ export default
             <Route path='/admin/examination' component={Examination}/>
             <Route path='/admin/role' component={Role}/>
             <Route path='/admin/record' component={Record}/>
+            <Route path='/admin/hospitalRecord' component={HospitalRecord}/>
         </Route>
         <Route path='/main' component={Main}/>
         <Route path='/learning' component={Learning}/>

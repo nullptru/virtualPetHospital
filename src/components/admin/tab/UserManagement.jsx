@@ -48,10 +48,11 @@ export default class UserManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:3001/admin/user/${this.state.activePage}`)
+        fetch(`http://localhost:8080/admin/user/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
+            console.log(json);
             let data = json.data;
             data.forEach((dadium)=>{
                 for (let key in dadium){
@@ -67,7 +68,7 @@ export default class UserManagement extends Component {
     }
 
     onDeleteHandle(id){
-        fetch('http://localhost:3001/admin/user',{
+        fetch('http://localhost:8080/admin/user',{
             method : 'delete',
             body : {
                 id : id
@@ -93,7 +94,7 @@ export default class UserManagement extends Component {
             userType : this.state.userType
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
-        fetch(`http://localhost:3001/admin/user`,{
+        fetch(`http://localhost:8080/admin/user`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
             body : body
         })

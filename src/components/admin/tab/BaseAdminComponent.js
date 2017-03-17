@@ -17,10 +17,19 @@ let getHeader = function getHeader(headers){
 let getFormRow = function getFormRow(row, props){
     let rowDom = [];
     for (let key in row){
-        if (key === 'id') continue;
+        if (key.toLowerCase() === 'id') continue;
         rowDom.push(<td key={row[key]}>{row[key]}</td>)
     }
-    rowDom.push(<td key="button"><Button bsSize='xsmall' onClick={()=>{props.onEdit(row.id)}}>修改</Button>&nbsp;&nbsp;<Button bsSize='xsmall' onClick={()=>{props.onDelete(row.id)}}>删除</Button></td>);
+    let dom, button = [];
+    if(props.isEditable != false){
+        button.push(<Button bsSize='xsmall' onClick={()=>{props.onEdit(row.id)}} key='edit'>修改</Button>);
+        button.push('   ');
+   }
+    if(props.isDeletable != false)
+        button.push(<Button bsSize='xsmall' onClick={()=>{props.onDelete(row.id)}} key='delete'>删除</Button>);
+
+    dom = <td key="button">{button}</td>
+    rowDom.push(dom);
     return (<tr key={row.id}>
         {rowDom}
     </tr>);
@@ -39,7 +48,7 @@ export default function BaseAdminComponent(props){
                 <h3>{props.title}</h3>
             </Col>
             <Col sm={3} md={3} mdOffset={4} smOffset={4}>
-                <a onClick={props.onNew}><h5 style={{marginTop: '40px'}}><Label>+</Label>&nbsp;&nbsp;{props.add}</h5></a>
+                {(props.isCreatable != false) ? <a onClick={props.onNew}><h5 style={{marginTop: '40px'}}><Label>+</Label>&nbsp;&nbsp;{props.add}</h5></a> : ''}
             </Col>
         </Row>
         <Row>

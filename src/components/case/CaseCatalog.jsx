@@ -5,7 +5,7 @@ import {
     Row, Col
 } from 'react-bootstrap';
 import {Link, browserHistory} from 'react-router';
-import SearchModal from './content/SearchModal';
+//import SearchModal from './content/SearchModal';
 
 const caseList = [
     {'caseName': 'cn01', 'caseId': 'cid01'},
@@ -111,10 +111,10 @@ export default class CaseStudyNav extends Component {
                         {this.props.children}
                     </Col>
                 </Row>
-                <SearchModal show={this.state.searchShow} onClose={this.onClose}
-                             searchContent={this.state.searchContent} resultList={this.state.searchResList}>
-                    {this.props.children}
-                </SearchModal>
+                {/*<SearchModal show={this.state.searchShow} onClose={this.onClose}*/}
+                             {/*searchContent={this.state.searchContent} resultList={this.state.searchResList}>*/}
+                    {/*{this.props.children}*/}
+                {/*</SearchModal>*/}
             </Grid>
         );
     }
