@@ -38,21 +38,26 @@ export default class CaseStudyNav extends Component {
         //对应caseClass的key
         this.caseKey = ['contagion', 'parasitosis', 'internal', 'obstetrics', 'surgery', 'immune'];
 
-        let location = this.props.location.pathname, keysArr = location.split('/');
-        let activeKey = keysArr[keysArr.length - 1] || this.caseKey[0];
-
+        let location = this.props.location.pathname,
+            keysArr = location.split('/');
+        let initActiveKey = keysArr[keysArr.length - 1] || this.caseKey[0];
+        console.info("caseStudyNav activeKey in constructor:" + initActiveKey);
         this.state = {
-            activeKey: activeKey,
+            activeKey: initActiveKey,
             caseList: caseList,
             searchShow: false,
             searchContent: "",
-            searchResList: caseList//形式都一样，展示病例名称，跳转根据caseId
+            searchResList: caseList,//形式都一样，展示病例名称，跳转根据caseId
         };
     }
 
     handleSelect(e) {//用于更新tab内容
         this.setState({activeKey: e});
         browserHistory.push(`/learning/casenav/${e}`);
+        console.info("after handle select=>e" + e);
+        console.info("after handle select=>activeKey" + this.state.activeKey);
+        console.info("after handle select=>location:" + this.props.location.pathname);
+        //fetch(this.props.location);
     }
 
     onSearchClick() {//点击searchbutton时
@@ -66,7 +71,6 @@ export default class CaseStudyNav extends Component {
 
     onSearchContentChange(e) {
         this.setState({searchContent: e.target.value});
-        console.info("onSearchContentChange:" + e.target.value);
     }
 
     /*构建nav标签*/
@@ -101,7 +105,7 @@ export default class CaseStudyNav extends Component {
                 {this.getPageHeader()}
                 <Row className="clearfix">
                     <Col sm={3} md={3} className="tab-nav">
-                        <Nav bsStyle="pills" stacked activeKey={this.state.activeKey} onSelect={this.handleSelect}
+                        <Nav bsStyle="pills" stacked onSelect={this.handleSelect} activeKey={this.state.activeKey}
                              id="caseStudyMenu">
                             {this.getCaseClassNav()}
                         </Nav>
@@ -111,6 +115,7 @@ export default class CaseStudyNav extends Component {
                         {this.props.children}
                     </Col>
                 </Row>
+                {/*下面是搜索结果的弹出*/}
                 <SearchModal show={this.state.searchShow} onClose={this.onClose}
                              searchContent={this.state.searchContent} resultList={this.state.searchResList}>
                     {this.props.children}

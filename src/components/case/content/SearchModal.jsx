@@ -12,11 +12,11 @@ export default function SearchModel(props) {
         title = "搜索结果";
         if (searchResList != null && searchResList.length != 0) {
             let items = [], url_prefix = "/learning/casedes/";
-
+            let index=1;
             searchResList.forEach((res_case) => {
                 let url = url_prefix + res_case.caseId;
-                items.push(<ListGroupItem>
-                    <Link to={url}>{res_case.caseName}</Link>
+                items.push(<ListGroupItem key={index}>
+                    {index++}.<Link to={url}>{res_case.caseName}</Link>
                 </ListGroupItem>);
             });
 

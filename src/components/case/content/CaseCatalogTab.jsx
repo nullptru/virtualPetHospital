@@ -22,7 +22,8 @@ export default class CaseCatalogTab extends Component {
     constructor(props) {
         super(props);
         this.btnClick = this.btnClick.bind(this);
-        let location = this.props.location.pathname, keysArr = location.split('/');
+        let initLoc = this.props.location.pathname, keysArr = initLoc.split('/');
+        console.info("caseCatalogTab location:" + location);
         this.state = {
             caseList: caseList,
             caseName: keysArr[keysArr.length - 1]
@@ -34,15 +35,20 @@ export default class CaseCatalogTab extends Component {
     }
 
     render() {
+        //获取当前的location
+        let rendLocat = this.props.location.pathname,
+            rendKeysArr = rendLocat.split('/');
+
+        /*caseList应当从这里进行fetch*/
+
         let caseRow = [], countCol = 0;
         this.state.caseList.forEach((case_name) => {
             caseRow.push(
                 <Col md={3} key={countCol++}>
-                    <td><Button bsSize="large"
-                                onClick={this.btnClick.bind(this, case_name.caseId)}
-                                id={case_name.caseId}>
-                        {case_name.caseName},{case_name.caseId}</Button>
-                    </td>
+                    <Button bsSize="large"
+                            onClick={this.btnClick.bind(this, case_name.caseId)}
+                            id={case_name.caseId}>
+                        {rendKeysArr[rendKeysArr.length - 1]}{case_name.caseName}</Button>
                 </Col>);
         });
 
