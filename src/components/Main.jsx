@@ -30,7 +30,7 @@ export default class Main extends Component {
                 <Row onClick={this.handleClick} className="main-container">
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="read"/>
+                            <Image src="/assets/test.jpg" circle className="clicked" name="/panoramic?mode=0"/>
                             <div className="img-label">3D导览</div>
                         </div>
                     </Col>

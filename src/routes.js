@@ -9,6 +9,8 @@ import AdminIndex from './components/admin/Index';
 import Main from './components/Main';
 import Learning from './components/Learning';
 import ErrorPage from './components/Error';
+import Panoramic from './components/Panoramic.jsx'
+import RolePlay from './components/RolePlay.jsx'
 
 import Case from './components/admin/tab/CaseManagement'
 import Medicine from './components/admin/tab/MedicineManagement'
@@ -40,7 +42,9 @@ export default
             <Route path='/admin/hospitalRecord' component={HospitalRecord}/>
         </Route>
         <Route path='/main' component={Main}/>
+        <Route path='/panoramic' component={Panoramic}/>
         <Route path='/learning' component={Learning}/>
+        <Route path='/learning/roleplay' component={RolePlay}/>
         <Route path='/learning/casenav' component={CaseCatalog}>
             <IndexRedirect to="/learning/casenav/contagion"/>
             <Route path="/learning/casenav/contagion" component={CaseCatalogTab}/>
