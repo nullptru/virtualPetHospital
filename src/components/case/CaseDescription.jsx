@@ -4,15 +4,6 @@ import {
 } from 'react-bootstrap';
 import DescriptionPanel from './content/DescriptionPanel';
 import {Link} from 'react-router';
-
-/*下面内容是从数据库中获得的，根据caseId*/
-/*const testJson = [
- {'text': '抽搐不止', 'img': 'symptom_img_url', 'video': 'symptom_video_url'},
- {'text': '抽一管血', 'img': 'exam_img_url', 'video': 'exam_video_url'},
- {'text': 'xxx浓度超过aaa则有问题', 'img': 'labIndex_img_url', 'video': 'labIndex_video_url'},
- {'text': '打疫苗', 'img': 'treatment_img_url', 'video': 'treatment_video_url'}
- ]*/
-
 export default class CaseDescription extends Component {
     constructor(props) {
         super(props);
@@ -71,7 +62,7 @@ export default class CaseDescription extends Component {
 
 
         const pageInstance = (
-            <Grid style={{margin: '50px'}}>
+            <Grid style={{margin: '50px', overflowY: 'scroll'}} className="caseDesGrid">
                 {this.getPageHeader()}
                 <Row id="caseDescription-caseName">
                     <Col md={5}>

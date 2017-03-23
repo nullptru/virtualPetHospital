@@ -46,7 +46,7 @@ export default class CaseStudyNav extends Component {
             activeKey: initActiveKey,
             searchShow: false,
             searchContent: "",
-            searchResList: [],//形式都一样，展示病例名称，跳转根据caseId
+            searchResList: caseList,//形式都一样，展示病例名称，跳转根据caseId
         };
     }
 
@@ -73,10 +73,10 @@ export default class CaseStudyNav extends Component {
     }
 
     onModalClose() {
-     this.setState({searchResList: []});
-     this.setState({searchShow: false});
-     this.setState({searchContent: ""});
-     }
+        this.setState({searchResList: []});
+        this.setState({searchShow: false});
+        this.setState({searchContent: ""});
+    }
 
     onSearchContentChange(e) {
         this.setState({searchContent: e.target.value});

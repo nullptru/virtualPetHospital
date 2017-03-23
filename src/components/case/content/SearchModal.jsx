@@ -8,7 +8,7 @@ export default function SearchModel(props) {
         title, show = Boolean(props.show) || false,
         close = props.onClose,
         searchResList = props.searchResList, content;
-    if (searchContent != null && searchContent != "") {
+    if (searchContent != null && searchContent != "") {//搜索关键字
         title = "搜索结果";
         if (searchResList != null && searchResList.length != 0) {
             let items = [], url_prefix = "/learning/casedes/";
