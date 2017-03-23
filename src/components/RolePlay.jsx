@@ -27,19 +27,19 @@ export default class RolePlay extends Component {
                 <Row onClick={this.handleClick} className="main-container">
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="/panoramic?mode=1&role=0"/>
+                            <Image src="/assets/icon_reception.jpg" circle className="clicked" name="/panoramic?mode=1&role=0"/>
                             <div className="img-label">前台</div>
                         </div>
                     </Col>
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="/panoramic?mode=1&role=1"/>
+                            <Image src="/assets/icon_doctor.jpg" circle className="clicked" name="/panoramic?mode=1&role=1"/>
                             <div className="img-label">兽医</div>
                         </div>
                     </Col>
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="/panoramic?mode=1&role=2"/>
+                            <Image src="/assets/icon_assistant.jpg" circle className="clicked" name="/panoramic?mode=1&role=2"/>
                             <div className="img-label">助理</div>
                         </div>
                     </Col>

@@ -30,19 +30,19 @@ export default class Main extends Component {
                 <Row onClick={this.handleClick} className="main-container">
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="/panoramic?mode=0"/>
+                            <Image src="/assets/icon_panoramic.jpg" circle className="clicked" name="/panoramic?mode=0"/>
                             <div className="img-label">3D导览</div>
                         </div>
                     </Col>
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="/learning"/>
+                            <Image src="/assets/icon_learning.jpg" circle className="clicked" name="/learning"/>
                             <div className="img-label">职能学习</div>
                         </div>
                     </Col>
                     {userType === 1 ? <Col md={col}>
                             <div className="div-center">
-                                <Image src="/assets/test.jpg" circle className="clicked" name="/admin"/>
+                                <Image src="/assets/icon_manage.jpg" circle className="clicked" name="/admin"/>
                                 <div className="img-label">后台管理</div>
                             </div>
                         </Col> : ''}
