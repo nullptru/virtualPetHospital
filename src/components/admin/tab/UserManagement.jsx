@@ -56,7 +56,7 @@ export default class UserManagement extends Component {
             data.forEach((dadium)=>{
                 for (let key in dadium){
                     if (key === 'userType'){
-                        dadium[key] = dadium[key] === '0' ? '普通用户' : '管理员';
+                        dadium[key] = dadium[key].toString() === '0' ? '普通用户' : '管理员';
                     }
                 }
             });

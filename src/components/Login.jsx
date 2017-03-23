@@ -47,7 +47,7 @@ export default class Login extends Component {
         this.validate()
             .then((json)=> {
             console.log(json);
-                if (json.isValidated){
+                if (json.isValidated === 'true'){
                     sessionStorage.setItem('userType', json.userType);
                     const path = '/main';
                     browserHistory.push(path);
@@ -77,6 +77,7 @@ export default class Login extends Component {
             .then((response)=>{
                 return response.json();
             }).then(function(json) {
+                console.log(json)
                 return json;
             }).catch(function(ex) {
                 console.log('parsing failed', ex)
@@ -93,7 +94,7 @@ export default class Login extends Component {
                             <FormControl type="text" placeholder="用户名" className="input" value={this.state.userName} onChange={(e)=>{this.setState({userName : e.target.value})}}/>
                         </FormGroup>
                         <FormGroup controlId="pwd" bsSize="large">
-                            <FormControl type="userPwd" placeholder="密码" className="input" value={this.state.userPwd} onChange={(e)=>{this.setState({userPwd : e.target.value})}}/>
+                            <FormControl type="password" placeholder="密码" className="input" value={this.state.userPwd} onChange={(e)=>{this.setState({userPwd : e.target.value})}}/>
                         </FormGroup>
                             <FormGroup controlId="verification" bsSize="large">
                                 <Row>

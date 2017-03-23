@@ -22,6 +22,7 @@ export default class CaseManagement extends Component {
         //进行函数绑定，防止this指向错误
         this.onDeleteHandle = this.onDeleteHandle.bind(this);
         this.onEditModal = this.onEditModal.bind(this);
+        this.onEditSecondModal = this.onEditSecondModal.bind(this);
         this.onSubmitHandle = this.onSubmitHandle.bind(this);
         this.onPageSelect = this.onPageSelect.bind(this);
         this.onUpload = this.onUpload.bind(this);
@@ -58,7 +59,7 @@ export default class CaseManagement extends Component {
             //secondModalData
             description:'',
             pictureUrls: '',
-            videoUrls: ''
+            videoUrls: '',
         };
     }
 
@@ -147,13 +148,29 @@ export default class CaseManagement extends Component {
     }
 
     onEditModal(id){
-        let caseName = '';
+        let caseName = '' , symptom = '', examination = '', result = '', method = '';
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
                 caseName = item.caseName;
+                symptom = item.symptom;
+                examination = item.examination;
+                result = item.result;
+                method = item.method;
             }
         });
-        this.setState({show: true, id: id, caseName : caseName, modalType: 1, modalTitle : '修改病例'})
+        this.setState({show: true, id: id, caseName : caseName, symptom: symptom, examination: examination, result: result, method: method, modalType: 1, modalTitle : '修改病例'})
+    }
+
+    onEditSecondModal(index){
+        let description = '' , pictureUrls = '', videoUrls = '', id=this.state.id;
+        this.state.tableJson.forEach((item)=>{
+            if (item.id === id){
+                description = item.description;
+                pictureUrls = item.pictureUrls;
+                videoUrls = item.videoUrls;
+            }
+        });
+        this.setState({description : description, pictureUrls: pictureUrls, videoUrls: videoUrls, secondModalTitle : '上传信息', showSecondModal: true, secondModalIndex: index})
     }
 
     onPageSelect(activePage){
@@ -284,7 +301,7 @@ export default class CaseManagement extends Component {
                         <Col md={3}>
                             <ControlLabel>病症:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info" onClick={()=>{this.setState({showSecondModal: true, secondModalIndex: 'symptom'})}}>上传</Button>
+                        <Button bsSize="xsmall" bsStyle="info" onClick={this.onEditSecondModal.bind(this, "symptom")}>上传</Button>
                         {this.isEmpty('symptom') ? '' : <span>已上传</span>}
                     </FormGroup>
 
@@ -292,7 +309,7 @@ export default class CaseManagement extends Component {
                         <Col md={3}>
                             <ControlLabel>化验项目:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info" onClick={()=>{this.setState({showSecondModal: true, secondModalIndex: 'examination'})}}>上传</Button>
+                        <Button bsSize="xsmall" bsStyle="info" onClick={this.onEditSecondModal.bind(this, "examination")}>上传</Button>
                         {this.isEmpty('examination') ? '' : <span>已上传</span>}
                     </FormGroup>
 
@@ -300,14 +317,14 @@ export default class CaseManagement extends Component {
                         <Col md={3}>
                             <ControlLabel>诊断结果:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info" onClick={()=>{this.setState({showSecondModal: true, secondModalIndex: 'result'})}}>上传</Button>
+                        <Button bsSize="xsmall" bsStyle="info" onClick={this.onEditSecondModal.bind(this, "result")}>上传</Button>
                         {this.isEmpty('result') ? '' : <span>已上传</span>}
                     </FormGroup>
                     <FormGroup>
                         <Col md={3}>
                             <ControlLabel>治疗方案:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info" onClick={()=>{this.setState({showSecondModal: true, secondModalIndex: 'method'})}}>上传</Button>
+                        <Button bsSize="xsmall" bsStyle="info" onClick={this.onEditSecondModal.bind(this, "method")}>上传</Button>
                         {this.isEmpty('method') ? '' : <span>已上传</span>}
                     </FormGroup>
                 </form>
@@ -390,7 +407,13 @@ export default class CaseManagement extends Component {
             userType,...other} = this.state;
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
         return <BaseAdminComponent {...other}
-                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0, modalTitle : '新增病例'})}}
+                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true,
+                                                                                                            id: '',
+                                                                                                            caseName : '',
+                                                                                                            symptom : -1,
+                                                                                                            examination : -1,
+                                                                                                            result : -1,
+                                                                                                            method : -1, modalType: 0, modalTitle : '新增病例'})}}
                                    onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}
         </BaseAdminComponent>
