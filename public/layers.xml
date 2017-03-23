@@ -18,7 +18,7 @@
     </layer>
 
     <layer name="layer_device" keep="true" type="container" align="center" bgcolor="0x333333" bgalpha="0.8" width="110" height="90" visible="false" ath="133.5846" atv="-2.4199" distorted="true" rx="-1.75" ry="-44.75" rz="0.7571" enabled="false" flying="0.0">
-        <layer name="btn_exit" style="textfield" html="X" align="righttop" x="5" y="5" background="false" onclick="flyout(layer_device)" />
+        <layer name="btn_exit" style="textfield" html="X" align="righttop" x="5" y="5" background="false" onclick="flyout(layer_device);resetVideo();changeDeviceDescPrev();" />
         <layer name="box_description" type="container" width="95%" height="80%" y="30" align="top">
             <layer name="device_description" style="textfield" html="XXXXXXXXXXXXXXXXXXXXXXXXXXX" align="center" x="5" y="5"/>
         </layer>

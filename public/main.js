@@ -43,22 +43,22 @@ var roomList=[
 ];
 
 var deviceList=[
-    {id:0,name:'guahao',description:'',media:''},//挂号流程
-    {id:1,name:'shoufei',description:'',media:''},//收费流程
-    {id:2,name:'dangan',description:'',media:''},//档案管理
-    {id:3,name:'quyao',description:'',media:''},//取药流程
-    {id:4,name:'huayan',description:'',media:''},//化验仪器
-    {id:5,name:'yimiao',description:'',media:''},//注射疫苗
-    {id:6,name:'x_ray',description:'',media:''},//拍X光片
-    {id:7,name:'wenzhen',description:'',media:''},//问诊流程
-    {id:8,name:'zhuankejiancha',description:'',media:''},//专科检查流程
-    {id:9,name:'zhushe',description:'',media:''},//注射药品
-    {id:10,name:'shoushu',description:'',media:''},//手术操作台
-    {id:11,name:'shuicao',description:'',media:''},//手术准备前清洗
-    {id:12,name:'gengyi',description:'',media:''},//手术准备钱更衣
-    {id:13,name:'chafang',description:'',media:''},//查房
-    {id:14,name:'jiepou',description:'',media:''},//解剖
-    {id:14,name:'chuzhi',description:'',media:''}//处置流程
+    {id:0,name:'guahao',description:'挂号流程：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//挂号流程
+    {id:1,name:'shoufei',description:'收费流程：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//收费流程
+    {id:2,name:'dangan',description:'档案管理：',media:'skin/test.mp4'},//档案管理
+    {id:3,name:'quyao',description:'取药流程：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//取药流程
+    {id:4,name:'huayan',description:'化验仪器使用说明：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//化验仪器
+    {id:5,name:'yimiao',description:'宠物疫苗注射说明：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//注射疫苗
+    {id:6,name:'x_ray',description:'设备说明：\nXXXXXXXXXXX',media:'skin/test.mp4'},//拍X光片
+    {id:7,name:'wenzhen',description:'问诊流程：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//问诊流程
+    {id:8,name:'zhuankejiancha',description:'专科检查流程：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//专科检查流程
+    {id:9,name:'zhushe',description:'药品说明：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//注射药品
+    {id:10,name:'shoushu',description:'手术操作台使用说明：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//手术操作台
+    {id:11,name:'shuicao',description:'手术前准备规范：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//手术准备前清洗
+    {id:12,name:'gengyi',description:'手术衣着规范：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//手术准备前更衣
+    {id:13,name:'chafang',description:'日常查房流程：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//查房
+    {id:14,name:'jiepou',description:'解剖器材与方法说明：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'},//解剖
+    {id:14,name:'chuzhi',description:'处置流程：\n1.XXXXXXX \n 2.XXXXXXXXXXXXX',media:'skin/test.mp4'}//处置流程
 ];
 
 var roles=[];

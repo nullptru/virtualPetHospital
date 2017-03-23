@@ -112,6 +112,11 @@
         tween(layer[%1].rz,  get(layer[%1].oldrz));
     </action>
 
+    <action name="resetVideo">
+        layer[device_video].stop();
+
+    </action>
+
     <action name="toggleMap">
         if(layer[thumbsicon].url == 'skin/icon_map.png',set(layer[thumbsicon].url,'skin/icon_map_active.png'),set(layer[thumbsicon].url,'skin/icon_map.png'););
         if(layer[layer_map].visible == false,set(layer[layer_map].visible,true),set(layer[layer_map].visible,false); );
