@@ -29,7 +29,7 @@ export default class CaseStudyNav extends Component {
         super(props);
         //绑定方法
         this.handleSelect = this.handleSelect.bind(this);
-        this.onClose = this.onClose.bind(this);//close modal
+        this.onModalClose = this.onModalClose.bind(this);//close modal
         this.onSearchClick = this.onSearchClick.bind(this);
         this.onSearchContentChange = this.onSearchContentChange.bind(this);
 
@@ -44,30 +44,39 @@ export default class CaseStudyNav extends Component {
         console.info("caseStudyNav activeKey in constructor:" + initActiveKey);
         this.state = {
             activeKey: initActiveKey,
-            caseList: caseList,
             searchShow: false,
             searchContent: "",
-            searchResList: caseList,//形式都一样，展示病例名称，跳转根据caseId
+            searchResList: [],//形式都一样，展示病例名称，跳转根据caseId
         };
     }
 
     handleSelect(e) {//用于更新tab内容
         this.setState({activeKey: e});
         browserHistory.push(`/learning/casenav/${e}`);
-        console.info("after handle select=>e" + e);
-        console.info("after handle select=>activeKey" + this.state.activeKey);
-        console.info("after handle select=>location:" + this.props.location.pathname);
-        //fetch(this.props.location);
     }
 
     onSearchClick() {//点击searchbutton时
+        /*fetch(`http://localhost:8080/learning/casenav/search`,
+         {method: 'post', body: {searchContent: this.state.searchContent}})
+         .then((response) => {
+         return response.json();
+         })
+         .then((json) => {
+         console.info("search result" + json.resultList);
+         this.setState = {searchResList: json.resultList};
+         })
+         .catch((ex) => {
+         console.error(ex);
+         });
+         console.info("resultList=" + this.state.searchResList);*/
         this.setState({searchShow: true});
     }
 
-    onClose() {
-        this.setState({searchShow: false});
-        this.setState({searchContent: ""});
-    }
+    onModalClose() {
+     this.setState({searchResList: []});
+     this.setState({searchShow: false});
+     this.setState({searchContent: ""});
+     }
 
     onSearchContentChange(e) {
         this.setState({searchContent: e.target.value});
@@ -116,8 +125,10 @@ export default class CaseStudyNav extends Component {
                     </Col>
                 </Row>
                 {/*下面是搜索结果的弹出*/}
-                <SearchModal show={this.state.searchShow} onClose={this.onClose}
-                             searchContent={this.state.searchContent} resultList={this.state.searchResList}>
+                <SearchModal show={this.state.searchShow}
+                             searchContent={this.state.searchContent}
+                             searchResList={this.state.searchResList}
+                             onClose={this.onModalClose}>
                     {this.props.children}
                 </SearchModal>
             </Grid>

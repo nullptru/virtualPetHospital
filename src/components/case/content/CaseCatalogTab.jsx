@@ -14,8 +14,7 @@ const caseList = [
     {'caseName': 'cn09', 'caseId': 'cid09'},
     {'caseName': 'cn10', 'caseId': 'cid10'},
     {'caseName': 'cn11', 'caseId': 'cid11'},
-    {'caseName': 'cn12', 'caseId': 'cid12'},
-    {'caseName': 'cn13', 'caseId': 'cid13'},
+    {'caseName': 'cn12', 'caseId': 'cid12'}
 ]
 /*根据location获得需要到数据库中搜索的类别，返回caseList*/
 export default class CaseCatalogTab extends Component {
@@ -32,6 +31,9 @@ export default class CaseCatalogTab extends Component {
 
     btnClick(e) {
         browserHistory.push(`/learning/casedes/${e}`);
+    }
+
+    componentDidMount() {
     }
 
     render() {

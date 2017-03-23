@@ -7,12 +7,12 @@ export default function SearchModel(props) {
     let searchContent = props.searchContent.trim(),
         title, show = Boolean(props.show) || false,
         close = props.onClose,
-        searchResList = props.resultList, content;
+        searchResList = props.searchResList, content;
     if (searchContent != null && searchContent != "") {
         title = "搜索结果";
         if (searchResList != null && searchResList.length != 0) {
             let items = [], url_prefix = "/learning/casedes/";
-            let index=1;
+            let index = 1;
             searchResList.forEach((res_case) => {
                 let url = url_prefix + res_case.caseId;
                 items.push(<ListGroupItem key={index}>
