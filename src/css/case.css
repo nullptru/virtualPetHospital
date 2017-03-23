@@ -11,6 +11,26 @@
     height: auto;
 }
 
-.img-review{
+.img-review {
     margin: -20px 0 0 20px;
+}
+
+body {
+    overflow-y: scroll;
+}
+
+.inputSearch{
+    vertical-align: middle;    
+}
+
+.btnSearch{
+    margin-left:5px;
+}
+
+.pageHeader{
+    margin-bottom:10px;
+}
+
+.btnCase{
+    margin: 10px;
 }

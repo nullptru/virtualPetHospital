@@ -16,7 +16,8 @@
     "react-fileupload": "^2.4.0",
     "react-mixin": "^2.0.2",
     "react-router": "^3.0.2",
-    "whatwg-fetch": "latest"
+    "whatwg-fetch": "latest",
+    "react-async-script-loader": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

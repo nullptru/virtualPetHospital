@@ -2,21 +2,20 @@ import React, {Component, ProtoType} from 'react';
 import {Modal, Button, ListGroupItem, ListGroup} from 'react-bootstrap';
 import {Link} from 'react-router';
 
-export default function SearchModel(props) {
-    console.info("searchModal show:" + props.show);
+export default function SearchModal(props) {
     let searchContent = props.searchContent.trim(),
         title, show = Boolean(props.show) || false,
         close = props.onClose,
-        searchResList = props.resultList, content;
-    if (searchContent != null && searchContent != "") {
+        searchResList = props.searchResultList, content;
+    if (searchContent != null && searchContent != "") {//搜索关键字
         title = "搜索结果";
         if (searchResList != null && searchResList.length != 0) {
             let items = [], url_prefix = "/learning/casedes/";
-
+            let index = 1;
             searchResList.forEach((res_case) => {
                 let url = url_prefix + res_case.caseId;
-                items.push(<ListGroupItem>
-                    <Link to={url}>{res_case.caseName}</Link>
+                items.push(<ListGroupItem key={index}>
+                    {index++}.<Link to={url}>{res_case.caseName}</Link>
                 </ListGroupItem>);
             });
 
@@ -32,7 +31,6 @@ export default function SearchModel(props) {
         title = "提示";
     }
 
-    console.info("search Content in modal:" + searchContent);
     return (
         <Modal
             show={show}

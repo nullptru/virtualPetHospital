@@ -570,4 +570,83 @@
 //             response.data = {result : true};
 //         }
 //         return isMatch;
+//     }, response)
+//     .get(function (url, opts) {
+//         /*匹配用例描述详情*/
+//         clear();
+//         let isMatch = (url.match(/http:\/\/localhost:8080\/learning\/casedes(\/\s*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+//         if (isMatch) {
+//             console.log(`match get: ${url}`, opts);
+//             response.caseContent =
+//                 {
+//                     symptom: {'text': '抽搐不止', 'img': 'symptom_img_url', 'video': 'symptom_video_url'},
+//                     examination: {'text': '抽一管血', 'img': 'exam_img_url', 'video': 'exam_video_url'},
+//                     result: {'text': 'xxx浓度超过aaa则有问题', 'img': 'labIndex_img_url', 'video': 'labIndex_video_url'},
+//                     method: {'text': '打疫苗', 'img': 'treatment_img_url', 'video': 'treatment_video_url'}
+//                 };
+//             response.caseName = "具体病例";
+//         }
+//         return isMatch;
+//     }, response)
+//
+//     .post(function (url, opts) {
+//         clear();
+//         let isMatch = (url === 'http://localhost:8080/learning/casenav/search') && (opts === undefined || opts.method.toLowerCase() === 'post');
+//         if (isMatch) {
+//             console.log("request post", url, opts);
+//             console.info("opts.body.searchContent=" + opts.body.searchContent);
+//             let searchContent = opts.body.searchContent;
+//             response.resultList = [
+//                 {'caseName': '搜索结果case1', 'caseId': 'cid01'},
+//                 {'caseName': '搜索结果case2', 'caseId': 'cid02'},
+//                 {'caseName': '搜索结果case3', 'caseId': 'cid03'},
+//                 {'caseName': '搜索结果case4', 'caseId': 'cid04'},
+//                 {'caseName': '搜索结果case5', 'caseId': 'cid05'},
+//                 {'caseName': '搜索结果case6', 'caseId': 'cid06'},
+//                 {'caseName': '搜索结果case7', 'caseId': 'cid07'},
+//                 {'caseName': '搜索结果case8', 'caseId': 'cid08'},
+//                 {'caseName': '搜索结果case9', 'caseId': 'cid09'},
+//                 {'caseName': '搜索结果case10', 'caseId': 'cid10'}];
+//         }
+//         return isMatch;
+//     }, response)
+//
+//     .get(function (url, opts) {
+//         /*用于匹配用例学习tab*/
+//         clear();
+//         let isMatch = (url.match(/http:\/\/localhost:8080\/learning\/casenav(\/\s*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+//         if (isMatch) {
+//             let caseClassName = url.substring("http://localhost:3000/learning/casenav/".length, url.length);
+//             response.caseList = [
+//                 {'caseName': caseClassName + '1', 'caseId': 'cid01'},
+//                 {'caseName': caseClassName + '2', 'caseId': 'cid02'},
+//                 {'caseName': caseClassName + '3', 'caseId': 'cid03'},
+//                 {'caseName': caseClassName + '4', 'caseId': 'cid04'},
+//                 {'caseName': caseClassName + '5', 'caseId': 'cid05'},
+//                 {'caseName': caseClassName + '6', 'caseId': 'cid06'},
+//                 {'caseName': caseClassName + '7', 'caseId': 'cid07'},
+//                 {'caseName': caseClassName + '8', 'caseId': 'cid08'},
+//                 {'caseName': caseClassName + '9', 'caseId': 'cid09'},
+//                 {'caseName': caseClassName + '10', 'caseId': 'cid10'},
+//                 {'caseName': caseClassName + '11', 'caseId': 'cid11'},
+//                 {'caseName': caseClassName + '12', 'caseId': 'cid12'},
+//                 {'caseName': caseClassName + '13', 'caseId': 'cid12'}
+//             ];
+//             return isMatch;
+//         }
+//     }, response)
+//
+//
+//     .get(function (url, opts) {
+//         clear();
+//         let isMatch = (url === 'http://localhost:8080/panoramic/getRoles') && (opts === undefined || opts.method.toLowerCase() === 'get');
+//         if (isMatch) {
+//             console.log("request get", url, opts);
+//             response.data = [
+//                 {id: 0, name: '前台', room: [0, 3]},
+//                 {id: 1, name: '兽医', room: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13]},
+//                 {id: 2, name: '助理', room: [1, 2, 5, 6, 7, 9, 12, 13]}
+//             ];
+//         }
+//         return isMatch;
 //     }, response);

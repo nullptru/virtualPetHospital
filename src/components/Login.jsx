@@ -18,6 +18,7 @@ export default class Login extends Component {
             captcha : '',
             errorMsg : '',
             captchaUrl: '',
+            captchaText : ''
         }
     }
     generateCaptcha(){
@@ -32,7 +33,6 @@ export default class Login extends Component {
         sessionStorage.setItem('userType', -1);
         fetch('http://localhost:8080/captcha')
             .then((response)=>{
-                console.log(response)
                 return response.blob();
             }).then((blob)=>{
               this.setState({captchaUrl:URL.createObjectURL(blob)});
@@ -62,6 +62,7 @@ export default class Login extends Component {
 
     validate(){
         let isValidatePromise;
+        document.cookie = "captcha=1234";
         isValidatePromise = fetch('http://localhost:8080/validate',{
             credentials: 'include',
             method : 'post',

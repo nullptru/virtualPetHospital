@@ -27,13 +27,13 @@ export default class Learning extends Component {
                 <Row onClick={this.handleClick} className="main-container">
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="read"/>
+                            <Image src="/assets/icon_role.jpg" circle className="clicked" name="/learning/roleplay"/>
                             <div className="img-label">角色扮演</div>
                         </div>
                     </Col>
                     <Col md={col}>
                         <div className="div-center">
-                            <Image src="/assets/test.jpg" circle className="clicked" name="/learning/casenav"/>
+                            <Image src="/assets/icon_case.jpg" circle className="clicked" name="/learning/casenav"/>
                             <div className="img-label">病例学习</div>
                         </div>
                     </Col>
