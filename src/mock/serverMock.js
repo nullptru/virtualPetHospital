@@ -328,7 +328,6 @@ fetchMock
         if (isMatch) {
             console.log("request post", url, opts);
             console.info("opts.body.searchContent=" + opts.body.searchContent);
-            //let searchContent = JSON.parse(opts.body).searchContent;
             let searchContent = opts.body.searchContent;
             response.resultList = [
                 {'caseName': '搜索结果case1', 'caseId': 'cid01'},
@@ -343,4 +342,28 @@ fetchMock
                 {'caseName': '搜索结果case10', 'caseId': 'cid10'}];
         }
         return isMatch;
-    }, response);
+    }, response)
+    .get(function (url, opts) {
+        /*用于匹配用例学习tab*/
+        clear();
+        let isMatch = (url.match(/http:\/\/localhost:8080\/learning\/casenav(\/\s*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        if (isMatch) {
+            let caseClassName = url.substring("http://localhost:3000/learning/casenav/".length, url.length);
+            response.caseList = [
+                {'caseName': caseClassName + '1', 'caseId': 'cid01'},
+                {'caseName': caseClassName + '2', 'caseId': 'cid02'},
+                {'caseName': caseClassName + '3', 'caseId': 'cid03'},
+                {'caseName': caseClassName + '4', 'caseId': 'cid04'},
+                {'caseName': caseClassName + '5', 'caseId': 'cid05'},
+                {'caseName': caseClassName + '6', 'caseId': 'cid06'},
+                {'caseName': caseClassName + '7', 'caseId': 'cid07'},
+                {'caseName': caseClassName + '8', 'caseId': 'cid08'},
+                {'caseName': caseClassName + '9', 'caseId': 'cid09'},
+                {'caseName': caseClassName + '10', 'caseId': 'cid10'},
+                {'caseName': caseClassName + '11', 'caseId': 'cid11'},
+                {'caseName': caseClassName + '12', 'caseId': 'cid12'},
+                {'caseName': caseClassName + '13', 'caseId': 'cid12'}
+            ];
+            return isMatch;
+        }
+    }, response)
