@@ -19,18 +19,18 @@ body {
     overflow-y: scroll;
 }
 
-.inputSearch{
-    vertical-align: middle;    
+.inputSearch {
+    vertical-align: middle;
 }
 
-.btnSearch{
-    margin-left:5px;
+.btnSearch {
+    margin-left: 5px;
 }
 
-.pageHeader{
-    margin-bottom:10px;
+.pageHeader {
+    margin-bottom: 10px;
 }
 
-.btnCase{
+.btnCase {
     margin: 10px;
 }

@@ -5,10 +5,13 @@ import {
 import DescriptionPanel from './content/DescriptionPanel';
 import {Link} from 'react-router';
 import "../../css/case.css";
+import CasePicModal from './content/CasePicModal';
 
 export default class CaseDescription extends Component {
     constructor(props) {
         super(props);
+
+
         //详细病例所包含的部分
         this.caseClassName = ['症状', '相关检查', '化验指标', '治疗手段'];
         this.caseClassKey = ['symptom', 'examination', 'result', 'method'];
@@ -18,11 +21,16 @@ export default class CaseDescription extends Component {
             caseId: this.props.params.id,//病例的id
             //用于结构
             description: {
-                symptom: {'text': 's', 'img': '', 'video': ''},
-                examination: {'text': 'e', 'img': '', 'video': ''},
-                result: {'text': 'r', 'img': '', 'video': ''},
-                method: {'text': 'm', 'img': '', 'video': ''}
-            }
+                symptom: {'text': '', 'img': [], 'video': ''},
+                examination: {'text': '', 'img': [], 'video': ''},
+                result: {'text': '', 'img': [], 'video': ''},
+                method: {'text': '', 'img': [], 'video': ''}
+            },
+            pictureModalShow: false,
+            videoModalShow: false,
+            currentPicList: ['/assets/icon_assistant.jpg', '/assets/icon_case.jpg', '/assets/icon_doctor.jpg'],
+            currentVideoUrl: "",
+            currentPanelName: "病症"
         }
     }
 
@@ -41,15 +49,6 @@ export default class CaseDescription extends Component {
             });
     }
 
-    getPageHeader() {
-        return (
-            <Row id="caseDescription-pageHeader">
-                <Col md={3}>
-                    <Link to='/learning/casenav'>{'<< '}返回上级</Link>
-                </Col>
-            </Row>);
-    }
-
     render() {
         let caseContentDom = [], count = 0;
         this.caseClassName.forEach((panel_name) => {
@@ -57,15 +56,24 @@ export default class CaseDescription extends Component {
                 <DescriptionPanel key={this.caseClassKey[count]} panelName={panel_name}
                                   caseId={this.state.caseId}
                                   panelContent={this.state.description[this.caseClassKey[count]]}
-                />
+                                  onPictureShow={(e) => {
+                                      this.setState({currentPicList: e});
+                                      this.setState({currentPanelName: panel_name});
+                                      this.setState({pictureModalShow: true});
+                                  }}>
+                    {this.props.children}
+                </DescriptionPanel>
             );
             count++;
         });
 
-
         const pageInstance = (
             <Grid style={{margin: '50px'}} className="caseDesGrid">
-                {this.getPageHeader()}
+                <Row id="caseDescription-pageHeader">
+                    <Col md={3}>
+                        <Link to='/learning/casenav'>{'<< '}返回上级</Link>
+                    </Col>
+                </Row>
                 <Row id="caseDescription-caseName">
                     <Col md={5}>
                         <PageHeader>
@@ -78,6 +86,16 @@ export default class CaseDescription extends Component {
                         {caseContentDom}
                     </Col>
                 </Row>
+                {/*点击panel内的图片button弹出*/}
+                <CasePicModal show={this.state.pictureModalShow}
+                              onClose={() => {
+                                  this.setState({pictureModalShow: false});
+                              }}
+                              imgList={this.state.currentPicList}
+                              modalTitle={this.state.currentPanelName}
+                >
+                    {this.props.children}
+                </CasePicModal>
             </Grid>
         );
         return pageInstance;

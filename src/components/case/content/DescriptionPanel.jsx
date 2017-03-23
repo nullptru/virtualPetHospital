@@ -1,29 +1,32 @@
 import React, {Component, ProtoType} from 'react';
-import {Panel, Grid, Row, Col} from 'react-bootstrap';
+import {Panel, Grid, Row, Col, Button} from 'react-bootstrap';
 import {Link} from 'react-router';
 
-export default class DescriptionPanel extends Component {
-    render() {
-        let panelName = this.props.panelName, caseId = this.props.caseId,
-            panelContent = this.props.panelContent;
+export default function DescriptionPanel(props) {
+    let panelName = props.panelName, caseId = props.caseId,
+        panelContent = props.panelContent,
+        text = panelContent.text;
+    console.log("desPanel imgList:" + panelContent.img);
+    return (
+        <Panel header={panelName}>
+            <Grid>
+                <Row>
+                    <Col md={10}>
+                        {text}
+                    </Col>
+                    <Col md={2}>
+                        <Row>
+                            <Button key={caseId + panelName + "Pic"}
+                                    onClick={props.onPictureShow.bind(this, panelContent.img)}>
+                                {panelName}图片
+                            </Button>
+                        </Row>
+                        <Row>
+                            <Button key={caseId + panelName + "Video"}>{panelName}视频</Button>
+                        </Row>
+                    </Col>
+                </Row>
+            </Grid>
+        </Panel>);
 
-        return (
-            <Panel header={panelName}>
-                <Grid>
-                    <Row>
-                        <Col md={8}>
-                            {panelContent.text}
-                        </Col>
-                        <Col md={4}>
-                            <img src="/assets/test.jpg"/>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xsOffset={8}>
-                            <Link to=''>{panelContent.video}</Link>
-                        </Col>
-                    </Row>
-                </Grid>
-            </Panel>);
-    }
 }
