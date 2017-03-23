@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap';
 import {Link, browserHistory} from 'react-router';
 import SearchModal from './content/SearchModal';
+import '../../css/case.css'
 
 const caseList = [
     {'caseName': 'cn01', 'caseId': 'cid01'},
@@ -93,16 +94,15 @@ export default class CaseStudyNav extends Component {
 
     getPageHeader() {
         return (
-            <Row>
+            <Row className="pageHeader">
                 <Col md={3}>
                     <Link to='/learning'>{'<< '}返回上级</Link>
                 </Col>
                 <Col md={3} xsOffset={6}>
                     <Form inline>
-                        <input type="text" className="input" onChange={this.onSearchContentChange}
+                        <input className="inputSearch" type="text" onChange={this.onSearchContentChange}
                                value={this.state.searchContent}/>
-                        {"   "}
-                        <Button type="button" onClick={this.onSearchClick}>search</Button>
+                        <Button type="button" bsStyle="primary" bsSize="small" className="btnSearch" onClick={this.onSearchClick}>搜索</Button>
                     </Form>
                 </Col>
             </Row>);

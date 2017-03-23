@@ -64,7 +64,7 @@ export default class CaseDescription extends Component {
 
 
         const pageInstance = (
-            <Grid style={{margin: '50px', overflowY: 'scroll'}} className="caseDesGrid">
+            <Grid style={{margin: '50px'}} className="caseDesGrid">
                 {this.getPageHeader()}
                 <Row id="caseDescription-caseName">
                     <Col md={5}>

@@ -1,6 +1,7 @@
 import React, {Component, ProtoType} from 'react';
 import {Button, Col, Row} from 'react-bootstrap';
 import {browserHistory} from 'react-router';
+import '../../../css/case.css'
 
 const caseList = [
     {'caseName': 'cn01', 'caseId': 'cid01'},
@@ -47,7 +48,7 @@ export default class CaseCatalogTab extends Component {
         this.state.caseList.forEach((case_name) => {
             caseRow.push(
                 <Col md={3} key={countCol++}>
-                    <Button bsSize="large"
+                    <Button className="btnCase" bsSize="large"
                             onClick={this.btnClick.bind(this, case_name.caseId)}
                             id={case_name.caseId}>
                         {rendKeysArr[rendKeysArr.length - 1]}{case_name.caseName}</Button>
