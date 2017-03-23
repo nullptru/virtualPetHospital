@@ -7,6 +7,8 @@ import {
 import {Link, browserHistory} from 'react-router';
 import SearchModal from './content/SearchModal';
 import CaseCatalogTab from './content/CaseCatalogTab';
+import '../../css/case.css';
+
 
 export default class CaseStudyNav extends Component {
     constructor(props) {
@@ -100,7 +102,7 @@ export default class CaseStudyNav extends Component {
 
     getPageHeader() {
         return (
-            <Row>
+            <Row className="pageHeader">
                 <Col md={3}>
                     <Link to='/learning'>{'<< '}返回上级</Link>
                 </Col>
@@ -109,8 +111,10 @@ export default class CaseStudyNav extends Component {
                         <input type="text" onChange={this.onSearchContentChange}
                                value={this.state.searchContent}
                                onKeyPress={this.onEnterPress}
-                               onKeyDown={this.onEnterPress}/>
-                        <Button type="button" onClick={this.onSearchClick}>search</Button>
+                               onKeyDown={this.onEnterPress}
+                               className="inputSearch"/>
+                        <Button type="button" bsStyle="primary" bsSize="small" className="btnSearch"
+                                onClick={this.onSearchClick}>搜索</Button>
                     </Form>
                 </Col>
             </Row>);

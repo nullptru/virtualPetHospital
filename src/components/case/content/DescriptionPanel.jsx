@@ -15,7 +15,7 @@ export default class DescriptionPanel extends Component {
                             {panelContent.text}
                         </Col>
                         <Col md={4}>
-                            <img src="assets/test.jpg"/>
+                            <img src="/assets/test.jpg"/>
                         </Col>
                     </Row>
                     <Row>
