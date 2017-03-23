@@ -1,0 +1,48 @@
+<krpano>
+    <!--医院平面图-->
+    <layer name="layer_map" keep="true" type="container" width="580" height="380" align="center" bgcolor="0x333333" bgalpha="0.7" x="0" y="0" visible="false">
+        <layer name="bd_title" style="textfield" html="虚拟宠物医院平面图" align="top" y="4" background="false" enabled="false" />
+        <layer name="bd_scroller_container" type="container" align="top" y="30" width="560" height="337" bgborder="1 0xFFFFFF 0.8" url="skin/pingmiantu.jpg">
+        </layer>
+    </layer>
+    <!--END-->
+
+
+    <layer name="btn_back" keep="true" style="textfield" html="&lt; 返回上级" align="lefttop" background="false" x="10" y="10" onclick="js(action_goBack())"/>
+    <layer name="layer_location" keep="true" type="container" width="220" height="80" align="lefttop" bgcolor="0x333333" bgalpha="0.6" x="0" y="40">
+        <layer name="current_location" style="textTitle" html="前台" align="center" background="false" enabled="false" />
+    </layer>
+    <!-- thumbs -->
+    <layer name="thumbs" keep="true" type="container" align="left" width="50" height="50" x="0" y="0" bgcolor="0x333333" bgalpha="0.6">
+        <layer name="thumbsicon" url="skin/icon_map.png" width="35" height="35" align="center" scale.mobile="0.75" onclick="toggleMap()" />
+    </layer>
+
+    <layer name="layer_device" keep="true" type="container" align="center" bgcolor="0x333333" bgalpha="0.8" width="110" height="90" visible="false" ath="133.5846" atv="-2.4199" distorted="true" rx="-1.75" ry="-44.75" rz="0.7571" enabled="false" flying="0.0">
+        <layer name="btn_exit" style="textfield" html="X" align="righttop" x="5" y="5" background="false" onclick="flyout(layer_device)" />
+        <layer name="box_description" type="container" width="95%" height="80%" y="30" align="top">
+            <layer name="device_description" style="textfield" html="XXXXXXXXXXXXXXXXXXXXXXXXXXX" align="center" x="5" y="5"/>
+        </layer>
+        <layer name="device_video" devices="html5" url="%SWFPATH%/plugins/videoplayer.swf" alturl="%SWFPATH%/plugins/videoplayer.js"  videourl="skin/test.mp4" width="95%" height="80%" y="30" align="top" pausedonstart="true" onclick="togglepause();" visible="false"/>
+        <layer name="device_title" style="textfield" html="简介" align="bottom" y="20" background="false" enabled="false" />
+        <layer name="btn_prev" style="textfield" html="&lt;" align="leftbottom" x="20" y="20" background="false" onclick="changeDeviceDescPrev()"/>
+        <layer name="btn_next" style="textfield" html="&gt;" align="rightbottom" x="20" y="20" background="false" onclick="changeDeviceDescNext()"/>
+    </layer>
+
+    <!-- the 'tooltip' textfield -->
+    <layer name="tooltip" keep="true"
+           url="%SWFPATH%/plugins/textfield.swf"
+           parent="STAGE"
+           visible="false" alpha="0"
+           enabled="false"
+           align="lefttop"
+           edge="bottom"
+           oy="-8"
+           background="true" backgroundcolor="0xEEEEEE" backgroundalpha="0.8"
+           border="false" bordercolor="0x000000" borderalpha="1.0"
+           borderwidth="1.0" roundedge="4.0"
+           shadow="0.0" shadowrange="4.0" shadowangle="45" shadowcolor="0x000000" shadowalpha="1.0"
+           textshadow="0" textshadowrange="6.0" textshadowangle="90" textshadowcolor="0x000000" textshadowalpha="1.0"
+           css="text-align:center; color:#333; font-family:Arial; font-weight:bold; font-size:14px; padding:3px 5px;"
+           html=""
+    />
+</krpano>

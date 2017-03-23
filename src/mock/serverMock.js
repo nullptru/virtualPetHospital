@@ -10,7 +10,7 @@ function clear() {
 fetchMock
     .post(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/login/validate');
+        let isMatch = (url === 'http://localhost:8080/login/validate');
         if (isMatch){
             let bodyObj = JSON.parse(opts.body), isValidate = (bodyObj.username === 'test' && bodyObj.password === 'test') || (bodyObj.username === 'admin' && bodyObj.password === 'admin');
             response.data = {validate : isValidate};
@@ -22,7 +22,7 @@ fetchMock
     }, response)
     .get(function (url, opts) {
         clear();
-        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/user(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        let isMatch = (url.match(/http:\/\/localhost:8080\/admin\/user(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch){
             console.log(`match get: ${url}`, opts);
             response.data = [{
@@ -46,7 +46,7 @@ fetchMock
     }, response)
     .delete(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/user')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        let isMatch = (url === 'http://localhost:8080/admin/user')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
         if (isMatch){
             console.log(`match delete: ${url}`, opts);
             response.data = {result : true};
@@ -55,7 +55,7 @@ fetchMock
     }, response)
     .post(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/user')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        let isMatch = (url === 'http://localhost:8080/admin/user')  && (opts === undefined || opts.method.toLowerCase() === 'post');
         if (isMatch){
             console.log(`match post: ${url}`, opts);
             response.data = {result : true};
@@ -64,7 +64,7 @@ fetchMock
     }, response)
     .put(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/user')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        let isMatch = (url === 'http://localhost:8080/admin/user')  && (opts === undefined || opts.method.toLowerCase() === 'put');
         if (isMatch){
             console.log(`match put: ${url}`, opts);
             response.data = {result : true};
@@ -73,7 +73,7 @@ fetchMock
     }, response)
     .get(function (url, opts) {
         clear();
-        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/medicine(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        let isMatch = (url.match(/http:\/\/localhost:8080\/admin\/medicine(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch){
             console.log(`match get: ${url}`, opts);
             response.data = [{
@@ -103,7 +103,7 @@ fetchMock
     }, response)
     .delete(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        let isMatch = (url === 'http://localhost:8080/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
         if (isMatch){
             console.log(`match delete: ${url}`, opts);
             response.data = {result : true};
@@ -112,7 +112,7 @@ fetchMock
     }, response)
     .post(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        let isMatch = (url === 'http://localhost:8080/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'post');
         if (isMatch){
             console.log(`match post: ${url}`, opts);
             response.data = {result : true};
@@ -121,7 +121,7 @@ fetchMock
     }, response)
     .put(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        let isMatch = (url === 'http://localhost:8080/admin/medicine')  && (opts === undefined || opts.method.toLowerCase() === 'put');
         if (isMatch){
             console.log(`match put: ${url}`, opts);
             response.data = {result : true};
@@ -131,7 +131,7 @@ fetchMock
 
     .get(function (url, opts) {
         clear();
-        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/record(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        let isMatch = (url.match(/http:\/\/localhost:8080\/admin\/record(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch){
             console.log(`match get: ${url}`, opts);
             response.data = [{
@@ -164,7 +164,7 @@ fetchMock
     }, response)
     .delete(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        let isMatch = (url === 'http://localhost:8080/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
         if (isMatch){
             console.log(`match delete: ${url}`, opts);
             response.data = {result : true};
@@ -173,7 +173,7 @@ fetchMock
     }, response)
     .post(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        let isMatch = (url === 'http://localhost:8080/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'post');
         if (isMatch){
             console.log(`match post: ${url}`, opts);
             response.data = {result : true};
@@ -182,7 +182,7 @@ fetchMock
     }, response)
     .put(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        let isMatch = (url === 'http://localhost:8080/admin/record')  && (opts === undefined || opts.method.toLowerCase() === 'put');
         if (isMatch){
             console.log(`match put: ${url}`, opts);
             response.data = {result : true};
@@ -191,7 +191,7 @@ fetchMock
     }, response)
     .get(function (url, opts) {
         clear();
-        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/role(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        let isMatch = (url.match(/http:\/\/localhost:8080\/admin\/role(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch){
             console.log(`match get: ${url}`, opts);
             response.data = [{
@@ -254,7 +254,7 @@ fetchMock
     }, response)
     .delete(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        let isMatch = (url === 'http://localhost:8080/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
         if (isMatch){
             console.log(`match delete: ${url}`, opts);
             response.data = {result : true};
@@ -263,7 +263,7 @@ fetchMock
     }, response)
     .post(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        let isMatch = (url === 'http://localhost:8080/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'post');
         if (isMatch){
             console.log(`match post: ${url}`, opts);
             response.data = {result : true};
@@ -272,7 +272,7 @@ fetchMock
     }, response)
     .put(function (url, opts) {
         clear();
-        let isMatch = (url === 'http://localhost:3001/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        let isMatch = (url === 'http://localhost:8080/admin/role')  && (opts === undefined || opts.method.toLowerCase() === 'put');
         if (isMatch){
             console.log(`match put: ${url}`, opts);
             response.data = {result : true};
@@ -281,23 +281,163 @@ fetchMock
     }, response)
     .get(function (url, opts) {
         clear();
-        let isMatch = (url.match(/http:\/\/localhost:3001\/admin\/subject(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        let isMatch = (url.match(/http:\/\/localhost:8080\/admin\/subject(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch){
             console.log(`match get: ${url}`, opts);
             response.data = [
                 {
                     'id' : 1,
-                    'name' : '手术室'
+                    'roomName' : '手术室'
                 },
                 {
                     'id' : 2,
-                    'name' : '病房'
+                    'roomName' : '病房'
                 },
                 {
                     'id' : 3,
-                    'name' : '化验室'
+                    'roomName' : '化验室'
                 }];
             response.pages = 3;
+        }
+        return isMatch;
+    }, response)
+    .delete(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/subject')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        if (isMatch){
+            console.log(`match delete: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .post(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/subject')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        if (isMatch){
+            console.log(`match post: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .put(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/subject')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        if (isMatch){
+            console.log(`match put: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .get(function (url, opts) {
+        clear();
+        let isMatch = (url.match(/http:\/\/localhost:8080\/admin\/examination(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        if (isMatch){
+            console.log(`match get: ${url}`, opts);
+            response.data = [
+                {
+                    'id' : 1,
+                    'examinationName' : '手术',
+                    'examinationPrice' : 223,
+                    'description' : '手术ce'
+                },
+                {
+                    'id' : 2,
+                    'examinationName' : '手术',
+                    'examinationPrice' : 123,
+                    'description' : '手术ce'
+                },
+                {
+                    'id' : 3,
+                    'examinationName' : '手术',
+                    'examinationPrice' : 233,
+                    'description' : '手术ce'
+                }];
+            response.pages = 3;
+        }
+        return isMatch;
+    }, response)
+    .delete(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/examination')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        if (isMatch){
+            console.log(`match delete: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .post(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/examination')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        if (isMatch){
+            console.log(`match post: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .put(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/examination')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        if (isMatch){
+            console.log(`match put: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .get(function (url, opts) {
+        clear();
+        let isMatch = (url.match(/http:\/\/localhost:8080\/admin\/hospitalRecord(\/\d*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
+        if (isMatch){
+            console.log(`match get: ${url}`, opts);
+            response.data = [
+                {
+                    'id' : 1,
+                    'patient' : 'Kitty',
+                    'startTime' : '2017/10/11',
+                    'endTime' : '2017/11/11',
+                    'description' : '手术ce'
+                },
+                {
+                    'id' : 2,
+                    'patient' : 'Cheese',
+                    'startTime' : '2017/10/11',
+                    'endTime' : '2017/11/11',
+                    'description' : '手术ce'
+                },
+                {
+                    'id' : 3,
+                    'patient' : 'John',
+                    'startTime' : '2017/10/11',
+                    'endTime' : '2017/11/11',
+                    'description' : '手术ce'
+                }];
+            response.pages = 3;
+        }
+        return isMatch;
+    }, response)
+    .delete(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/hospitalRecord')  && (opts === undefined || opts.method.toLowerCase() === 'delete');
+        if (isMatch){
+            console.log(`match delete: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .post(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/hospitalRecord')  && (opts === undefined || opts.method.toLowerCase() === 'post');
+        if (isMatch){
+            console.log(`match post: ${url}`, opts);
+            response.data = {result : true};
+        }
+        return isMatch;
+    }, response)
+    .put(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/admin/hospitalRecord')  && (opts === undefined || opts.method.toLowerCase() === 'put');
+        if (isMatch){
+            console.log(`match put: ${url}`, opts);
+            response.data = {result : true};
         }
         return isMatch;
     }, response);

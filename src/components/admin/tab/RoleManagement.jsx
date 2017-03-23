@@ -1,18 +1,8 @@
 import React, {Component} from 'react'
-import {FormGroup, FormControl, Checkbox, HelpBlock, ControlLabel} from 'react-bootstrap/lib'
+import {FormGroup, FormControl, Checkbox, ControlLabel} from 'react-bootstrap/lib'
 import 'whatwg-fetch'
 
 import BaseAdminComponent from './BaseAdminComponent'
-
-function FieldGroup({ id, label, help, ...props }) {
-    return (
-        <FormGroup controlId={id}>
-            <ControlLabel>{label}</ControlLabel>
-            <FormControl {...props} />
-            {help && <HelpBlock>{help}</HelpBlock>}
-        </FormGroup>
-    );
-}
 
 export default class RoleManagement extends Component {
     constructor(){
@@ -36,6 +26,9 @@ export default class RoleManagement extends Component {
             modalTitle: '新增角色',//0表示新建，1表示编辑
             tableJson : [],
             subjectJson : [],//json数组
+            isEditable : true,
+            isDeletable : false,
+            isCreatable : false,
             //分页
             pages: 1,
             activePage : 1
@@ -47,7 +40,7 @@ export default class RoleManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:3001/admin/role/${this.state.activePage}`)
+        fetch(`http://localhost:8080/admin/role/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
@@ -65,7 +58,7 @@ export default class RoleManagement extends Component {
         }).catch((ex)=>{
             console.log(ex);
         });
-        fetch(`http://localhost:3001/admin/subject`)
+        fetch(`http://localhost:8080/admin/subject`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
@@ -76,7 +69,7 @@ export default class RoleManagement extends Component {
     }
 
     onDeleteHandle(id){
-        fetch('http://localhost:3001/admin/role',{
+        fetch('http://localhost:8080/admin/role',{
             method : 'delete',
             body : {
                 id : id
@@ -96,25 +89,36 @@ export default class RoleManagement extends Component {
     }
 
     onSubmitHandle(){
-        let body = {
-            roleName : this.state.roleName,
-            subjects : this.state.subjects,
-        };
-        if (this.state.modalType === 1){body.id = this.state.id;}
-        fetch(`http://localhost:3001/admin/role`,{
-            method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : body
-        })
-            .then((response)=>{
-                return response.json();
-            }).then((json)=>{
-            let data = json.data;
-            if (data.result === true){
-                this.onDataFetch();
-                this.setState({show : false});
-            }
-        }).catch((ex)=>{
-            console.log(ex);
+        //获取组件
+        let subjectsDom = document.getElementsByName('subject'), subjects = [];
+        subjectsDom.forEach((item)=>{
+           if(item.checked){
+               subjects.push(item.value);
+           }
+        });
+        this.setState({
+            subjects : subjects
+        },()=>{
+            let body = {
+                roleName : this.state.roleName,
+                subjects : this.state.subjects,
+            };
+            if (this.state.modalType === 1){body.id = this.state.id;}
+            fetch(`http://localhost:8080/admin/role`,{
+                method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
+                body : body
+            })
+                .then((response)=>{
+                    return response.json();
+                }).then((json)=>{
+                let data = json.data;
+                if (data.result === true){
+                    this.onDataFetch();
+                    this.setState({show : false});
+                }
+            }).catch((ex)=>{
+                console.log(ex);
+            });
         });
     }
 
@@ -144,16 +148,15 @@ export default class RoleManagement extends Component {
         });
         const formInstance = (
             <form>
-                <FieldGroup
-                    id="formControlsName"
-                    type="text"
-                    label="角色名"
-                    placeholder="输入角色名"
-                    value={this.state.username}
-                    onChange={(e)=>{this.setState({username : e.target.value})}}
-                />
-
                 <FormGroup>
+                    <ControlLabel>角色名</ControlLabel>
+                    <br/>
+                    <FormControl.Static>
+                        {this.state.roleName}
+                    </FormControl.Static>
+                </FormGroup>
+
+                <FormGroup onChange={(e)=>{console.log(e.target)}} ref={(input)=>{this.input = input;}}>
                     <ControlLabel>可访问科室</ControlLabel>
                     <br/>
                     {subjectDom}

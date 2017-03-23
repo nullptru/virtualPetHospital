@@ -48,7 +48,7 @@ export default class MedicineManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:3001/admin/medicine/${this.state.activePage}`)
+        fetch(`http://localhost:8080/admin/medicine/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
@@ -56,7 +56,7 @@ export default class MedicineManagement extends Component {
             data.forEach((dadium)=>{
                 for (let key in dadium){
                     if (key === 'medicineType'){
-                        dadium[key] = dadium[key] === 0 ? '药品' : '疫苗';
+                        dadium[key] = dadium[key] === 0 ? '治疗药物' : '疫苗';
                     }
                 }
             });
@@ -67,7 +67,7 @@ export default class MedicineManagement extends Component {
     }
 
     onDeleteHandle(id){
-        fetch('http://localhost:3001/admin/medicine',{
+        fetch('http://localhost:8080/admin/medicine',{
             method : 'delete',
             body : {
                 id : id
@@ -94,7 +94,7 @@ export default class MedicineManagement extends Component {
             description : this.state.description
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
-        fetch('http://localhost:3001/admin/medicine',{
+        fetch('http://localhost:8080/admin/medicine',{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
             body : body
         })
@@ -116,7 +116,7 @@ export default class MedicineManagement extends Component {
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
                 medicineName = item.medicineName;
-                medicineType = item.medicineType === '药品' ? 0 : 1;
+                medicineType = item.medicineType === '治疗药物' ? 0 : 1;
                 medicinePrice = item.medicinePrice;
                 description = item.description;
             }

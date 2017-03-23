@@ -9,6 +9,8 @@ import AdminIndex from './components/admin/Index';
 import Main from './components/Main';
 import Learning from './components/Learning';
 import ErrorPage from './components/Error';
+import Panoramic from './components/Panoramic.jsx'
+import RolePlay from './components/RolePlay.jsx'
 
 import Case from './components/admin/tab/CaseManagement'
 import Medicine from './components/admin/tab/MedicineManagement'
@@ -17,6 +19,7 @@ import Role from './components/admin/tab/RoleManagement'
 import Subject from './components/admin/tab/SubjectManagement'
 import User from './components/admin/tab/UserManagement'
 import Record from './components/admin/tab/RecordManagement'
+import HospitalRecord from './components/admin/tab/HospitalRecordManagement'
 
 import CaseCatalog from './components/case/CaseCatalog'
 import CaseDescription from './components/case/CaseDescription'
@@ -36,9 +39,12 @@ export default
             <Route path='/admin/examination' component={Examination}/>
             <Route path='/admin/role' component={Role}/>
             <Route path='/admin/record' component={Record}/>
+            <Route path='/admin/hospitalRecord' component={HospitalRecord}/>
         </Route>
         <Route path='/main' component={Main}/>
+        <Route path='/panoramic' component={Panoramic}/>
         <Route path='/learning' component={Learning}/>
+        <Route path='/learning/roleplay' component={RolePlay}/>
         <Route path='/learning/casenav' component={CaseCatalog}>
             <IndexRedirect to="/learning/casenav/contagion"/>
             <Route path="/learning/casenav/contagion" component={CaseCatalogTab}/>

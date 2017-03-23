@@ -54,7 +54,7 @@ export default class RecordManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:3001/admin/record/${this.state.activePage}`)
+        fetch(`http://localhost:8080/admin/record/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
@@ -65,7 +65,7 @@ export default class RecordManagement extends Component {
     }
 
     onDeleteHandle(id){
-        fetch('http://localhost:3001/admin/record',{
+        fetch('http://localhost:8080/admin/record',{
             method : 'delete',
             body : {
                 id : id
@@ -93,7 +93,7 @@ export default class RecordManagement extends Component {
             price : this.state.price
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
-        fetch(`http://localhost:3001/admin/record`,{
+        fetch(`http://localhost:8080/admin/record`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
             body : body
         })

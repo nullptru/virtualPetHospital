@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {FormGroup, FormControl, Radio, HelpBlock, ControlLabel} from 'react-bootstrap/lib'
+import {FormGroup, FormControl, HelpBlock, ControlLabel} from 'react-bootstrap/lib'
 import 'whatwg-fetch'
 
 import BaseAdminComponent from './BaseAdminComponent'
@@ -14,25 +14,29 @@ function FieldGroup({ id, label, help, ...props }) {
     );
 }
 
-export default class UserManagement extends Component {
+export default class SubjectManagement extends Component {
     constructor(){
         super();
         //进行函数绑定，防止this指向错误
         this.onDeleteHandle = this.onDeleteHandle.bind(this);
         this.onEditModal = this.onEditModal.bind(this);
         this.onSubmitHandle = this.onSubmitHandle.bind(this);
+        this.onPageSelect = this.onPageSelect.bind(this);
 
         this.state = {
             show : false,
             title : '科室管理',
             add : '新增科室',
             header : ["科室id", '科室名', '操作'],
-            username : '',
-            password : '',
-            passwordConfirm : '',
-            userType : 0,
+            //modal Info
+            id: '',
+            roomName : '',
             modalType: 0,//0表示新建，1表示编辑
-            tableJson : []
+            modalTitle: '新增科室',//0表示新建，1表示编辑
+            tableJson : [],
+            //分页
+            pages: 1,
+            activePage : 1
         };
     }
 
@@ -41,26 +45,31 @@ export default class UserManagement extends Component {
     }
 
     onDataFetch(){
-        fetch('http://localhost:3001/admin/user')
+        fetch(`http://localhost:8080/admin/subject/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
             let data = json.data;
             data.forEach((dadium)=>{
                 for (let key in dadium){
-                    if (key === 'userType'){
-                        dadium[key] = dadium[key] === '0' ? '普通用户' : '管理员';
+                    if (key.toLowerCase() === 'id'){
+                        dadium.roomId = dadium[key];
+                    }else{
+                        let k = dadium[key];
+                        delete dadium[key];
+                        dadium[key] = k;
                     }
                 }
             });
-            this.setState({tableJson : json.data});
+            console.log(json);
+            this.setState({tableJson : json.data, pages: json.pages});
         }).catch((ex)=>{
             console.log(ex);
         });
     }
 
     onDeleteHandle(id){
-        fetch('http://localhost:3001/admin/user',{
+        fetch('http://localhost:8080/admin/subject',{
             method : 'delete',
             body : {
                 id : id
@@ -80,13 +89,14 @@ export default class UserManagement extends Component {
     }
 
     onSubmitHandle(){
-        fetch('http://localhost:3001/admin/user',{
+        let body = {
+            id : this.state.id,
+            roomName : this.state.roomName
+        };
+        if (this.state.modalType === 1){body.id = this.state.id;}
+        fetch(`http://localhost:8080/admin/subject`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : {
-                username : this.state.username,
-                password : this.state.password,
-                userType : this.state.userType
-            }
+            body : body
         })
             .then((response)=>{
                 return response.json();
@@ -102,14 +112,19 @@ export default class UserManagement extends Component {
     }
 
     onEditModal(id){
-        let username = '', userType = '';
+        let roomName = '';
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
-                username = item.username;
-                userType = item.userType === '普通用户' ? 0 : 1;
+                roomName = item.roomName;
             }
         });
-        this.setState({show: true, username : username, userType: userType, modalType: 1})
+        this.setState({show: true, id: id, roomName : roomName, modalType: 1, modalTitle : '修改科室'})
+    }
+
+    onPageSelect(activePage){
+        this.setState({activePage: activePage}, ()=>{
+            this.onDataFetch();
+        });
     }
 
     getForm(){
@@ -118,54 +133,24 @@ export default class UserManagement extends Component {
                 <FieldGroup
                     id="formControlsName"
                     type="text"
-                    label="用户名"
-                    placeholder="输入用户名"
-                    value={this.state.username}
-                    onChange={(e)=>{this.setState({username : e.target.value})}}
+                    label="科室名"
+                    placeholder="输入科室名"
+                    value={this.state.roomName }
+                    onChange={(e)=>{this.setState({roomName : e.target.value})}}
                 />
-                <FieldGroup
-                    id="formControlsPassword"
-                    type="password"
-                    label="密码"
-                    placeholder="输入密码"
-                    value={this.state.password}
-                    onChange={(e)=>{this.setState({password : e.target.value})}}
-                />
-
-                <FieldGroup
-                    id="formControlsPasswordConfirm"
-                    label="确认密码"
-                    type="password"
-                    placeholder="再次输入密码"
-                    value={this.state.passwordConfirm}
-                    onChange={(e)=>{this.setState({passwordConfirm : e.target.value})}}
-                />
-
-                <FormGroup>
-                    <ControlLabel>用户类型</ControlLabel>
-                    &nbsp;&nbsp;&nbsp;
-                    <Radio inline value="0" name="userType" checked={this.state.userType === 0} onChange={(e)=>{this.setState({userType : 0})}}>
-                        普通用户
-                    </Radio>
-                    {' '}
-                    <Radio inline value="1" name="userType" checked={this.state.userType === 1} onChange={(e)=>{this.setState({userType : 1})}}>
-                        管理员用户
-                    </Radio>
-                    {' '}
-                </FormGroup>
             </form>
         );
+        console.log(this.state.roomName)
         return formInstance;
     }
 
     render() {
-        let {username,
-            password,
-            passwordConfirm,
-            userType,...other} = this.state;
+        let {id,
+            roomName,...other} = this.state;
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
-        return <BaseAdminComponent {...other} onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0})}}
-                                   onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle}>
+        return <BaseAdminComponent {...other}
+                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, roomName: '', modalType: 0, modalTitle : '新增科室'})}}
+                                   onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}
         </BaseAdminComponent>
     }
