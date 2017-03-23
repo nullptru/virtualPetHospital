@@ -26,20 +26,20 @@ var sceneData=[
 ];
 
 var roomList=[
-    {id:0,name:'qiantai'},
-    {id:1,name:'zhusheshi'},
-    {id:2,name:'yaofang'},
-    {id:3,name:'danganshi'},
-    {id:4,name:'zhenshi'},
-    {id:5,name:'huayanshi'},
-    {id:6,name:'mianyishi'},
-    {id:7,name:'yingxiangshi'},
-    {id:8,name:'zhuankejianchashi'},
-    {id:9,name:'shoushuzhunbeishi'},
-    {id:10,name:'shoushushi'},
-    {id:11,name:'binglijiepoushi'},
-    {id:12,name:'chuzhishi'},
-    {id:13,name:'bingfang'}
+    {id:0,name:'qiantai',title:'前台'},
+    {id:1,name:'zhusheshi',title:'注射室'},
+    {id:2,name:'yaofang',title:'药房'},
+    {id:3,name:'danganshi',title:'档案室'},
+    {id:4,name:'zhenshi',title:'诊室'},
+    {id:5,name:'huayanshi',title:'化验室'},
+    {id:6,name:'mianyishi',title:'免疫室'},
+    {id:7,name:'yingxiangshi',title:'影像室'},
+    {id:8,name:'zhuankejianchashi',title:'专科检查室'},
+    {id:9,name:'shoushuzhunbeishi',title:'手术准备室'},
+    {id:10,name:'shoushushi',title:'手术室'},
+    {id:11,name:'binglijiepoushi',title:'病理解剖室'},
+    {id:12,name:'chuzhishi',title:'处置室'},
+    {id:13,name:'bingfang',title:'病房'}
 ];
 
 var deviceList=[
@@ -61,12 +61,7 @@ var deviceList=[
     {id:14,name:'chuzhi',description:'',media:''}//处置流程
 ];
 
-var roles=[
-    {id:0,name:'前台',room:[0,3],initScene:0},
-    {id:1,name:'执业兽医师',room:[4,5,6,7,8,9,10,11,12,13],initScene:4},
-    {id:2,name:'助理',room:[1,2,5,6,7,9,12,13],initScene:1}
-];
-
+var roles=[];
 
 var krpano = document.getElementById("krpanoSWFObject");
 
@@ -84,14 +79,11 @@ var currentRoleId=getQueryString('role');
 
 var lastActiveMapSpot='';
 
+
 if(currentMode==0){//3D导览
-    action_initMaps();//加载全部小地图
-    action_setCurrentMapLocation();
+    loadRoleData(callback_walkthrough);
 }else if(currentMode==1){//角色扮演
-    action_setInitScene(currentRoleId);
-    action_updateMapsWithRole(currentRoleId);
-    action_updateSceneHotspotWithRole(currentRoleId);
-    action_setCurrentMapLocation(currentRoleId);
+    loadRoleData(callback_roleplay);
 }else{
     console.log('模式传参有误！');
 }

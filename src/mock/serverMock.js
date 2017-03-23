@@ -343,4 +343,18 @@ fetchMock
                 {'caseName': '搜索结果case10', 'caseId': 'cid10'}];
         }
         return isMatch;
+    }, response)
+
+    .get(function (url, opts) {
+        clear();
+        let isMatch = (url === 'http://localhost:8080/panoramic/getRoles') && (opts === undefined || opts.method.toLowerCase() === 'get');
+        if (isMatch) {
+            console.log("request get", url, opts);
+            response.data=[
+                {id:0,name:'前台',room:[0,3]},
+                {id:1,name:'兽医',room:[4,5,6,7,8,9,10,11,12,13]},
+                {id:2,name:'助理',room:[1,2,5,6,7,9,12,13]}
+            ];
+        }
+        return isMatch;
     }, response);

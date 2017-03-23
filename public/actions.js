@@ -91,6 +91,7 @@ function action_updateSceneHotspotWithRole(curScene){
     str += 'layer[spot_location_'+curScene+'].loadStyle('+mapSpotStyle_active+');';
     lastActiveMapSpot=curScene;
     krpano.call(str);
+    action_updateHotspotName();
 }
 //每次切换场景时设置当前active位置
 function action_setCurrentMapLocation(curRole){
@@ -121,4 +122,48 @@ function action_goBack(){
     }
 
 }
+//根据roomList修改科室名称
+function action_updateSceneAndMapName(){
+    var str='';
+    for(var i=0;i<roomList.length;i++){
+        var name=roomList[i].name;
+        var title=roomList[i].title;
+        str+='set(scene[scene_'+name+'].title,'+title+');';
+        str+='set(layer[spot_location_'+name+'].tooltip,'+title+');';
+    }
+    krpano.call(str);
+}
+function action_updateHotspotName(){
+    var str='';
+    for(var i=0;i<roomList.length;i++){
+        var name=roomList[i].name;
+        var title=roomList[i].title;
+        str+='set(hotspot[spot_'+name+'].tooltip,'+title+');';
+    }
+    krpano.call(str);
+}
 /**********************************/
+function loadRoleData(callback){
+    fetch(`http://localhost:8080/panoramic/getRoles`)
+        .then((response)=>{
+            return response.json();
+        }).then((json)=>{
+        console.log(json);
+        roles=json.data;
+        callback();
+    }).catch((ex)=>{
+        console.log(ex);
+    });
+}
+function callback_walkthrough(){
+    action_initMaps();//加载全部小地图
+    action_setCurrentMapLocation();
+    action_updateSceneAndMapName();
+}
+function callback_roleplay(){
+    action_setInitScene(currentRoleId);
+    action_updateMapsWithRole(currentRoleId);
+    action_updateSceneHotspotWithRole(currentRoleId);
+    action_setCurrentMapLocation(currentRoleId);
+    action_updateSceneAndMapName();
+}
