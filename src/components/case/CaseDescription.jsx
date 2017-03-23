@@ -4,6 +4,8 @@ import {
 } from 'react-bootstrap';
 import DescriptionPanel from './content/DescriptionPanel';
 import {Link} from 'react-router';
+import "../../css/case.css";
+
 export default class CaseDescription extends Component {
     constructor(props) {
         super(props);
