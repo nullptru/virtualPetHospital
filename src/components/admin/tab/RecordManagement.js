@@ -36,13 +36,14 @@ export default class RecordManagement extends Component {
             //modal Info
             id: '',
             time : '',
-            petName : '',
+            patient : '',
             petType : '',
             description : '',
             price : 0,
             //modal
             modalType: 0,//0表示新建，1表示编辑
             modalTitle: '新增档案',//0表示新建，1表示编辑
+            isEditable: false,
             //分页
             pages: 1,
             activePage : 1
@@ -58,6 +59,7 @@ export default class RecordManagement extends Component {
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
+            console.log(json)
             this.setState({tableJson : json.data, pages: json.pages});
         }).catch((ex)=>{
             console.log(ex);
@@ -67,14 +69,17 @@ export default class RecordManagement extends Component {
     onDeleteHandle(id){
         fetch('http://localhost:8080/admin/record',{
             method : 'delete',
-            body : {
+            body : JSON.stringify({
                 id : id
+            }),
+            headers: {
+                "Content-type": "application/json"
             }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch()
             }
@@ -87,7 +92,7 @@ export default class RecordManagement extends Component {
     onSubmitHandle(){
         let body = {
             time : this.state.time,
-            petName : this.state.petName,
+            patient : this.state.patient,
             petType : this.state.petType,
             description : this.state.description,
             price : this.state.price
@@ -95,12 +100,15 @@ export default class RecordManagement extends Component {
         if (this.state.modalType === 1){body.id = this.state.id;}
         fetch(`http://localhost:8080/admin/record`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : body
+            body : JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch();
                 this.setState({show : false});
@@ -111,18 +119,18 @@ export default class RecordManagement extends Component {
     }
 
     onEditModal(id){
-        let time = '', petName = '' , petType ='',description = '',price = '';
+        let time = '', patient = '' , petType ='',description = '',price = '';
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
                 time = item.time;
-                petName = item.petName;
+                patient = item.patient;
                 petType = item.petType;
                 description = item.description;
                 price = item.price;
             }
         });
         this.setState({show: true, id: id,
-            time : time, petName: petName, petType : petType, description : description, price : price,
+            time : time, patient: patient, petType : petType, description : description, price : price,
             modalType: 1, modalTitle : '修改档案'})
     }
 
@@ -148,8 +156,8 @@ export default class RecordManagement extends Component {
                     type="text"
                     label="患宠名"
                     placeholder="输入患宠名"
-                    value={this.state.petName}
-                    onChange={(e)=>{this.setState({petName : e.target.value})}}
+                    value={this.state.patient}
+                    onChange={(e)=>{this.setState({patient : e.target.value})}}
                 />
 
                 <FieldGroup
@@ -182,13 +190,13 @@ export default class RecordManagement extends Component {
     }
 
     render() {
-        let {time,petName,
+        let {time,patient,
             petType,
             description,
             price,...other} = this.state;
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
         return <BaseAdminComponent {...other}
-           onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, time : '', petName: '', petType : '', description : '', price : ''
+           onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, time : '', patient: '', petType : '', description : '', price : ''
             , modalType: 0, modalTitle : '新增档案'})}}
            onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}

@@ -1,0 +1,16 @@
+.upload{
+    width: 60px;
+    height: 50px;
+    border: 2px dashed rgb(102, 102, 102);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.xsmall-img{
+    width: 100px;
+    height: auto;
+}
+
+.img-review{
+    margin: -20px 0 0 20px;
+}

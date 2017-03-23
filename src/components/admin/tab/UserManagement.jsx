@@ -30,9 +30,9 @@ export default class UserManagement extends Component {
             header : ["用户名", '用户类型', '操作'],
             //modal Info
             id: '',
-            username : '',
-            password : '',
-            passwordConfirm : '',
+            userName : '',
+            userPwd : '',
+            userPwdConfirm : '',
             userType : 0,
             modalType: 0,//0表示新建，1表示编辑
             modalTitle: '新增用户',//0表示新建，1表示编辑
@@ -52,7 +52,6 @@ export default class UserManagement extends Component {
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            console.log(json);
             let data = json.data;
             data.forEach((dadium)=>{
                 for (let key in dadium){
@@ -70,8 +69,11 @@ export default class UserManagement extends Component {
     onDeleteHandle(id){
         fetch('http://localhost:8080/admin/user',{
             method : 'delete',
-            body : {
+            body : JSON.stringify({
                 id : id
+            }),
+            headers: {
+                "Content-type": "application/json"
             }
         })
         .then((response)=>{
@@ -89,19 +91,23 @@ export default class UserManagement extends Component {
 
     onSubmitHandle(){
         let body = {
-            username : this.state.username,
-            password : this.state.password,
+            userName : this.state.userName,
+            userPwd : this.state.userPwd,
             userType : this.state.userType
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
         fetch(`http://localhost:8080/admin/user`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : body
+            body : JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
         })
         .then((response)=>{
+            console.log(response);
             return response.json();
         }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch();
                 this.setState({show : false});
@@ -112,14 +118,14 @@ export default class UserManagement extends Component {
     }
 
     onEditModal(id){
-        let username = '', userType = '';
+        let userName = '', userType = '';
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
-                username = item.username;
+                userName = item.userName;
                 userType = item.userType === '普通用户' ? 0 : 1;
             }
         });
-        this.setState({show: true, id: id, username : username, userType: userType, modalType: 1, modalTitle : '修改用户'})
+        this.setState({show: true, id: id, userName : userName, userType: userType, modalType: 1, modalTitle : '修改用户'})
     }
 
     onPageSelect(activePage){
@@ -136,16 +142,16 @@ export default class UserManagement extends Component {
                     type="text"
                     label="用户名"
                     placeholder="输入用户名"
-                    value={this.state.username}
-                    onChange={(e)=>{this.setState({username : e.target.value})}}
+                    value={this.state.userName}
+                    onChange={(e)=>{this.setState({userName : e.target.value})}}
                 />
                 <FieldGroup
                     id="formControlsPassword"
                     type="password"
                     label="密码"
                     placeholder="输入密码"
-                    value={this.state.password}
-                    onChange={(e)=>{this.setState({password : e.target.value})}}
+                    value={this.state.userPwd}
+                    onChange={(e)=>{this.setState({userPwd : e.target.value})}}
                 />
 
                 <FieldGroup
@@ -153,8 +159,8 @@ export default class UserManagement extends Component {
                     label="确认密码"
                     type="password"
                     placeholder="再次输入密码"
-                    value={this.state.passwordConfirm}
-                    onChange={(e)=>{this.setState({passwordConfirm : e.target.value})}}
+                    value={this.state.userPwdConfirm}
+                    onChange={(e)=>{this.setState({userPwdConfirm : e.target.value})}}
                 />
 
                 <FormGroup>
@@ -175,13 +181,13 @@ export default class UserManagement extends Component {
     }
 
     render() {
-        let {username,
-            password,
-            passwordConfirm,
+        let {userName,
+            userPwd,
+            userPwdConfirm,
             userType,...other} = this.state;
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
         return <BaseAdminComponent {...other}
-                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0, modalTitle : '新增用户'})}}
+                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, userName: '', userType: 0, modalType: 0, modalTitle : '新增用户'})}}
                                    onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}
         </BaseAdminComponent>

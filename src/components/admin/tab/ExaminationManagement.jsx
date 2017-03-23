@@ -60,14 +60,17 @@ export default class ExaminationManagement extends Component {
     onDeleteHandle(id){
         fetch('http://localhost:8080/admin/examination',{
             method : 'delete',
-            body : {
+            body : JSON.stringify({
                 id : id
+            }),
+            headers: {
+                "Content-type": "application/json"
             }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (Boolean(data.result) === true){
                 this.onDataFetch()
             }
@@ -86,12 +89,15 @@ export default class ExaminationManagement extends Component {
         if (this.state.modalType === 1){body.id = this.state.id;}
         fetch(`http://localhost:8080/admin/examination`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : body
+            body : JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch();
                 this.setState({show : false});

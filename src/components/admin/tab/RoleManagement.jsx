@@ -40,32 +40,34 @@ export default class RoleManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:8080/admin/role/${this.state.activePage}`)
+        fetch(`http://localhost:8080/admin/room/1`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            json.data.forEach((item)=>{
-                let subjectJson = item.subjects || [],//获取可访问的科室数组
-                    subjectText = '';
-                subjectJson.forEach((subject)=>{
-                    subjectText += subject.name + ' ';
+                this.setState({subjectJson : json.data},()=>{
+                    fetch(`http://localhost:8080/admin/role/${this.state.activePage}`)
+                        .then((response)=>{
+                            return response.json();
+                        }).then((json)=>{
+                        console.log(json)
+                        json.data.forEach((item)=>{
+                            let subjectJson = item.roomAccess || [],//获取可访问的科室数组
+                                subjectText = '';
+                            subjectJson.forEach((subject)=>{
+                                subjectText += subject.name + ' ';
+                            });
+                            item.subjectText = subjectText;
+                            delete item.subjects;
+                        });
+                        //console.log(json.data);
+                        this.setState({tableJson : json.data, pages: json.pages});
+                    }).catch((ex)=>{
+                        console.log(ex);
+                    });
                 });
-                item.subjectText = subjectText;
-                delete item.subjects;
+            }).catch((ex)=>{
+                console.log(ex);
             });
-            //console.log(json.data);
-            this.setState({tableJson : json.data, pages: json.pages});
-        }).catch((ex)=>{
-            console.log(ex);
-        });
-        fetch(`http://localhost:8080/admin/subject`)
-            .then((response)=>{
-                return response.json();
-            }).then((json)=>{
-            this.setState({subjectJson : json.data});
-        }).catch((ex)=>{
-            console.log(ex);
-        });
     }
 
     onDeleteHandle(id){

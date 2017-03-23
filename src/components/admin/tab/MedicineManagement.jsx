@@ -69,14 +69,17 @@ export default class MedicineManagement extends Component {
     onDeleteHandle(id){
         fetch('http://localhost:8080/admin/medicine',{
             method : 'delete',
-            body : {
+            body : JSON.stringify({
                 id : id
+            }),
+            headers: {
+                "Content-type": "application/json"
             }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch()
             }
@@ -88,20 +91,23 @@ export default class MedicineManagement extends Component {
 
     onSubmitHandle(){
         let body = {
-            medicine_name : this.state.medicineName,
-            medicine_price : this.state.medicinePrice,
-            medicine_type : this.state.medicineType,
+            medicineName : this.state.medicineName,
+            medicinePrice : this.state.medicinePrice,
+            medicineType : this.state.medicineType,
             description : this.state.description
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
         fetch('http://localhost:8080/admin/medicine',{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : body
+            body : JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch();
                 this.setState({show : false});

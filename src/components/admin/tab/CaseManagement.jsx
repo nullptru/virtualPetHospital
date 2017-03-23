@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
-import {FormGroup, FormControl, Radio, HelpBlock, ControlLabel} from 'react-bootstrap/lib'
+import {FormGroup, FormControl, Button, HelpBlock, ControlLabel, Col, Modal, Row} from 'react-bootstrap/lib'
 import 'whatwg-fetch'
+import Dropzone from 'react-dropzone'
 
 import BaseAdminComponent from './BaseAdminComponent'
+import  '../../../css/case.css'
 
 function FieldGroup({ id, label, help, ...props }) {
     return (
@@ -22,24 +24,36 @@ export default class CaseManagement extends Component {
         this.onEditModal = this.onEditModal.bind(this);
         this.onSubmitHandle = this.onSubmitHandle.bind(this);
         this.onPageSelect = this.onPageSelect.bind(this);
+        this.onUpload = this.onUpload.bind(this);
+        this.onDropVideo = this.onDropVideo.bind(this);
+        this.onDropPictures = this.onDropPictures.bind(this);
 
         this.state = {
             show : false,
-            title : '用户管理',
-            add : '新增用户',
-            header : ["用户名", '用户类型', '操作'],
+            title : '病例管理',
+            add : '新增病例',
+            header : ["病例名", '症状', '化验项目','诊断结果','治疗方案','操作'],
             //modal Info
             id: '',
-            username : '',
-            password : '',
-            passwordConfirm : '',
-            userType : 0,
+            caseName : '',
+            symptom : '',
+            examination : '',
+            result : '',
+            method : '',
+            //modal operation
             modalType: 0,//0表示新建，1表示编辑
-            modalTitle: '新增用户',//0表示新建，1表示编辑
+            modalTitle: '新增病例',//0表示新建，1表示编辑
+            //second modal
+            showSecondModal: false,
+            secondModalTitle: '上传病症',
             tableJson : [],
+            originJson : [],
             //分页
             pages: 1,
-            activePage : 1
+            activePage : 1,
+            //upload
+            pictures: [],
+            video: []
         };
     }
 
@@ -48,30 +62,33 @@ export default class CaseManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:8080/admin/user/${this.state.activePage}`)
+        fetch(`http://localhost:8080/admin/case/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
             console.log(json);
-            let data = json.data;
-            data.forEach((dadium)=>{
-                for (let key in dadium){
-                    if (key === 'userType'){
-                        dadium[key] = dadium[key] === '0' ? '普通用户' : '管理员';
-                    }
-                }
+            let data = json.data , originJson = new Object(json.data);
+            data.forEach((item)=>{
+                //解析展现的数据
+                item['symptom'] = item['symptom']['description'];
+                item['examination'] = item['examination']['description'];
+                item['result'] = item['result']['description'];
+                item['method'] = item['method']['description'];
             });
-            this.setState({tableJson : json.data, pages: json.pages});
+            this.setState({tableJson : json.data, originJson : originJson, pages: json.pages});
         }).catch((ex)=>{
             console.log(ex);
         });
     }
 
     onDeleteHandle(id){
-        fetch('http://localhost:8080/admin/user',{
+        fetch('http://localhost:8080/admin/case',{
             method : 'delete',
-            body : {
+            body : JSON.stringify({
                 id : id
+            }),
+            headers: {
+                "Content-type": "application/json"
             }
         })
             .then((response)=>{
@@ -94,7 +111,7 @@ export default class CaseManagement extends Component {
             userType : this.state.userType
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
-        fetch(`http://localhost:8080/admin/user`,{
+        fetch(`http://localhost:8080/admin/case`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
             body : body
         })
@@ -119,7 +136,7 @@ export default class CaseManagement extends Component {
                 userType = item.userType === '普通用户' ? 0 : 1;
             }
         });
-        this.setState({show: true, id: id, username : username, userType: userType, modalType: 1, modalTitle : '修改用户'})
+        this.setState({show: true, id: id, username : username, userType: userType, modalType: 1, modalTitle : '修改病例'})
     }
 
     onPageSelect(activePage){
@@ -128,48 +145,193 @@ export default class CaseManagement extends Component {
         });
     }
 
+    onDropVideo(acceptedFiles, rejectedFiles) {
+        // fetch('http://localhost:8080/file',{
+        //     method : 'post',
+        //     body : {
+        //         id : id
+        //     }
+        // })
+        //     .then((response)=>{
+        //         return response.json();
+        //     }).then((json)=>{
+        //     let data = json.data;
+        //     if (data.result === true){
+        //         this.onDataFetch()
+        //     }
+        //     console.log(json)
+        // }).catch((ex)=>{
+        //     console.log(ex);
+        // });
+        this.setState({
+            video: acceptedFiles
+        });
+        console.log('Accepted pictures: ', acceptedFiles);
+        console.log('Rejected pictures: ', rejectedFiles);
+    }
+
+    onDropPictures(acceptedFiles, rejectedFiles) {
+        // fetch('http://localhost:8080/file',{
+        //     method : 'post',
+        //     body : {
+        //         id : id
+        //     }
+        // })
+        //     .then((response)=>{
+        //         return response.json();
+        //     }).then((json)=>{
+        //     let data = json.data;
+        //     if (data.result === true){
+        //         this.onDataFetch()
+        //     }
+        //     console.log(json)
+        // }).catch((ex)=>{
+        //     console.log(ex);
+        // });
+        this.setState({
+            pictures: acceptedFiles
+        });
+        console.log('Accepted pictures: ', acceptedFiles);
+        console.log('Rejected pictures: ', rejectedFiles);
+    }
+
+    onUpload(){
+        this.setState({
+            showSecondModal: false
+        });
+        let body = {
+        };
+        this.state.pictures.forEach((file)=> {
+            body[file.name] = file;
+        });
+        fetch(`http://localhost:8080/admin/case/examiniation`,{
+            method : 'post',
+            body : body
+        })
+            .then((response)=>{
+                return response.json();
+            }).then((json)=>{
+            let data = json.data;
+            if (data.result === true){
+                this.onDataFetch();
+                this.setState({show : false});
+            }
+        }).catch((ex)=>{
+            console.log(ex);
+        });
+    }
+
     getForm(){
         const formInstance = (
-            <form>
-                <FieldGroup
-                    id="formControlsName"
-                    type="text"
-                    label="用户名"
-                    placeholder="输入用户名"
-                    value={this.state.username}
-                    onChange={(e)=>{this.setState({username : e.target.value})}}
-                />
-                <FieldGroup
-                    id="formControlsPassword"
-                    type="password"
-                    label="密码"
-                    placeholder="输入密码"
-                    value={this.state.password}
-                    onChange={(e)=>{this.setState({password : e.target.value})}}
-                />
+            <div>
+                <form>
+                    <FieldGroup
+                        id="formControlsName"
+                        type="text"
+                        label="病例名"
+                        placeholder="输入病例名"
+                        value={this.state.caseName}
+                        onChange={(e)=>{this.setState({caseName : e.target.value})}}
+                    />
+                    <FormGroup>
+                        <Col md={2}>
+                            <ControlLabel>病症:</ControlLabel>
+                        </Col>
+                        <Button bsSize="xsmall" bsStyle="info">上传</Button>
+                    </FormGroup>
 
-                <FieldGroup
-                    id="formControlsPasswordConfirm"
-                    label="确认密码"
-                    type="password"
-                    placeholder="再次输入密码"
-                    value={this.state.passwordConfirm}
-                    onChange={(e)=>{this.setState({passwordConfirm : e.target.value})}}
-                />
+                    <FormGroup>
+                        <Col md={2}>
+                            <ControlLabel>化验项目:</ControlLabel>
+                        </Col>
+                        <Button bsSize="xsmall" bsStyle="info">上传</Button>
+                    </FormGroup>
 
-                <FormGroup>
-                    <ControlLabel>用户类型</ControlLabel>
-                    &nbsp;&nbsp;&nbsp;
-                    <Radio inline value="0" name="userType" checked={this.state.userType === 0} onChange={(e)=>{this.setState({userType : 0})}}>
-                        普通用户
-                    </Radio>
-                    {' '}
-                    <Radio inline value="1" name="userType" checked={this.state.userType === 1} onChange={(e)=>{this.setState({userType : 1})}}>
-                        管理员用户
-                    </Radio>
-                    {' '}
-                </FormGroup>
-            </form>
+                    <FormGroup>
+                        <Col md={2}>
+                            <ControlLabel>诊断结果:</ControlLabel>
+                        </Col>
+                        <Button bsSize="xsmall" bsStyle="info">上传</Button>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col md={2}>
+                            <ControlLabel>治疗方案:</ControlLabel>
+                        </Col>
+                        <Button bsSize="xsmall" bsStyle="info">上传</Button>
+                    </FormGroup>
+                </form>
+                <div className="static-modal">
+                    <Modal.Dialog>
+                        <Modal.Header>
+                            <Modal.Title>Modal title</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <form  id="form">
+                                <Row>
+                                    <FormGroup>
+                                        <Col md={2}>
+                                            <ControlLabel>描述:</ControlLabel>
+                                        </Col>
+                                        <Col md={10}>
+                                            <FormControl componentClass="textArea" placeholder="输入描述"/>
+                                        </Col>
+                                    </FormGroup>
+                                </Row>
+                                <br/>
+                                <Row>
+                                    <FormGroup>
+                                        <Col md={2}>
+                                            <ControlLabel>图片:</ControlLabel>
+                                        </Col>
+                                        <Col md={1}>
+                                            <Dropzone onDrop={this.onDropPictures} maxSize={3145728} className='upload' accept={'image/*'}>
+                                                <div>上传(最大3M)</div>
+                                            </Dropzone>
+                                        </Col>
+                                        <Col md={9}>
+                                            {this.state.pictures.length > 0 ? <div className="img-review">
+                                                    <span>Uploading {this.state.pictures.length} pictures...</span>
+                                                    <div>{this.state.pictures.map((file) => <img key={file.name} src={file.preview} className="xsmall-img"/> )}</div>
+                                                </div> : null}
+                                        </Col>
+                                    </FormGroup>
+                                </Row>
+                                <br/>
+                                <Row>
+                                    <FormGroup>
+                                        <Col md={2}>
+                                            <ControlLabel>视频:</ControlLabel>
+                                        </Col>
+                                        <Col md={1}>
+                                            <Dropzone onDrop={this.onDropVideo} maxSize={10485760} className='upload' accept={'video/*'}>
+                                                <div>上传(最大10M)</div>
+                                            </Dropzone>
+                                        </Col>
+                                        <Col md={9}>
+                                            {this.state.video.length > 0 ? <div>
+                                                    <span>Uploading {this.state.video.length} pictures...</span>
+                                                    <span>files:{this.state.video.map((file) => <span key={file.name}> {file.name}</span> )}</span>
+                                                </div> : null}
+                                        </Col>
+                                    </FormGroup>
+                                </Row>
+                                <FieldGroup
+                                    id="formControlsFile"
+                                    type="file"
+                                    label="File"
+                                    help="Example block-level help text here."
+                                />
+                            </form>
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                            <Button bsStyle="primary" onClick={this.onUpload}>保存</Button>
+                        </Modal.Footer>
+
+                    </Modal.Dialog>
+                </div>
+            </div>
         );
         return formInstance;
     }
@@ -181,7 +343,7 @@ export default class CaseManagement extends Component {
             userType,...other} = this.state;
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
         return <BaseAdminComponent {...other}
-                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0, modalTitle : '新增用户'})}}
+                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, username: '', userType: 0, modalType: 0, modalTitle : '新增病例'})}}
                                    onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}
         </BaseAdminComponent>

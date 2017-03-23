@@ -53,3 +53,8 @@
     color: red;
     font-size: 1em;
 }
+
+.captcha{
+    margin-top: 10px;
+    margin-left: -15px;
+}

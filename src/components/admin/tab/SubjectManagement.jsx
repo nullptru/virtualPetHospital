@@ -45,7 +45,7 @@ export default class SubjectManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:8080/admin/subject/${this.state.activePage}`)
+        fetch(`http://localhost:8080/admin/room/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
@@ -69,16 +69,19 @@ export default class SubjectManagement extends Component {
     }
 
     onDeleteHandle(id){
-        fetch('http://localhost:8080/admin/subject',{
+        fetch('http://localhost:8080/admin/room',{
             method : 'delete',
-            body : {
+            body : JSON.stringify({
                 id : id
+            }),
+            headers: {
+                "Content-type": "application/json"
             }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch()
             }
@@ -94,14 +97,17 @@ export default class SubjectManagement extends Component {
             roomName : this.state.roomName
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
-        fetch(`http://localhost:8080/admin/subject`,{
+        fetch(`http://localhost:8080/admin/room`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : body
+            body : JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch();
                 this.setState({show : false});
@@ -140,7 +146,6 @@ export default class SubjectManagement extends Component {
                 />
             </form>
         );
-        console.log(this.state.roomName)
         return formInstance;
     }
 

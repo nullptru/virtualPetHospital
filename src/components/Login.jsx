@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Form, FormControl, FormGroup, Button, Row, Col, Image, Grid} from 'react-bootstrap/lib'
 import {browserHistory} from 'react-router';
+import fs from 'fs'
 import 'whatwg-fetch'
 
 import '../css/login.css'
@@ -12,10 +13,11 @@ export default class Login extends Component {
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
-            username : '',
-            password : '',
+            userName : '',
+            userPwd : '',
             captcha : '',
-            errorMsg : ''
+            errorMsg : '',
+            captchaUrl: '',
         }
     }
     generateCaptcha(){
@@ -28,6 +30,16 @@ export default class Login extends Component {
     componentDidMount(){
         //this.generateCaptcha();
         sessionStorage.setItem('userType', -1);
+        fetch('http://localhost:8080/captcha')
+            .then((response)=>{
+                console.log(response)
+                return response.blob();
+            }).then((blob)=>{
+              this.setState({captchaUrl:URL.createObjectURL(blob)});
+            })
+            .catch(function(ex) {
+            console.log('parsing failed', ex)
+        });
     }
 
     handleSubmit(e){
@@ -35,8 +47,8 @@ export default class Login extends Component {
         this.validate()
             .then((json)=> {
             console.log(json);
-                if (json.data.validate){
-                    sessionStorage.setItem('userType', json.data.userType);
+                if (json.isValidated){
+                    sessionStorage.setItem('userType', json.userType);
                     const path = '/main';
                     browserHistory.push(path);
                 }else{//验证不通过显示错误
@@ -50,14 +62,18 @@ export default class Login extends Component {
 
     validate(){
         let isValidatePromise;
-        isValidatePromise = fetch('http://localhost:3001/login/validate',{
-                method : 'post',
-                body : JSON.stringify({
-                    username : this.state.username,
-                    password : this.state.password,
-                    captcha : this.state.captcha
-                })
-            })
+        isValidatePromise = fetch('http://localhost:8080/validate',{
+            credentials: 'include',
+            method : 'post',
+            body : JSON.stringify({
+                userName : this.state.userName,
+                userPwd : this.state.userPwd,
+                captcha : this.state.captcha
+            }),
+            headers: {
+                "Content-type": "application/json"
+            },
+        })
             .then((response)=>{
                 return response.json();
             }).then(function(json) {
@@ -74,10 +90,10 @@ export default class Login extends Component {
                 <Col>
                     <Form>
                         <FormGroup controlId="user" bsSize="large">
-                            <FormControl type="text" placeholder="用户名" className="input" value={this.state.username} onChange={(e)=>{this.setState({username : e.target.value})}}/>
+                            <FormControl type="text" placeholder="用户名" className="input" value={this.state.userName} onChange={(e)=>{this.setState({userName : e.target.value})}}/>
                         </FormGroup>
                         <FormGroup controlId="pwd" bsSize="large">
-                            <FormControl type="password" placeholder="密码" className="input" value={this.state.password} onChange={(e)=>{this.setState({password : e.target.value})}}/>
+                            <FormControl type="userPwd" placeholder="密码" className="input" value={this.state.userPwd} onChange={(e)=>{this.setState({userPwd : e.target.value})}}/>
                         </FormGroup>
                             <FormGroup controlId="verification" bsSize="large">
                                 <Row>
@@ -85,7 +101,7 @@ export default class Login extends Component {
                                         <FormControl type="text" placeholder="验证码" className="input" value={this.state.captcha} onChange={(e)=>{this.setState({captcha : e.target.value})}}/>
                                     </Col>
                                     <Col md={5}>
-                                        <Image/>
+                                        <Image src={this.state.captchaUrl} className="captcha"/>
                                     </Col>
                                 </Row>
                             </FormGroup>
