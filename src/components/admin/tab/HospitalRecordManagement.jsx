@@ -52,6 +52,7 @@ export default class ExaminationManagement extends Component {
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
+            console.log(json)
             this.setState({tableJson : json.data, pages: json.pages});
         }).catch((ex)=>{
             console.log(ex);
@@ -61,14 +62,17 @@ export default class ExaminationManagement extends Component {
     onDeleteHandle(id){
         fetch('http://localhost:8080/admin/hospitalRecord',{
             method : 'delete',
-            body : {
+            body : JSON.stringify({
                 id : id
+            }),
+            headers: {
+                "Content-type": "application/json"
             }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (Boolean(data.result) === true){
                 this.onDataFetch()
             }
@@ -88,12 +92,15 @@ export default class ExaminationManagement extends Component {
         if (this.state.modalType === 1){body.id = this.state.id;}
         fetch(`http://localhost:8080/admin/hospitalRecord`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : body
+            body : JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch();
                 this.setState({show : false});
@@ -141,7 +148,7 @@ export default class ExaminationManagement extends Component {
                     placeholder="输入住院开始时间(yyyy-mm-dd)"
                     value={this.state.startTime }
                     onChange={(e)=>{
-                        if(e.target.value.match(/\d{4}-\d{2}-d{2}/))
+                       //if(e.target.value.match(/\d{4}-\d{2}-d{2}/))
                             this.setState({startTime : e.target.value})
                     }}/>
 
@@ -152,8 +159,8 @@ export default class ExaminationManagement extends Component {
                     placeholder="输入住院结束时间(yyyy-mm-dd)"
                     value={this.state.endTime }
                     onChange={(e)=>{
-                        if(e.target.value.match(/\d{4}-\d{2}-d{2}/))
-                            this.setState({startTime : e.target.value})
+                        //if(e.target.value.match(/\d{4}-\d{2}-d{2}/))
+                            this.setState({endTime : e.target.value})
                     }}/>
                 <FormGroup>
                     <ControlLabel>描述</ControlLabel>

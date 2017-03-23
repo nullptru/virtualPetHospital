@@ -6,23 +6,8 @@ import {
 } from 'react-bootstrap';
 import {Link, browserHistory} from 'react-router';
 import SearchModal from './content/SearchModal';
-import '../../css/case.css'
-
-const caseList = [
-    {'caseName': 'cn01', 'caseId': 'cid01'},
-    {'caseName': 'cn02', 'caseId': 'cid02'},
-    {'caseName': 'cn03', 'caseId': 'cid03'},
-    {'caseName': 'cn04', 'caseId': 'cid04'},
-    {'caseName': 'cn05', 'caseId': 'cid05'},
-    {'caseName': 'cn06', 'caseId': 'cid06'},
-    {'caseName': 'cn07', 'caseId': 'cid07'},
-    {'caseName': 'cn08', 'caseId': 'cid08'},
-    {'caseName': 'cn09', 'caseId': 'cid09'},
-    {'caseName': 'cn10', 'caseId': 'cid10'},
-    {'caseName': 'cn11', 'caseId': 'cid11'},
-    {'caseName': 'cn12', 'caseId': 'cid12'},
-    {'caseName': 'cn13', 'caseId': 'cid13'},
-];
+import CaseCatalogTab from './content/CaseCatalogTab';
+import '../../css/case.css';
 
 
 export default class CaseStudyNav extends Component {
@@ -33,43 +18,60 @@ export default class CaseStudyNav extends Component {
         this.onModalClose = this.onModalClose.bind(this);//close modal
         this.onSearchClick = this.onSearchClick.bind(this);
         this.onSearchContentChange = this.onSearchContentChange.bind(this);
+        this.onEnterPress = this.onEnterPress.bind(this);
 
         //病例分类的名称
         this.caseClass = ['传染病', '寄生虫病', '内科病例', '外产科病例', '常用手术', '免疫'];
         //对应caseClass的key
         this.caseKey = ['contagion', 'parasitosis', 'internal', 'obstetrics', 'surgery', 'immune'];
-
+        this.severUrlPrefix = "http://localhost:8080";
         let location = this.props.location.pathname,
             keysArr = location.split('/');
         let initActiveKey = keysArr[keysArr.length - 1] || this.caseKey[0];
-        console.info("caseStudyNav activeKey in constructor:" + initActiveKey);
+        console.info()
         this.state = {
             activeKey: initActiveKey,
             searchShow: false,
             searchContent: "",
-            searchResList: caseList,//形式都一样，展示病例名称，跳转根据caseId
+            searchResList: [],//形式都一样，展示病例名称，跳转根据caseId
+            caseList: []
         };
+
+        this.getCaseTabContent(this.state.activeKey);
     }
+
+    getCaseTabContent(e) {
+        fetch(this.severUrlPrefix + `/learning/casenav/${e}`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                this.setState({caseList: json.caseList});
+            }).catch(ex => {
+            console.error(ex);
+        });
+    }
+
 
     handleSelect(e) {//用于更新tab内容
         this.setState({activeKey: e});
         browserHistory.push(`/learning/casenav/${e}`);
+        this.getCaseTabContent(e);
     }
 
     onSearchClick() {//点击searchbutton时
-        /*fetch(`http://localhost:8080/learning/casenav/search`,
-         {method: 'post', body: {searchContent: this.state.searchContent}})
-         .then((response) => {
-         return response.json();
-         })
-         .then((json) => {
-         console.info("search result" + json.resultList);
-         this.setState = {searchResList: json.resultList};
-         })
-         .catch((ex) => {
-         console.error(ex);
-         });
-         console.info("resultList=" + this.state.searchResList);*/
+        fetch(this.severUrlPrefix + `/learning/casenav/search`,
+            {method: 'post', body: {searchContent: this.state.searchContent}})
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                this.setState({searchResList: json.resultList});
+            })
+            .catch((ex) => {
+                console.error(ex);
+            });
+
         this.setState({searchShow: true});
     }
 
@@ -92,6 +94,12 @@ export default class CaseStudyNav extends Component {
         return caseClassDom;
     }
 
+    onEnterPress(e) {
+        if ((event.keyCode || event.which) == 13) {
+            this.onSearchClick();
+        }
+    }
+
     getPageHeader() {
         return (
             <Row className="pageHeader">
@@ -100,12 +108,20 @@ export default class CaseStudyNav extends Component {
                 </Col>
                 <Col md={3} xsOffset={6}>
                     <Form inline>
-                        <input className="inputSearch" type="text" onChange={this.onSearchContentChange}
-                               value={this.state.searchContent}/>
-                        <Button type="button" bsStyle="primary" bsSize="small" className="btnSearch" onClick={this.onSearchClick}>搜索</Button>
+                        <input type="text" onChange={this.onSearchContentChange}
+                               value={this.state.searchContent}
+                               onKeyPress={this.onEnterPress}
+                               onKeyDown={this.onEnterPress}
+                               className="inputSearch"/>
+                        <Button type="button" bsStyle="primary" bsSize="small" className="btnSearch"
+                                onClick={this.onSearchClick}>搜索</Button>
                     </Form>
                 </Col>
             </Row>);
+    }
+
+    onCaseClick(e) {
+        browserHistory.push(`/learning/casedes/${e}`);
     }
 
     render() {
@@ -121,13 +137,17 @@ export default class CaseStudyNav extends Component {
                     </Col>
 
                     <Col sm={9} md={9} className="tab-container">
-                        {this.props.children}
+                        <CaseCatalogTab tabName={this.state.activeKey}
+                                        onCaseClick={this.onCaseClick}
+                                        caseList={this.state.caseList}>
+                            {this.props.children}
+                        </CaseCatalogTab>
                     </Col>
                 </Row>
                 {/*下面是搜索结果的弹出*/}
                 <SearchModal show={this.state.searchShow}
                              searchContent={this.state.searchContent}
-                             searchResList={this.state.searchResList}
+                             searchResultList={this.state.searchResList}
                              onClose={this.onModalClose}>
                     {this.props.children}
                 </SearchModal>

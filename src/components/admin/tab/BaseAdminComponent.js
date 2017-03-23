@@ -18,7 +18,7 @@ let getFormRow = function getFormRow(row, props){
     let rowDom = [];
     for (let key in row){
         if (key.toLowerCase() === 'id') continue;
-        rowDom.push(<td key={row[key]}>{row[key]}</td>)
+        rowDom.push(<td key={row[key]+Math.random()}>{row[key]}</td>)
     }
     let dom, button = [];
     if(props.isEditable != false){
