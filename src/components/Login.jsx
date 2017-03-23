@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {Form, FormControl, FormGroup, Button, Row, Col, Image, Grid} from 'react-bootstrap/lib'
 import {browserHistory} from 'react-router';
-import fs from 'fs'
 import 'whatwg-fetch'
 
 import '../css/login.css'
@@ -33,6 +32,7 @@ export default class Login extends Component {
         sessionStorage.setItem('userType', -1);
         fetch('http://localhost:8080/captcha')
             .then((response)=>{
+            console.log(response)
                 return response.blob();
             }).then((blob)=>{
               this.setState({captchaUrl:URL.createObjectURL(blob)});
@@ -62,7 +62,6 @@ export default class Login extends Component {
 
     validate(){
         let isValidatePromise;
-        document.cookie = "captcha=1234";
         isValidatePromise = fetch('http://localhost:8080/validate',{
             credentials: 'include',
             method : 'post',

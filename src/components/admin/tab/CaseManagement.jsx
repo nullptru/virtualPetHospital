@@ -36,10 +36,10 @@ export default class CaseManagement extends Component {
             //modal Info
             id: '',
             caseName : '',
-            symptom : '',
-            examination : '',
-            result : '',
-            method : '',
+            symptom : -1,
+            examination : -1,
+            result : -1,
+            method : -1,
             //modal operation
             modalType: 0,//0表示新建，1表示编辑
             modalTitle: '新增病例',//0表示新建，1表示编辑
@@ -53,7 +53,12 @@ export default class CaseManagement extends Component {
             activePage : 1,
             //upload
             pictures: [],
-            video: []
+            video: [],
+            secondModalIndex: 'symptom',
+            //secondModalData
+            description:'',
+            pictureUrls: '',
+            videoUrls: ''
         };
     }
 
@@ -94,7 +99,7 @@ export default class CaseManagement extends Component {
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch()
             }
@@ -106,22 +111,35 @@ export default class CaseManagement extends Component {
 
     onSubmitHandle(){
         let body = {
-            username : this.state.username,
-            password : this.state.password,
-            userType : this.state.userType
+            caseName : this.state.caseName,
+            symptom : this.state.symptom,
+            examination : this.state.examination,
+            result : this.state.result,
+            method : this.state.method,
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
         fetch(`http://localhost:8080/admin/case`,{
             method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-            body : body
+            body : JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
         })
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            let data = json.data;
+            let data = json;
             if (data.result === true){
                 this.onDataFetch();
-                this.setState({show : false});
+                this.setState({
+                    id: '',
+                    caseName : '',
+                    symptom : -1,
+                    examination : -1,
+                    result : -1,
+                    method : -1,
+                    show : false
+                });
             }
         }).catch((ex)=>{
             console.log(ex);
@@ -129,14 +147,13 @@ export default class CaseManagement extends Component {
     }
 
     onEditModal(id){
-        let username = '', userType = '';
+        let caseName = '';
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
-                username = item.username;
-                userType = item.userType === '普通用户' ? 0 : 1;
+                caseName = item.caseName;
             }
         });
-        this.setState({show: true, id: id, username : username, userType: userType, modalType: 1, modalTitle : '修改病例'})
+        this.setState({show: true, id: id, caseName : caseName, modalType: 1, modalTitle : '修改病例'})
     }
 
     onPageSelect(activePage){
@@ -164,7 +181,8 @@ export default class CaseManagement extends Component {
         //     console.log(ex);
         // });
         this.setState({
-            video: acceptedFiles
+            video: acceptedFiles,
+            videoUrls : acceptedFiles[0].name
         });
         console.log('Accepted pictures: ', acceptedFiles);
         console.log('Rejected pictures: ', rejectedFiles);
@@ -189,7 +207,8 @@ export default class CaseManagement extends Component {
         //     console.log(ex);
         // });
         this.setState({
-            pictures: acceptedFiles
+            pictures: acceptedFiles,
+            pictureUrls : acceptedFiles[0].name
         });
         console.log('Accepted pictures: ', acceptedFiles);
         console.log('Rejected pictures: ', rejectedFiles);
@@ -197,16 +216,25 @@ export default class CaseManagement extends Component {
 
     onUpload(){
         this.setState({
-            showSecondModal: false
+            showSecondModal: false,
         });
+        this.clearSecondModalDate();
+        let method = this.state[this.state.secondModalIndex].id === undefined ? 'post' : 'put';
         let body = {
+            description: this.state.description,
+            picture: this.state.pictureUrls,
+            video: this.state.videoUrls
         };
-        this.state.pictures.forEach((file)=> {
-            body[file.name] = file;
-        });
-        fetch(`http://localhost:8080/admin/case/examiniation`,{
-            method : 'post',
-            body : body
+        if (method === 'put'){//如果是更新操作
+            body['id'] = this.state[this.state.secondModalIndex].id;
+        }
+
+        fetch(`http://localhost:8080/admin/case/${this.state.secondModalIndex}`,{
+            method : method,
+            body : JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
         })
             .then((response)=>{
                 return response.json();
@@ -214,10 +242,29 @@ export default class CaseManagement extends Component {
             let data = json.data;
             if (data.result === true){
                 this.onDataFetch();
-                this.setState({show : false});
+                this.clearSecondModalDate();
+                let updateBody = {};
+                updateBody[this.state.secondModalIndex] = body;
+                this.setState(updateBody, ()=>{
+                    console.log(this.state)
+                });
             }
         }).catch((ex)=>{
             console.log(ex);
+        });
+    }
+
+    isEmpty(item){
+        return this.state[item] === -1 || this.state[item] === '';
+    }
+
+    clearSecondModalDate(){
+        this.setState({
+            pictures:[],
+            video: [],
+            description: '',
+            pictureUrls: '',
+            videoUrls: ''
         });
     }
 
@@ -234,34 +281,38 @@ export default class CaseManagement extends Component {
                         onChange={(e)=>{this.setState({caseName : e.target.value})}}
                     />
                     <FormGroup>
-                        <Col md={2}>
+                        <Col md={3}>
                             <ControlLabel>病症:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info">上传</Button>
+                        <Button bsSize="xsmall" bsStyle="info" onClick={()=>{this.setState({showSecondModal: true, secondModalIndex: 'symptom'})}}>上传</Button>
+                        {this.isEmpty('symptom') ? '' : <span>已上传</span>}
                     </FormGroup>
 
                     <FormGroup>
-                        <Col md={2}>
+                        <Col md={3}>
                             <ControlLabel>化验项目:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info">上传</Button>
+                        <Button bsSize="xsmall" bsStyle="info" onClick={()=>{this.setState({showSecondModal: true, secondModalIndex: 'examination'})}}>上传</Button>
+                        {this.isEmpty('examination') ? '' : <span>已上传</span>}
                     </FormGroup>
 
                     <FormGroup>
-                        <Col md={2}>
+                        <Col md={3}>
                             <ControlLabel>诊断结果:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info">上传</Button>
+                        <Button bsSize="xsmall" bsStyle="info" onClick={()=>{this.setState({showSecondModal: true, secondModalIndex: 'result'})}}>上传</Button>
+                        {this.isEmpty('result') ? '' : <span>已上传</span>}
                     </FormGroup>
                     <FormGroup>
-                        <Col md={2}>
+                        <Col md={3}>
                             <ControlLabel>治疗方案:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info">上传</Button>
+                        <Button bsSize="xsmall" bsStyle="info" onClick={()=>{this.setState({showSecondModal: true, secondModalIndex: 'method'})}}>上传</Button>
+                        {this.isEmpty('method') ? '' : <span>已上传</span>}
                     </FormGroup>
                 </form>
                 <div className="static-modal">
-                    <Modal.Dialog>
+                    <Modal show={this.state.showSecondModal}>
                         <Modal.Header>
                             <Modal.Title>Modal title</Modal.Title>
                         </Modal.Header>
@@ -285,15 +336,16 @@ export default class CaseManagement extends Component {
                                             <ControlLabel>图片:</ControlLabel>
                                         </Col>
                                         <Col md={1}>
-                                            <Dropzone onDrop={this.onDropPictures} maxSize={3145728} className='upload' accept={'image/*'}>
+                                            <Dropzone onDrop={this.onDropPictures} maxSize={3145728} className='upload' accept={'image/*'} multiple={false}>
                                                 <div>上传(最大3M)</div>
                                             </Dropzone>
                                         </Col>
                                         <Col md={9}>
                                             {this.state.pictures.length > 0 ? <div className="img-review">
-                                                    <span>Uploading {this.state.pictures.length} pictures...</span>
+                                                    {/*<span>Uploading {this.state.pictures.length} pictures...</span>*/}
                                                     <div>{this.state.pictures.map((file) => <img key={file.name} src={file.preview} className="xsmall-img"/> )}</div>
                                                 </div> : null}
+                                            {this.isEmpty('pictureUrls') ? '' : <span>已上传</span>}
                                         </Col>
                                     </FormGroup>
                                 </Row>
@@ -304,32 +356,27 @@ export default class CaseManagement extends Component {
                                             <ControlLabel>视频:</ControlLabel>
                                         </Col>
                                         <Col md={1}>
-                                            <Dropzone onDrop={this.onDropVideo} maxSize={10485760} className='upload' accept={'video/*'}>
+                                            <Dropzone onDrop={this.onDropVideo} maxSize={10485760} className='upload' accept={'video/*'} multiple={false}>
                                                 <div>上传(最大10M)</div>
                                             </Dropzone>
                                         </Col>
                                         <Col md={9}>
                                             {this.state.video.length > 0 ? <div>
-                                                    <span>Uploading {this.state.video.length} pictures...</span>
+                                                    {/*<span>Uploading {this.state.video.length} pictures...</span>*/}
                                                     <span>files:{this.state.video.map((file) => <span key={file.name}> {file.name}</span> )}</span>
                                                 </div> : null}
+                                            {this.isEmpty('videoUrls') ? '' : <span>已上传</span>}
                                         </Col>
                                     </FormGroup>
                                 </Row>
-                                <FieldGroup
-                                    id="formControlsFile"
-                                    type="file"
-                                    label="File"
-                                    help="Example block-level help text here."
-                                />
                             </form>
                         </Modal.Body>
 
                         <Modal.Footer>
-                            <Button bsStyle="primary" onClick={this.onUpload}>保存</Button>
+                            <Button bsStyle="primary" onClick={this.onUpload}>上传</Button>
                         </Modal.Footer>
 
-                    </Modal.Dialog>
+                    </Modal>
                 </div>
             </div>
         );
