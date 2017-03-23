@@ -38,7 +38,7 @@ export default class CaseManagement extends Component {
             id: '',
             caseName : '',
             symptom : -1,
-            examination : -1,
+            exam : -1,
             result : -1,
             method : -1,
             //modal operation
@@ -77,7 +77,7 @@ export default class CaseManagement extends Component {
             data.forEach((item)=>{
                 //解析展现的数据
                 item['symptom'] = item['symptom']['description'];
-                item['examination'] = item['examination']['description'];
+                item['exam'] = item['exam']['description'];
                 item['result'] = item['result']['description'];
                 item['method'] = item['method']['description'];
             });
@@ -114,7 +114,7 @@ export default class CaseManagement extends Component {
         let body = {
             caseName : this.state.caseName,
             symptom : this.state.symptom,
-            examination : this.state.examination,
+            exam : this.state.exam,
             result : this.state.result,
             method : this.state.method,
         };
@@ -136,7 +136,7 @@ export default class CaseManagement extends Component {
                     id: '',
                     caseName : '',
                     symptom : -1,
-                    examination : -1,
+                    exam : -1,
                     result : -1,
                     method : -1,
                     show : false
@@ -148,17 +148,17 @@ export default class CaseManagement extends Component {
     }
 
     onEditModal(id){
-        let caseName = '' , symptom = '', examination = '', result = '', method = '';
+        let caseName = '' , symptom = '', exam = '', result = '', method = '';
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
                 caseName = item.caseName;
                 symptom = item.symptom;
-                examination = item.examination;
+                exam = item.exam;
                 result = item.result;
                 method = item.method;
             }
         });
-        this.setState({show: true, id: id, caseName : caseName, symptom: symptom, examination: examination, result: result, method: method, modalType: 1, modalTitle : '修改病例'})
+        this.setState({show: true, id: id, caseName : caseName, symptom: symptom, exam: exam, result: result, method: method, modalType: 1, modalTitle : '修改病例'})
     }
 
     onEditSecondModal(index){
@@ -309,8 +309,8 @@ export default class CaseManagement extends Component {
                         <Col md={3}>
                             <ControlLabel>化验项目:</ControlLabel>
                         </Col>
-                        <Button bsSize="xsmall" bsStyle="info" onClick={this.onEditSecondModal.bind(this, "examination")}>上传</Button>
-                        {this.isEmpty('examination') ? '' : <span>已上传</span>}
+                        <Button bsSize="xsmall" bsStyle="info" onClick={this.onEditSecondModal.bind(this, "exam")}>上传</Button>
+                        {this.isEmpty('exam') ? '' : <span>已上传</span>}
                     </FormGroup>
 
                     <FormGroup>
@@ -411,7 +411,7 @@ export default class CaseManagement extends Component {
                                                                                                             id: '',
                                                                                                             caseName : '',
                                                                                                             symptom : -1,
-                                                                                                            examination : -1,
+                                                                                                            exam : -1,
                                                                                                             result : -1,
                                                                                                             method : -1, modalType: 0, modalTitle : '新增病例'})}}
                                    onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
