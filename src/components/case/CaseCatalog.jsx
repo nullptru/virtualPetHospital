@@ -28,7 +28,7 @@ export default class CaseStudyNav extends Component {
         let location = this.props.location.pathname,
             keysArr = location.split('/');
         let initActiveKey = keysArr[keysArr.length - 1] || this.caseKey[0];
-        console.info()
+        console.info();
         this.state = {
             activeKey: initActiveKey,
             searchShow: false,
@@ -100,58 +100,53 @@ export default class CaseStudyNav extends Component {
         }
     }
 
-    getPageHeader() {
-        return (
-            <Row className="pageHeader">
-                <Col md={3}>
-                    <Link to='/learning'>{'<< '}返回上级</Link>
-                </Col>
-                <Col md={3} xsOffset={6}>
-                    <Form inline>
-                        <input type="text" onChange={this.onSearchContentChange}
-                               value={this.state.searchContent}
-                               onKeyPress={this.onEnterPress}
-                               onKeyDown={this.onEnterPress}
-                               className="inputSearch"/>
-                        <Button type="button" bsStyle="primary" bsSize="small" className="btnSearch"
-                                onClick={this.onSearchClick}>搜索</Button>
-                    </Form>
-                </Col>
-            </Row>);
-    }
-
     onCaseClick(e) {
         browserHistory.push(`/learning/casedes/${e}`);
     }
 
     render() {
         return (
-            <Grid style={{margin: '50px'}}>
-                {this.getPageHeader()}
-                <Row className="clearfix">
-                    <Col sm={3} md={3} className="tab-nav">
-                        <Nav bsStyle="pills" stacked onSelect={this.handleSelect} activeKey={this.state.activeKey}
-                             id="caseStudyMenu">
-                            {this.getCaseClassNav()}
-                        </Nav>
-                    </Col>
-
-                    <Col sm={9} md={9} className="tab-container">
-                        <CaseCatalogTab tabName={this.state.activeKey}
-                                        onCaseClick={this.onCaseClick}
-                                        caseList={this.state.caseList}>
-                            {this.props.children}
-                        </CaseCatalogTab>
-                    </Col>
-                </Row>
-                {/*下面是搜索结果的弹出*/}
-                <SearchModal show={this.state.searchShow}
-                             searchContent={this.state.searchContent}
-                             searchResultList={this.state.searchResList}
-                             onClose={this.onModalClose}>
-                    {this.props.children}
-                </SearchModal>
-            </Grid>
+            <div className="case-outer-box">
+                <Grid style={{marginTop: '50px',marginBottom:'50px'}}>
+                    <Row style={{marginBottom:'20px'}}>
+                        <Col md={2}><Link className="btn-menu-link-case" to='/learning'>返回上级 <span className="glyphicon glyphicon-triangle-top"></span></Link></Col>
+                        <Col md={7}><h1 style={{color:'#fff',textShadow:'0 0 5px #3f8dc9'}}>虚拟宠物医院学习系统 | 病例学习</h1></Col>
+                        <Col md={3}>
+                            <Form inline style={{marginTop:'27px'}}>
+                                <input type="text" onChange={this.onSearchContentChange}
+                                       value={this.state.searchContent}
+                                       onKeyPress={this.onEnterPress}
+                                       onKeyDown={this.onEnterPress}
+                                       className="inputSearch"/>
+                                <a className="btnSearch"
+                                        onClick={this.onSearchClick}>搜索</a>
+                            </Form>
+                        </Col>
+                    </Row>
+                    <Row className="clearfix">
+                        <Col sm={2} md={2}  className="tab-nav">
+                            <Nav bsStyle="pills" stacked onSelect={this.handleSelect} activeKey={this.state.activeKey}
+                                 id="caseStudyMenu">
+                                {this.getCaseClassNav()}
+                            </Nav>
+                        </Col>
+                        <Col sm={10} md={10} className="tab-container tab-content">
+                            <CaseCatalogTab tabName={this.state.activeKey}
+                                            onCaseClick={this.onCaseClick}
+                                            caseList={this.state.caseList}>
+                                {this.props.children}
+                            </CaseCatalogTab>
+                        </Col>
+                    </Row>
+                    {/*下面是搜索结果的弹出*/}
+                    <SearchModal show={this.state.searchShow}
+                                 searchContent={this.state.searchContent}
+                                 searchResultList={this.state.searchResList}
+                                 onClose={this.onModalClose}>
+                        {this.props.children}
+                    </SearchModal>
+                </Grid>
+            </div>
         );
     }
 

@@ -15,16 +15,42 @@
     margin: -5px 0 0 20px;
 }
 
-body {
-    overflow-y: scroll;
-}
-
 .inputSearch {
     vertical-align: middle;
+    border:0;
+    padding:3px;
+    outline: 0;
 }
 
 .btnSearch {
-    margin-left: 5px;
+    display: inline-block;
+    background: #6991a9;
+    padding: 5px 10px;
+    color:#fff;
+    text-decoration: none;
+    font-size: small;
+}
+.btnSearch:hover{
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btnDesciption {
+    display: block;
+    background: #6991a9;
+    width:100px;
+    line-height:35px;
+    text-align: center;
+    color:#fff;
+    text-decoration: none;
+    font-size: small;
+    margin-bottom:5px;
+}
+.btnDesciption:hover{
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
 }
 
 .pageHeader {
@@ -32,5 +58,81 @@ body {
 }
 
 .btnCase {
+    display: block;
     margin: 10px;
+    background-color: #fff;
+    line-height:50px;
+    text-align: center;
+    -webkit-box-shadow: 0 0 8px #3f8dc9;
+    -moz-box-shadow: 0 0 8px #3f8dc9;
+    box-shadow: 0 0 8px #3f8dc9;
+}
+
+a:hover.btnCase{
+    text-decoration: none;
+    -webkit-box-shadow: 0 0 8px rgba(78, 233, 240, 0.80);
+    -moz-box-shadow: 0 0 8px rgba(78, 233, 240, 0.80);
+    box-shadow: 0 0 8px rgba(78, 233, 240, 0.80);
+}
+
+.btn-menu-link-case{
+    display: block;
+    text-align: center;
+    margin-top:27px;
+    padding:3px;
+    color:rgba(108, 154, 181, 0.75);
+    border:2px rgba(108, 154, 181, 0.75) solid;
+    -webkit-border-radius:15px;
+    -moz-border-radius:15px;
+    border-radius:15px;
+    font-family: '华文琥珀',sans-serif;
+}
+.btn-menu-link-case:hover,
+.btn-menu-link-case:link,
+.btn-menu-link-case:active{
+    color:#fff;
+    border:2px #fff solid;
+    text-decoration: none;
+}
+
+.case-outer-box{
+    position: relative;
+    width: 100%;
+    height:100%;
+    background-image: url("/assets/bg_manage.jpg");
+    -webkit-background-size:cover;
+    background-size:cover;
+    overflow-y: scroll;
+}
+
+.tab-content{
+    background: rgba(255,255,255,0.6);
+    border:0;
+}
+
+.nav-pills > li > a{
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius:0;
+    background-color: rgba(157, 219, 232, 0.6);
+    color:#fff;
+    text-align: center;
+}
+
+.nav-pills > li.active > a{
+    background-color: #6c9ab5;
+}
+
+.nav > li > a:hover, .nav > li > a:focus{
+    background-color: rgba(255,255,255,0.6);
+}
+
+.panel{
+    background-color: rgba(255,255,255,0.8);
+    border:0;
+}
+
+.panel-default > .panel-heading {
+    background: rgba(112, 167, 187, 0.9);
+    color: #fff;
 }

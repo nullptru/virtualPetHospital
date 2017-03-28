@@ -12,10 +12,10 @@ export default function CaseCatalogTab(props) {
     caseBtnList.forEach((case_name) => {
         caseRow.push(
             <Col md={3} key={countCol++}>
-                <Button bsSize="large" className="btnCase"
+                <a href="" className="btnCase"
                         onClick={props.onCaseClick.bind(this, case_name.caseId)}
                         id={case_name.caseId}>
-                    {case_name.caseName}</Button>
+                    {case_name.caseName}</a>
             </Col>);
     });
 

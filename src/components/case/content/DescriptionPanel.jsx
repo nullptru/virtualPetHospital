@@ -1,6 +1,7 @@
 import React, {Component, ProtoType} from 'react';
 import {Panel, Grid, Row, Col, Button} from 'react-bootstrap';
 import {Link} from 'react-router';
+import '../../../css/case.css'
 
 export default function DescriptionPanel(props) {
     let panelName = props.panelName, caseId = props.caseId,
@@ -11,21 +12,21 @@ export default function DescriptionPanel(props) {
         <Panel header={panelName} key={panelName}>
             <Grid>
                 <Row>
-                    <Col md={8}>
+                    <Col md={9}>
                         {text}
                     </Col>
-                    <Col md={4}>
+                    <Col md={3}>
                         <Row>
-                            <Button key={caseId + panelName + "Pic"}
+                            <a className='btnDesciption' key={caseId + panelName + "Pic"}
                                     onClick={props.onPictureShow.bind(this, panelContent.picture)}>
                                 {panelName}图片
-                            </Button>
+                            </a>
                         </Row>
                         <Row>
-                            <Button key={caseId + panelName + "Video"}
+                            <a className='btnDesciption' key={caseId + panelName + "Video"}
                                     onClick={props.onVideoShow.bind(this, panelContent.video)}>
                                 {panelName}视频
-                            </Button>
+                            </a>
                         </Row>
                     </Col>
                 </Row>

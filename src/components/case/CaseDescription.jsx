@@ -74,12 +74,11 @@ export default class CaseDescription extends Component {
         });
 
         const pageInstance = (
-            <div>
-                <Grid style={{margin: '50px'}} className="caseDesGrid">
+            <div className="case-outer-box">
+                <Grid style={{marginTop: '50px',marginBottom:'50px'}} className="caseDesGrid">
                     <Row id="caseDescription-pageHeader">
-                        <Col md={3}>
-                            <Link to='/learning/casenav'>{'<< '}返回上级</Link>
-                        </Col>
+                        <Col md={2}><Link className="btn-menu-link-case" to='/learning/casenav/contagion'>返回上级 <span className="glyphicon glyphicon-triangle-top"></span></Link></Col>
+                        <Col md={10}><h1 style={{color:'#fff',textShadow:'0 0 5px #3f8dc9'}}>虚拟宠物医院学习系统 | 病例详情</h1></Col>
                     </Row>
                     <Row id="caseDescription-caseName">
                         <Col md={5}>
