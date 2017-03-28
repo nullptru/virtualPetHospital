@@ -85,7 +85,7 @@
     </action>
 
     <!-- fly in a hotspot = show hotspot fixed at screen -->
-    <action name="flyin">
+    <!--action name="flyin">
         if(layer[%1].flying == 0.0, layer[%1].resetsize(); calc_flyout_size(%1); );
         if(layer[%1].oldscale === null, copy(layer[%1].oldscale, layer[%1].scale) );
         if(layer[%1].oldrx === null, copy(layer[%1].oldrx, layer[%1].rx) );
@@ -99,7 +99,7 @@
         tween(layer[%1].rx, 0.0);
         tween(layer[%1].ry, 0.0);
         tween(layer[%1].rz, 0.0);
-    </action>
+    </action-->
 
     <!-- fly the hotspot out/back -->
     <action name="flyout">

@@ -31,8 +31,8 @@
 		<hotspot name="spot_zhusheshi" tooltip="注射室" style="arrow_up|tooltip" ath="82.0" atv="5.0"  scale="0.35" onclick="transition(spot_zhusheshi,  scene_zhusheshi,  -98,  0, 31);" />
 		<hotspot name="spot_bingfang" tooltip="病房" style="arrow_left_up|tooltip" ath="60.0"  atv="4.0" scale="0.45" onclick="transition(spot_bingfang,  scene_bingfang,  -373, -6, 20);" />
 
-		<hotspot name="spot_guahao" tooltip="挂号流程" style="zoom|tooltip" ath="20" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
-		<hotspot name="spot_shoufei" tooltip="收费流程" style="zoom|tooltip" ath="130" atv="10.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_guahao" tooltip="挂号流程" style="zoom|tooltip" ath="20" atv="5.0" scale="0.50" onclick="js(action_loadDevice(guahao))" />
+		<hotspot name="spot_shoufei" tooltip="收费流程" style="zoom|tooltip" ath="130" atv="10.0" scale="0.50" onclick="js(action_loadDevice(shoufei))" />
 	</scene>
 
 	<scene name="scene_danganshi" title="档案室" onstart="js(action_updateSceneHotspotWithRole(danganshi);)" thumburl="panos/danganshi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -50,7 +50,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_qiantai" tooltip="前台" style="arrow_left_up|tooltip" ath="60.0" atv="5.0"  scale="0.25" onclick="transition(spot_qiantai,  scene_qiantai,  -98,  0, 31);" />
 
-		<hotspot name="spot_dangan" tooltip="档案管理" style="zoom|tooltip" ath="-3.0" atv="15.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_dangan" tooltip="档案管理" style="zoom|tooltip" ath="-3.0" atv="15.0" scale="0.50" onclick="js(action_loadDevice(dangan))" />
 	</scene>
 
 	<scene name="scene_yaofang" title="药房" onstart="js(action_updateSceneHotspotWithRole(yaofang);)" thumburl="panos/yaofang.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -70,7 +70,7 @@
 		<hotspot name="spot_huayanshi" tooltip="化验室" style="arrow_right_up|tooltip" ath="-40.0" atv="6.0"  scale="0.25" onclick="transition(spot_huayanshi,  scene_huayanshi,  -98,  0, 31);" />
 		<hotspot name="spot_mianyishi" tooltip="免疫室" style="arrow_up|tooltip" ath="40.0" atv="5.0"  scale="0.35" onclick="transition(spot_mianyishi,  scene_mianyishi,  -98,  0, 31);" />
 
-		<hotspot name="spot_quyao" tooltip="取药流程" style="zoom|tooltip" ath="15" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_quyao" tooltip="取药流程" style="zoom|tooltip" ath="15" atv="5.0" scale="0.50" onclick="js(action_loadDevice(quyao))" />
 	</scene>
 
 	<scene name="scene_huayanshi" title="化验室" onstart="js(action_updateSceneHotspotWithRole(huayanshi);)" thumburl="panos/huayanshi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -88,7 +88,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_yaofang" tooltip="药房" style="arrow_up|tooltip" ath="-140.0" atv="5.0"  scale="0.45" onclick="transition(spot_yaofang,  scene_yaofang,  -98,  0, 31);" />
 
-		<hotspot name="spot_huayan" tooltip="化验仪器" style="zoom|tooltip" ath="-80" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_huayan" tooltip="化验仪器" style="zoom|tooltip" ath="-80" atv="5.0" scale="0.50" onclick="js(action_loadDevice(huayan))" />
 	</scene>
 
 	<scene name="scene_mianyishi" title="免疫室" onstart="js(action_updateSceneHotspotWithRole(mianyishi);)" thumburl="panos/mianyishi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -108,7 +108,7 @@
 		<hotspot name="spot_zhusheshi" tooltip="注射室" style="arrow_left_up|tooltip" ath="35.0" atv="5.0"  scale="0.35" onclick="transition(spot_zhushehsi,  scene_zhusheshi,  -98,  0, 31);" />
 		<hotspot name="spot_zhenshi" tooltip="诊室" style="arrow_right_up|tooltip" ath="120.0" atv="10.0"  scale="0.45" onclick="transition(spot_zhenshi,  scene_zhenshi,  -98,  0, 31);" />
 
-		<hotspot name="spot_yimiao" tooltip="注射疫苗" style="zoom|tooltip" ath="10" atv="8.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_yimiao" tooltip="注射疫苗" style="zoom|tooltip" ath="10" atv="8.0" scale="0.50" onclick="js(action_loadDevice(yimiao))" />
 	</scene>
 
 	<scene name="scene_yingxiangshi" title="影像室" onstart="js(action_updateSceneHotspotWithRole(yingxiangshi);)" thumburl="panos/yingxiangshi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -126,7 +126,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_zhuankejianchashi" tooltip="专科检查室" style="arrow_up|tooltip" ath="-25.0" atv="8.0"  scale="0.45" onclick="transition(spot_zhuankejianchashi,  scene_zhuankejianchashi,  -98,  0, 31);" />
 
-		<hotspot name="spot_x_ray" tooltip="拍X光片" style="zoom|tooltip" ath="50" atv="8.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_x_ray" tooltip="拍X光片" style="zoom|tooltip" ath="50" atv="8.0" scale="0.50" onclick="js(action_loadDevice(x_ray))" />
 	</scene>
 
 	<scene name="scene_zhenshi" title="诊室" onstart="js(action_updateSceneHotspotWithRole(zhenshi);)" thumburl="panos/zhenshi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -144,7 +144,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_mianyishi" tooltip="免疫室" style="arrow_left_up|tooltip" ath="-30.0" atv="3.0"  scale="0.35" onclick="transition(spot_mianyishi,  scene_mianyishi,  -98,  0, 31);" />
 
-		<hotspot name="spot_wenzhen" tooltip="问诊流程" style="zoom|tooltip" ath="20" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_wenzhen" tooltip="问诊流程" style="zoom|tooltip" ath="20" atv="5.0" scale="0.50" onclick="js(action_loadDevice(wenzhen))" />
 	</scene>
 
 	<scene name="scene_zhuankejianchashi" title="专科检查室" onstart="js(action_updateSceneHotspotWithRole(zhuankejianchashi);)" thumburl="panos/zhuankejianchashi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -162,7 +162,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_yingxiangshi" tooltip="影像室" style="arrow_up|tooltip" ath="130.0" atv="5.0"  scale="0.35" onclick="transition(spot_yingxiangshi,  scene_yingxianghsi,  -98,  0, 31);" />
 
-		<hotspot name="spot_zhuankejiancha" tooltip="检查流程" style="zoom|tooltip" ath="50" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_zhuankejiancha" tooltip="检查流程" style="zoom|tooltip" ath="50" atv="5.0" scale="0.50" onclick="js(action_loadDevice(zhuankejiancha))" />
 	</scene>
 
 	<scene name="scene_zhusheshi" title="注射室" onstart="js(action_updateSceneHotspotWithRole(zhusheshi);)" thumburl="panos/zhusheshi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -181,7 +181,7 @@
 		<hotspot name="spot_mianyishi" tooltip="免疫室" style="arrow_up|tooltip" ath="150.0" atv="3.0"  scale="0.35" onclick="transition(spot_mianyishi,  scene_mianyishi,  -98,  0, 31);" />
 		<hotspot name="spot_qiantai" tooltip="前台" style="arrow_left_up|tooltip" ath="-55.0" atv="3.0"  scale="0.35" onclick="transition(spot_qiantai,  scene_qiantai,  -98,  0, 31);" />
 
-		<hotspot name="spot_zhushe" tooltip="注射药品" style="zoom|tooltip" ath="12" atv="10.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_zhushe" tooltip="注射药品" style="zoom|tooltip" ath="12" atv="10.0" scale="0.50" onclick="js(action_loadDevice(zhushe))" />
 	</scene>
 
 	<scene name="scene_shoushushi" title="手术室" onstart="js(action_updateSceneHotspotWithRole(shoushushi);)" thumburl="panos/shoushushi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -199,7 +199,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_shoushuzhunbeishi" tooltip="手术准备室" style="arrow_left_up|tooltip" ath="100.0" atv="3.0"  scale="0.35" onclick="transition(spot_shoushuzhunbeishi,  scene_shoushuzhunbeishi,  -98,  0, 31);" />
 
-		<hotspot name="spot_shoushu" tooltip="手术操作台" style="zoom|tooltip" ath="-30" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_shoushu" tooltip="手术操作台" style="zoom|tooltip" ath="-30" atv="5.0" scale="0.50" onclick="js(action_loadDevice(shoushu))" />
 	</scene>
 
 	<scene name="scene_shoushuzhunbeishi" title="手术准备室" onstart="js(action_updateSceneHotspotWithRole(shoushuzhunbeishi);)" thumburl="panos/shoushuzhunbeishi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -217,8 +217,8 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_shoushushi" tooltip="手术室" style="arrow_up|tooltip" ath="130.0" atv="10.0"  scale="0.35" onclick="transition(spot_shoushushi,  scene_shoushushi,  -98,  0, 31);" />
 
-		<hotspot name="spot_shuicao" tooltip="水槽" style="zoom|tooltip" ath="-20" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
-		<hotspot name="spot_gengyi" tooltip="更衣区" style="zoom|tooltip" ath="180" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_shuicao" tooltip="水槽" style="zoom|tooltip" ath="-20" atv="5.0" scale="0.50" onclick="js(action_loadDevice(shuicao))" />
+		<hotspot name="spot_gengyi" tooltip="更衣区" style="zoom|tooltip" ath="180" atv="5.0" scale="0.50" onclick="js(action_loadDevice(gengyi))" />
 	</scene>
 
 	<scene name="scene_bingfang" title="病房" onstart="js(action_updateSceneHotspotWithRole(bingfang);)" thumburl="panos/bingfang.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -236,7 +236,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_qiantai" tooltip="前台" style="arrow_up|tooltip" ath="130.0" atv="5.0"  scale="0.45" onclick="transition(spot_qiantai,  scene_qiantai,  -98,  0, 31);" />
 
-		<hotspot name="spot_chafang" tooltip="查房流程" style="zoom|tooltip" ath="20" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_chafang" tooltip="查房流程" style="zoom|tooltip" ath="20" atv="5.0" scale="0.50" onclick="js(action_loadDevice(chafang))" />
 	</scene>
 
 	<scene name="scene_binglijiepoushi" title="病理解剖室" onstart="js(action_updateSceneHotspotWithRole(binglijiepoushi);)" thumburl="panos/binglijiepoushi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -254,7 +254,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_chuzhishi" tooltip="处置室" style="arrow_right_up|tooltip" ath="10.0" atv="5.0"  scale="0.35" onclick="transition(spot_chuzhishi,  scene_chuzhishi,  -98,  0, 31);" />
 
-		<hotspot name="spot_jiepou" tooltip="解剖操作台" style="zoom|tooltip" ath="50" atv="15.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_jiepou" tooltip="解剖操作台" style="zoom|tooltip" ath="50" atv="15.0" scale="0.50" onclick="js(action_loadDevice(jiepou))" />
 	</scene>
 
 	<scene name="scene_chuzhishi" title="处置室" onstart="js(action_updateSceneHotspotWithRole(chuzhishi);)" thumburl="panos/chuzhishi.tiles/thumb.jpg" lat="" lng="" heading="">
@@ -272,7 +272,7 @@
 		<!-- place your scene hotspots here -->
 		<hotspot name="spot_binglijiepoushi" tooltip="病理解剖室" style="arrow_up|tooltip" ath="58.0" atv="5.0"  scale="0.35" onclick="transition(spot_binglijiepoushi,  scene_binglijiepoushi,  -98,  0, 31);" />
 
-		<hotspot name="spot_chuzhi" tooltip="处置操作台" style="zoom|tooltip" ath="-50" atv="5.0" scale="0.50" onclick="flyin(layer_device);" />
+		<hotspot name="spot_chuzhi" tooltip="处置操作台" style="zoom|tooltip" ath="-50" atv="5.0" scale="0.50" onclick="js(action_loadDevice(chuzhi))" />
 	</scene>
 
 
