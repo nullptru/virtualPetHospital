@@ -142,6 +142,38 @@ function action_updateHotspotName(){
     }
     krpano.call(str);
 }
+function action_loadDevice(deviceName){
+    var str='';
+    for(var i=0;i<deviceList.length;i++){
+        var name=deviceList[i].name;
+        if(deviceName==name){
+            var description=deviceList[i].description;
+            var video=deviceList[i].video;
+            str+='set(layer[device_description].html,'+description+');';
+            str+='set(layer[device_video].videourl,'+video+');';
+            krpano.call(str);
+            action_flyin('layer_device');
+            break;
+        }
+    }
+}
+function action_flyin(layerName){
+    var str='';
+    str+='if(layer['+layerName+'].flying == 0.0, layer[%1].resetsize(); calc_flyout_size('+layerName+'); );';
+    str+='if(layer['+layerName+'].oldscale === null, copy(layer['+layerName+'].oldscale, layer['+layerName+'].scale) );';
+    str+='if(layer['+layerName+'].oldrx === null, copy(layer['+layerName+'].oldrx, layer['+layerName+'].rx) );';
+    str+='if(layer['+layerName+'].oldry === null, copy(layer['+layerName+'].oldry, layer['+layerName+'].ry) );';
+    str+='if(layer['+layerName+'].oldrz === null, copy(layer['+layerName+'].oldrz, layer['+layerName+'].rz) );';
+    str+='set(layer['+layerName+'].enabled,true);';
+    str+='set(layer['+layerName+'].visible,true);';
+    str+='tween(layer['+layerName+'].alpha,  1.0);';
+    str+='tween(layer['+layerName+'].flying, 1.0);';
+    str+='tween(layer['+layerName+'].scale,  1.0);';
+    str+='tween(layer['+layerName+'].rx, 0.0);';
+    str+='tween(layer['+layerName+'].ry, 0.0);';
+    str+='tween(layer['+layerName+'].rz, 0.0);';
+    krpano.call(str);
+}
 /**********************************/
 function loadRoleData(callback){
     fetch(`http://localhost:8080/panoramic/getRoles`)
