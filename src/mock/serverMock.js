@@ -313,24 +313,24 @@ fetchMock
             response.caseContent =
                 {
                     symptom: {
-                        'text': '抽搐不止',
-                        'img': ['/assets/icon_assistant.jpg', '/assets/icon_case.jpg', '/assets/icon_doctor.jpg'],
-                        'video': 'symptom_video_url'
+                        'description': '抽搐不止',
+                        'picture': ['/assets/icon_assistant.jpg', '/assets/icon_case.jpg', '/assets/icon_doctor.jpg'],
+                        'video': 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4'
                     },
-                    examination: {
-                        'text': '抽一管血',
-                        'img': ['/assets/icon_learning.jpg', '/assets/icon_manage.jpg'],
-                        'video': 'exam_video_url'
+                    exam: {
+                        'description': '抽一管血',
+                        'picture': ['/assets/icon_learning.jpg', '/assets/icon_manage.jpg'],
+                        'video': 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4'
                     },
                     result: {
-                        'text': 'xxx浓度超过aaa则有问题',
-                        'img': ['/assets/icon_panoramic.jpg', '/assets/login_background.png'],
-                        'video': 'labIndex_video_url'
+                        'description': 'xxx浓度超过aaa则有问题',
+                        'picture': ['/assets/icon_panoramic.jpg', '/assets/login_background.png'],
+                        'video': 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4'
                     },
                     method: {
-                        'text': '打疫苗',
-                        'img': ['/assets/test.JPG', '/assets/icon_reception.jpg', '/assets/icon_role.jpg'],
-                        'video': 'treatment_video_url'
+                        'description': '打疫苗',
+                        'picture': ['/assets/test.JPG', '/assets/icon_reception.jpg', '/assets/icon_role.jpg'],
+                        'video': 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4'
                     }
                 };
             response.caseName = "具体病例";

@@ -5,24 +5,27 @@ import {Link} from 'react-router';
 export default function DescriptionPanel(props) {
     let panelName = props.panelName, caseId = props.caseId,
         panelContent = props.panelContent,
-        text = panelContent.text;
-    console.log("desPanel imgList:" + panelContent.img);
+        text = panelContent.description;
+    console.log("desPanel description:" + panelContent.description);
     return (
-        <Panel header={panelName}>
+        <Panel header={panelName} key={panelName}>
             <Grid>
                 <Row>
-                    <Col md={10}>
+                    <Col md={8}>
                         {text}
                     </Col>
-                    <Col md={2}>
+                    <Col md={4}>
                         <Row>
                             <Button key={caseId + panelName + "Pic"}
-                                    onClick={props.onPictureShow.bind(this, panelContent.img)}>
+                                    onClick={props.onPictureShow.bind(this, panelContent.picture)}>
                                 {panelName}图片
                             </Button>
                         </Row>
                         <Row>
-                            <Button key={caseId + panelName + "Video"}>{panelName}视频</Button>
+                            <Button key={caseId + panelName + "Video"}
+                                    onClick={props.onVideoShow.bind(this, panelContent.video)}>
+                                {panelName}视频
+                            </Button>
                         </Row>
                     </Col>
                 </Row>

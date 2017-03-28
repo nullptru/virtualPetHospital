@@ -1,5 +1,5 @@
 import React, {Component, ProtoType} from 'react';
-import {Carousel, Modal, Image, ResponsiveEmbed} from 'react-bootstrap';
+import {Carousel, Modal, Image} from 'react-bootstrap';
 import '../../../css/case.css'
 
 const img_width = 900, img_height = 500;
@@ -27,11 +27,10 @@ export default function CasePicModal(props) {
                 <Modal.Title id="contained-modal-title-lg">{props.modalTitle}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Carousel slide='false'>
+                <Carousel>
                     {itemDom}
                 </Carousel>
             </Modal.Body>
         </Modal>
-    )
-        ;
+    );
 }
