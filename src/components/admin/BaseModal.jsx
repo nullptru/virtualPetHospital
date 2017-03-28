@@ -15,6 +15,7 @@ export default function BaseModal(props){
                 {props.children}
             </Modal.Body>
             <Modal.Footer>
+                <Button bsStyle="primary" onClick={props.onClose}>取消</Button>
                 <Button bsStyle="primary" onClick={props.onSubmit}>保存</Button>
             </Modal.Footer>
         </Modal>)
