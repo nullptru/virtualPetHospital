@@ -67,13 +67,20 @@ export default class CaseManagement extends Component {
         this.onDataFetch()
     }
 
+    deepCopy(source) {
+        let result={};
+        for (let key in source) {
+            result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
+        }
+        return result;
+    }
+
     onDataFetch(){
         fetch(`http://localhost:8080/admin/case/${this.state.activePage}`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
-            console.log(json);
-            let data = json.data , originJson = new Object(json.data);
+            let data = json.data , originJson = this.deepCopy(json.data);
             data.forEach((item)=>{
                 //解析展现的数据
                 item['symptom'] = item['symptom']['description'];
@@ -104,7 +111,6 @@ export default class CaseManagement extends Component {
             if (data.result === true){
                 this.onDataFetch()
             }
-            console.log(json)
         }).catch((ex)=>{
             console.log(ex);
         });
@@ -149,7 +155,8 @@ export default class CaseManagement extends Component {
 
     onEditModal(id){
         let caseName = '' , symptom = '', exam = '', result = '', method = '';
-        this.state.tableJson.forEach((item)=>{
+        for(let key in this.state.originJson){
+            let item = this.state.originJson[key];
             if (item.id === id){
                 caseName = item.caseName;
                 symptom = item.symptom;
@@ -157,19 +164,20 @@ export default class CaseManagement extends Component {
                 result = item.result;
                 method = item.method;
             }
-        });
+        }
         this.setState({show: true, id: id, caseName : caseName, symptom: symptom, exam: exam, result: result, method: method, modalType: 1, modalTitle : '修改病例'})
     }
 
     onEditSecondModal(index){
         let description = '' , pictureUrls = '', videoUrls = '', id=this.state.id;
-        this.state.tableJson.forEach((item)=>{
+        for(let key in this.state.originJson){
+            let item = this.state.originJson[key];
             if (item.id === id){
-                description = item.description;
-                pictureUrls = item.pictureUrls;
-                videoUrls = item.videoUrls;
+                description = item[index].description;
+                pictureUrls = item[index].pictureUrls;
+                videoUrls = item[index].videoUrls;
             }
-        });
+        };
         this.setState({description : description, pictureUrls: pictureUrls, videoUrls: videoUrls, secondModalTitle : '上传信息', showSecondModal: true, secondModalIndex: index})
     }
 
@@ -180,55 +188,67 @@ export default class CaseManagement extends Component {
     }
 
     onDropVideo(acceptedFiles, rejectedFiles) {
-        // fetch('http://localhost:8080/file',{
-        //     method : 'post',
-        //     body : {
-        //         id : id
-        //     }
-        // })
-        //     .then((response)=>{
-        //         return response.json();
-        //     }).then((json)=>{
-        //     let data = json.data;
-        //     if (data.result === true){
-        //         this.onDataFetch()
-        //     }
-        //     console.log(json)
-        // }).catch((ex)=>{
-        //     console.log(ex);
-        // });
         this.setState({
             video: acceptedFiles,
-            videoUrls : acceptedFiles[0].name
+        }, ()=>{
+            var data = new FormData();
+            data.append('file', this.state.video[0]);
+            fetch('http://localhost:8080/upload',{
+                method : 'post',
+                body : data
+            })
+                .then((response)=>{
+                    return response.json();
+                }).then((json)=>{
+                let data = json;
+                if (data.result === true){
+                    this.setState({
+                        videoUrls : data.fileName
+                    })
+                }else{
+                    this.setState({
+                        videoUrls : ''
+                    })
+                }
+            }).catch((ex)=>{
+                console.log(ex);
+                this.setState({
+                    videoUrls : ''
+                })
+            });
         });
-        console.log('Accepted pictures: ', acceptedFiles);
-        console.log('Rejected pictures: ', rejectedFiles);
     }
 
     onDropPictures(acceptedFiles, rejectedFiles) {
-        // fetch('http://localhost:8080/file',{
-        //     method : 'post',
-        //     body : {
-        //         id : id
-        //     }
-        // })
-        //     .then((response)=>{
-        //         return response.json();
-        //     }).then((json)=>{
-        //     let data = json.data;
-        //     if (data.result === true){
-        //         this.onDataFetch()
-        //     }
-        //     console.log(json)
-        // }).catch((ex)=>{
-        //     console.log(ex);
-        // });
         this.setState({
             pictures: acceptedFiles,
-            pictureUrls : acceptedFiles[0].name
+        }, ()=>{
+            var data = new FormData();
+            data.append('file', this.state.pictures[0]);
+            fetch('http://localhost:8080/upload',{
+                method : 'post',
+                body : data
+            })
+                .then((response)=>{
+                    return response.json();
+                }).then((json)=>{
+                let data = json;
+                if (data.result === true){
+                    this.setState({
+                        pictureUrls : data.fileName
+                    })
+                }else{
+                    this.setState({
+                        pictureUrls : -1 //出错
+                    })
+                }
+            }).catch((ex)=>{
+                console.log(ex);
+                this.setState({
+                    pictureUrls : -1
+                })
+            });
         });
-        console.log('Accepted pictures: ', acceptedFiles);
-        console.log('Rejected pictures: ', rejectedFiles);
     }
 
     onUpload(){
@@ -238,37 +258,18 @@ export default class CaseManagement extends Component {
         this.clearSecondModalDate();
         let method = this.state[this.state.secondModalIndex].id === undefined ? 'post' : 'put';
         let body = {
-            description: this.state.description,
-            picture: this.state.pictureUrls,
-            video: this.state.videoUrls
+            description: this.state.description || "",
+            picture: this.state.pictureUrls || "",
+            video: this.state.videoUrls || ""
         };
         if (method === 'put'){//如果是更新操作
             body['id'] = this.state[this.state.secondModalIndex].id;
         }
 
-        fetch(`http://localhost:8080/admin/case/${this.state.secondModalIndex}`,{
-            method : method,
-            body : JSON.stringify(body),
-            headers: {
-                "Content-type": "application/json"
-            }
-        })
-            .then((response)=>{
-                return response.json();
-            }).then((json)=>{
-            let data = json.data;
-            if (data.result === true){
-                this.onDataFetch();
-                this.clearSecondModalDate();
-                let updateBody = {};
-                updateBody[this.state.secondModalIndex] = body;
-                this.setState(updateBody, ()=>{
-                    console.log(this.state)
-                });
-            }
-        }).catch((ex)=>{
-            console.log(ex);
-        });
+        this.clearSecondModalDate();
+        let updateBody = {};
+        updateBody[this.state.secondModalIndex] = body;
+        this.setState(updateBody);
     }
 
     isEmpty(item){
@@ -331,7 +332,7 @@ export default class CaseManagement extends Component {
                 <div className="static-modal">
                     <Modal show={this.state.showSecondModal}>
                         <Modal.Header>
-                            <Modal.Title>Modal title</Modal.Title>
+                            <Modal.Title>{this.state.secondModalTitle}</Modal.Title>
                         </Modal.Header>
 
                         <Modal.Body>
@@ -342,7 +343,8 @@ export default class CaseManagement extends Component {
                                             <ControlLabel>描述:</ControlLabel>
                                         </Col>
                                         <Col md={10}>
-                                            <FormControl componentClass="textArea" placeholder="输入描述"/>
+                                            <FormControl componentClass="textArea" placeholder="输入描述"  value={this.state.description}
+                                                         onChange={(e)=>{this.setState({description: e.target.value})}}/>
                                         </Col>
                                     </FormGroup>
                                 </Row>
@@ -352,17 +354,17 @@ export default class CaseManagement extends Component {
                                         <Col md={2}>
                                             <ControlLabel>图片:</ControlLabel>
                                         </Col>
-                                        <Col md={1}>
+                                        <Col md={2}>
                                             <Dropzone onDrop={this.onDropPictures} maxSize={3145728} className='upload' accept={'image/*'} multiple={false}>
                                                 <div>上传(最大3M)</div>
                                             </Dropzone>
                                         </Col>
-                                        <Col md={9}>
-                                            {this.state.pictures.length > 0 ? <div className="img-review">
+                                        <Col md={8}>
+                                            {this.state.pictures.length > 0 ? <span className="img-review">
                                                     {/*<span>Uploading {this.state.pictures.length} pictures...</span>*/}
-                                                    <div>{this.state.pictures.map((file) => <img key={file.name} src={file.preview} className="xsmall-img"/> )}</div>
-                                                </div> : null}
-                                            {this.isEmpty('pictureUrls') ? '' : <span>已上传</span>}
+                                                    {this.state.pictures.map((file) => <img key={file.name} src={file.preview} className="xsmall-img"/> )}
+                                                </span> : null}
+                                            {this.isEmpty('pictureUrls') ? '' : (this.state.pictureUrls === -1) ? <span>上传失败</span> : <span>已上传</span>}
                                         </Col>
                                     </FormGroup>
                                 </Row>
@@ -372,17 +374,17 @@ export default class CaseManagement extends Component {
                                         <Col md={2}>
                                             <ControlLabel>视频:</ControlLabel>
                                         </Col>
-                                        <Col md={1}>
+                                        <Col md={2}>
                                             <Dropzone onDrop={this.onDropVideo} maxSize={10485760} className='upload' accept={'video/*'} multiple={false}>
                                                 <div>上传(最大10M)</div>
                                             </Dropzone>
                                         </Col>
-                                        <Col md={9}>
+                                        <Col md={8}>
                                             {this.state.video.length > 0 ? <div>
                                                     {/*<span>Uploading {this.state.video.length} pictures...</span>*/}
                                                     <span>files:{this.state.video.map((file) => <span key={file.name}> {file.name}</span> )}</span>
                                                 </div> : null}
-                                            {this.isEmpty('videoUrls') ? '' : <span>已上传</span>}
+                                            {this.isEmpty('videoUrls') ? '' : (this.state.videoUrls === -1) ? <span>上传失败</span> : <span>已上传</span>}
                                         </Col>
                                     </FormGroup>
                                 </Row>
@@ -390,6 +392,7 @@ export default class CaseManagement extends Component {
                         </Modal.Body>
 
                         <Modal.Footer>
+                            <Button bsStyle="primary" onClick={()=>{this.clearSecondModalDate(); this.setState({showSecondModal: false})}}>取消</Button>
                             <Button bsStyle="primary" onClick={this.onUpload}>上传</Button>
                         </Modal.Footer>
 
