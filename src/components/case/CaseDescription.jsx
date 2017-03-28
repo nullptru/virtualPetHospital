@@ -6,6 +6,7 @@ import DescriptionPanel from './content/DescriptionPanel';
 import {Link} from 'react-router';
 import "../../css/case.css";
 import CasePicModal from './content/CasePicModal';
+import CaseVideoModal from './content/CaseVideoModal';
 
 export default class CaseDescription extends Component {
     constructor(props) {
@@ -14,21 +15,21 @@ export default class CaseDescription extends Component {
 
         //详细病例所包含的部分
         this.caseClassName = ['症状', '相关检查', '化验指标', '治疗手段'];
-        this.caseClassKey = ['symptom', 'examination', 'result', 'method'];
+        this.caseClassKey = ['symptom', 'exam', 'result', 'method'];
         this.severUrlPrefix = "http://localhost:8080";
         this.state = {
             caseName: "病例名称",
             caseId: this.props.params.id,//病例的id
             //用于结构
             description: {
-                symptom: {'text': '', 'img': [], 'video': ''},
-                examination: {'text': '', 'img': [], 'video': ''},
-                result: {'text': '', 'img': [], 'video': ''},
-                method: {'text': '', 'img': [], 'video': ''}
+                symptom: {'description': '', 'picture': [], 'video': ''},
+                exam: {'description': '', 'picture': [], 'video': ''},
+                result: {'description': '', 'picture': [], 'video': ''},
+                method: {'description': '', 'picture': [], 'video': ''}
             },
             pictureModalShow: false,
             videoModalShow: false,
-            currentPicList: ['/assets/icon_assistant.jpg', '/assets/icon_case.jpg', '/assets/icon_doctor.jpg'],
+            currentPicList: [],
             currentVideoUrl: "",
             currentPanelName: "病症"
         }
@@ -60,6 +61,11 @@ export default class CaseDescription extends Component {
                                       this.setState({currentPicList: e});
                                       this.setState({currentPanelName: panel_name});
                                       this.setState({pictureModalShow: true});
+                                  }}
+                                  onVideoShow={(e) => {
+                                      this.setState({currentVideoUrl: e});
+                                      this.setState({currentPanelName: panel_name});
+                                      this.setState({videoModalShow: true});
                                   }}>
                     {this.props.children}
                 </DescriptionPanel>
@@ -68,24 +74,26 @@ export default class CaseDescription extends Component {
         });
 
         const pageInstance = (
-            <Grid style={{margin: '50px'}} className="caseDesGrid">
-                <Row id="caseDescription-pageHeader">
-                    <Col md={3}>
-                        <Link to='/learning/casenav'>{'<< '}返回上级</Link>
-                    </Col>
-                </Row>
-                <Row id="caseDescription-caseName">
-                    <Col md={5}>
-                        <PageHeader>
-                            <small>{this.state.caseId}:{this.state.caseName}</small>
-                        </PageHeader>
-                    </Col>
-                </Row>
-                <Row id="caseDescription-panel">
-                    <Col >
-                        {caseContentDom}
-                    </Col>
-                </Row>
+            <div>
+                <Grid style={{margin: '50px'}} className="caseDesGrid">
+                    <Row id="caseDescription-pageHeader">
+                        <Col md={3}>
+                            <Link to='/learning/casenav'>{'<< '}返回上级</Link>
+                        </Col>
+                    </Row>
+                    <Row id="caseDescription-caseName">
+                        <Col md={5}>
+                            <PageHeader>
+                                <small>{this.state.caseId}:{this.state.caseName}</small>
+                            </PageHeader>
+                        </Col>
+                    </Row>
+                    <Row id="caseDescription-panel">
+                        <Col >
+                            {caseContentDom}
+                        </Col>
+                    </Row>
+                </Grid>
                 {/*点击panel内的图片button弹出*/}
                 <CasePicModal show={this.state.pictureModalShow}
                               onClose={() => {
@@ -96,7 +104,17 @@ export default class CaseDescription extends Component {
                 >
                     {this.props.children}
                 </CasePicModal>
-            </Grid>
+                {/*点击panel内的视频button弹出*/}
+                <CaseVideoModal show={this.state.videoModalShow}
+                                onClose={() => {
+                                    this.setState({videoModalShow: false});
+                                }}
+                                videoUrl={this.state.currentVideoUrl}
+                                modalTitle={this.state.currentPanelName}
+                >
+                    {this.props.children}
+                </CaseVideoModal>
+            </div>
         );
         return pageInstance;
     }
