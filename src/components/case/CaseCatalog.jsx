@@ -1,8 +1,7 @@
 import React, {Component, ProtoType} from 'react';
 import {
     View, Grid, Form,
-    Nav, NavItem, Button, FormGroup, FormControl,
-    Row, Col
+    Nav, NavItem, Row, Col
 } from 'react-bootstrap';
 import {Link, browserHistory} from 'react-router';
 import SearchModal from './content/SearchModal';
@@ -24,7 +23,7 @@ export default class CaseStudyNav extends Component {
         this.caseClass = ['传染病', '寄生虫病', '内科病例', '外产科病例', '常用手术', '免疫'];
         //对应caseClass的key
         this.caseKey = ['contagion', 'parasitosis', 'internal', 'obstetrics', 'surgery', 'immune'];
-        this.severUrlPrefix = "http://localhost:8080";
+        this.severUrlPrefix = "http://localhost:9090";
         let location = this.props.location.pathname,
             keysArr = location.split('/');
         let initActiveKey = keysArr[keysArr.length - 1] || this.caseKey[0];

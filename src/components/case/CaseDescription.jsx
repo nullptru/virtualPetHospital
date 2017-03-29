@@ -11,12 +11,10 @@ import CaseVideoModal from './content/CaseVideoModal';
 export default class CaseDescription extends Component {
     constructor(props) {
         super(props);
-
-
         //详细病例所包含的部分
         this.caseClassName = ['症状', '相关检查', '化验指标', '治疗手段'];
         this.caseClassKey = ['symptom', 'exam', 'result', 'method'];
-        this.severUrlPrefix = "http://localhost:8080";
+        this.severUrlPrefix = "http://localhost:9090";
         this.state = {
             caseName: "病例名称",
             caseId: this.props.params.id,//病例的id

@@ -1,6 +1,5 @@
 import React, {Component, ProtoType} from 'react';
-import {Panel, Grid, Row, Col, Button} from 'react-bootstrap';
-import {Link} from 'react-router';
+import {Panel, Grid, Row, Col} from 'react-bootstrap';
 import '../../../css/case.css'
 
 export default function DescriptionPanel(props) {

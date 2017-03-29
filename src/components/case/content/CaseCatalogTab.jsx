@@ -1,6 +1,5 @@
 import React, {Component, ProtoType} from 'react';
-import {Button, Col, Row} from 'react-bootstrap';
-import {browserHistory} from 'react-router';
+import {Col, Row} from 'react-bootstrap';
 import '../../../css/case.css'
 
 /*根据location获得需要到数据库中搜索的类别，返回caseList*/

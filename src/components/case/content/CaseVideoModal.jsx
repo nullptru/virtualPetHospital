@@ -2,7 +2,6 @@ import React, {Component, ProtoType} from 'react';
 import {Modal} from 'react-bootstrap';
 import {Player} from 'video-react';
 import "../../../../node_modules/video-react/dist/video-react.css"
-//import "node_modules/video-react/dist/video-react.css";
 
 export default function CaseVideoModal(props) {
     /*props包含video的url*/
