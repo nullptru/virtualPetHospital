@@ -176,7 +176,7 @@ function action_flyin(layerName){
 }
 /**********************************/
 function loadRoleData(callback){
-    fetch(`http://localhost:8080/panoramic/getRoles`)
+    /*fetch(`http://localhost:8080/panoramic/getRoles`)
         .then((response)=>{
             return response.json();
         }).then((json)=>{
@@ -185,7 +185,13 @@ function loadRoleData(callback){
         callback();
     }).catch((ex)=>{
         console.log(ex);
-    });
+    });*/
+    roles = [
+        {id: 0, name: '前台', room: [0, 3]},
+        {id: 1, name: '兽医', room: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13]},
+        {id: 2, name: '助理', room: [1, 2, 5, 6, 7, 9, 12, 13]}
+    ];
+    callback();
 }
 function callback_walkthrough(){
     action_initMaps();//加载全部小地图
