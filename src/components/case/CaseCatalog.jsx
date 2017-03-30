@@ -8,80 +8,6 @@ import SearchModal from './content/SearchModal';
 import CaseCatalogTab from './content/CaseCatalogTab';
 import '../../css/case.css';
 
-const resultList = [{'caseName': '犬瘟热', 'caseId': 'cid01'},
-    {'caseName': '犬细小病毒', 'caseId': 'cid02'},
-    {'caseName': '犬传染性肝炎', 'caseId': 'cid03'},
-    {'caseName': '犬冠状病毒', 'caseId': 'cid04'},
-    {'caseName': '猫泛白细胞减少症', 'caseId': 'cid05'},
-    {'caseName': '猫病毒性病气管炎', 'caseId': 'cid06'},
-    {'caseName': '皮肤真菌感染', 'caseId': 'cid07'}];
-
-const contagionCaseList = [{'caseName': '犬瘟热', 'caseId': 'cid01'},
-    {'caseName': '犬细小病毒', 'caseId': 'cid02'},
-    {'caseName': '犬传染性肝炎', 'caseId': 'cid03'},
-    {'caseName': '犬冠状病毒', 'caseId': 'cid04'},
-    {'caseName': '猫泛白细胞减少症', 'caseId': 'cid05'},
-    {'caseName': '猫病毒性病气管炎', 'caseId': 'cid06'},
-    {'caseName': '皮肤真菌感染', 'caseId': 'cid07'}];
-
-const parasitosisCaseList = [{'caseName': '蛔虫病', 'caseId': 'cid08'},
-    {'caseName': '钩虫病', 'caseId': 'cid09'},
-    {'caseName': '绦虫病', 'caseId': 'cid10'},
-    {'caseName': '球虫病', 'caseId': 'cid11'},
-    {'caseName': '疥螨虫病', 'caseId': 'cid12'},
-    {'caseName': '蚤病', 'caseId': 'cid13'}];
-
-const internalCaseList = [{'caseName': '口炎', 'caseId': 'cid14'},
-    {'caseName': '肠炎', 'caseId': 'cid15'},
-    {'caseName': '肠便秘', 'caseId': 'cid16'},
-    {'caseName': '胰腺炎', 'caseId': 'cid17'},
-    {'caseName': '肝炎', 'caseId': 'cid18'},
-    {'caseName': '腹膜炎', 'caseId': 'cid19'},
-    {'caseName': '肛门腺炎', 'caseId': 'cid20'},
-    {'caseName': '感冒', 'caseId': 'cid21'},
-    {'caseName': '鼻炎', 'caseId': 'cid22'},
-    {'caseName': '气管支气管炎', 'caseId': 'cid23'},
-    {'caseName': '肺炎', 'caseId': 'cid24'},
-    {'caseName': '心力衰竭', 'caseId': 'cid25'},
-    {'caseName': '尿道感染', 'caseId': 'cid26'},
-    {'caseName': '尿结石', 'caseId': 'cid27'},
-    {'caseName': '膀胱炎', 'caseId': 'cid28'},
-    {'caseName': '肾炎', 'caseId': 'cid29'},
-    {'caseName': '佝偻病', 'caseId': 'cid30'},
-    {'caseName': '有机磷中毒', 'caseId': 'cid31'},
-    {'caseName': '糖尿病', 'caseId': 'cid32'},
-    {'caseName': '耳血肿', 'caseId': 'cid33'},
-    {'caseName': '中耳炎', 'caseId': 'cid34'},
-    {'caseName': '眼睑内翻', 'caseId': 'cid35'},
-    {'caseName': '结膜炎', 'caseId': 'cid36'},
-    {'caseName': '角膜炎', 'caseId': 'cid37'}];
-
-const obstetricsCaseList = [{'caseName': '外伤', 'caseId': 'cid38'},
-    {'caseName': '外科感染', 'caseId': 'cid39'},
-    {'caseName': '骨折', 'caseId': 'cid40'},
-    {'caseName': '关节脱位', 'caseId': 'cid41'},
-    {'caseName': '湿疹', 'caseId': 'cid42'},
-    {'caseName': '皮炎', 'caseId': 'cid43'},
-    {'caseName': '脓皮病', 'caseId': 'cid44'},
-    {'caseName': '脱毛症', 'caseId': 'cid45'},
-    {'caseName': '趾间囊肿', 'caseId': 'cid46'},
-    {'caseName': '疝', 'caseId': 'cid47'},
-    {'caseName': '阴道炎', 'caseId': 'cid48'},
-    {'caseName': '阴道脱出', 'caseId': 'cid49'},
-    {'caseName': '子宫蓄脓', 'caseId': 'cid50'},
-    {'caseName': '难产', 'caseId': 'cid51'},
-    {'caseName': '乳房炎', 'caseId': 'cid52'}
-];
-
-const surgeryCaseList = [{'caseName': '绝育', 'caseId': 'cid53'},
-    {'caseName': '剖腹产', 'caseId': 'cid54'},
-    {'caseName': '瞬膜腺增生物切除', 'caseId': 'cid55'},
-    {'caseName': '眼球摘除', 'caseId': 'cid56'},
-    {'caseName': '立耳术', 'caseId': 'cid57'},
-    {'caseName': '断尾术', 'caseId': 'cid58'}];
-
-const immuneCaseList = [{'caseName': '犬免疫程序', 'caseId': 'cid59'},
-    {'caseName': '猫免疫程序', 'caseId': 'cid60'}];
 
 export default class CaseStudyNav extends Component {
     constructor(props) {
@@ -112,44 +38,21 @@ export default class CaseStudyNav extends Component {
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getCaseTabContent(this.state.activeKey);
     }
 
     getCaseTabContent(e) {
-        let caseTmpList;
-
-        switch (e) {
-            case "contagion"://传染病
-                caseTmpList = contagionCaseList;
-                break;
-            case "parasitosis"://寄生虫病
-                caseTmpList = parasitosisCaseList
-                break;
-            case "internal"://内科病例
-                caseTmpList = internalCaseList;
-                break;
-            case "obstetrics"://外产科病例
-                caseTmpList = obstetricsCaseList;
-                break;
-            case "surgery"://常用手术
-                caseTmpList = surgeryCaseList;
-                break;
-            case "immune"://免疫
-                caseTmpList = immuneCaseList;
-                break;
-        }
-        this.setState({caseList: caseTmpList});
-
-        /*fetch(this.severUrlPrefix + `/learning/casenav/${e}`)
-         .then((response) => {
-         return response.json();
-         })
-         .then((json) => {
-         this.setState({caseList: json.caseList});
-         }).catch(ex => {
-         console.error(ex);
-         });*/
+        fetch(this.severUrlPrefix + `/learning/casenav/${e}`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                console.info(json);
+                this.setState({caseList: json.caseList});
+            }).catch(ex => {
+            console.error(ex);
+        });
     }
 
 
@@ -160,19 +63,24 @@ export default class CaseStudyNav extends Component {
     }
 
     onSearchClick() {//点击searchbutton时
-        /*fetch(/!*this.severUrlPrefix*!/ `http://localhost:9090` + `/learning/casenav/search`,
-         {method: 'post', body: {searchContent: this.state.searchContent}})
-         .then((response) => {
-         return response.json();
-         })
-         .then((json) => {
-         this.setState({searchResList: json.resultList});
-         })
-         .catch((ex) => {
-         console.error(ex);
-         });*/
-        this.setState({searchResList: resultList});
-        this.setState({searchShow: true});
+        fetch(this.severUrlPrefix + `/learning/casenav/search`,
+            {
+                method: 'post',
+                body: JSON.stringify({"searchContent": this.state.searchContent}),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                this.setState({searchResList: json.resultList});
+                this.setState({searchShow: true});
+            })
+            .catch((ex) => {
+                console.error(ex);
+            });
     }
 
     onModalClose() {

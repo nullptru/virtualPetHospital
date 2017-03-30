@@ -1,3 +1,4 @@
+/*
 const fetchMock = require('fetch-mock');
 
 let response = {};
@@ -305,7 +306,7 @@ fetchMock
     }, response)
 
     .get(function (url, opts) {
-        /*匹配用例描述详情*/
+        /!*匹配用例描述详情*!/
         clear();
         let isMatch = (url.match(/http:\/\/localhost:9090\/learning\/casedes(\/\s*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch) {
@@ -359,7 +360,7 @@ fetchMock
     }, response)
 
     .get(function (url, opts) {
-        /*用于匹配用例学习tab*/
+        /!*用于匹配用例学习tab*!/
         clear();
         let isMatch = (url.match(/http:\/\/localhost:9090\/learning\/casenav(\/\s*)?/)) && (opts === undefined || opts.method.toLowerCase() === 'get');
         if (isMatch) {
@@ -461,4 +462,4 @@ fetchMock
             ];
         }
         return isMatch;
-    }, response);
+    }, response);*/
