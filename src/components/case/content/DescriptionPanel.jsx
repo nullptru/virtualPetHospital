@@ -6,8 +6,7 @@ export default function DescriptionPanel(props) {
     let panelName = props.panelName, caseId = props.caseId,
         panelContent = props.panelContent,
         text = panelContent.description;
-    console.info("desPanel panelContent-picture:" + panelContent.picture);
-    console.info("desPanel panelContent-video:" + panelContent.video);
+
     return (
         <Panel header={panelName} key={panelName}>
             <Grid>

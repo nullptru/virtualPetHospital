@@ -8,6 +8,28 @@ import "../../css/case.css";
 import CasePicModal from './content/CasePicModal';
 import CaseVideoModal from './content/CaseVideoModal';
 
+let caseContent = {
+    symptom: {
+        'description': '抽搐不止',
+        'picture': "['/assets/pet/pet1.jpg', '/assets/pet/pet2.jpg', '/assets/pet/pet3.jpg']",
+        'video': 'https://media.w3.org/2010/05/sintel/trailer.mp4'
+    },
+    exam: {
+        'description': '抽一管血',
+        'picture': "['/assets/pet/pet4.jpg', '/assets/pet/pet5.jpg']",
+        'video': 'https://media.w3.org/2010/05/sintel/trailer.mp4'
+    },
+    result: {
+        'description': 'xxx浓度超过aaa则有问题',
+        'picture': "['/assets/pet/pet6.jpg', '/assets/pet/pet7.jpg']",
+        'video': 'https://media.w3.org/2010/05/sintel/trailer.mp4'
+    },
+    method: {
+        'description': '打疫苗',
+        'picture': "['/assets/pet/pet8.jpg', '/assets/pet/pet9.jpg', '/assets/pet/pet10.jpg']",
+        'video': 'https://media.w3.org/2010/05/sintel/trailer.mp4'
+    }
+};
 
 export default class CaseDescription extends Component {
     constructor(props) {
@@ -21,14 +43,15 @@ export default class CaseDescription extends Component {
             caseId: this.props.params.id,//病例的id
             //用于结构
             description: {
-                symptom: {'description': '', 'picture': [], 'video': ''},
-                exam: {'description': '', 'picture': [], 'video': ''},
-                result: {'description': '', 'picture': [], 'video': ''},
-                method: {'description': '', 'picture': [], 'video': ''}
+                symptom: {'description': '', 'picture': '[]', 'video': ''},
+                exam: {'description': '', 'picture': '[]', 'video': ''},
+                result: {'description': '', 'picture': '[]', 'video': ''},
+                method: {'description': '', 'picture': '[]', 'video': ''}
             },
+            //description: caseContent,
             pictureModalShow: false,
             videoModalShow: false,
-            currentPicList: [],
+            currentPicList: '[]',
             currentVideoUrl: "",
             currentPanelName: "病症"
         }
@@ -38,10 +61,10 @@ export default class CaseDescription extends Component {
     componentDidMount() {
         fetch(this.severUrlPrefix + this.props.location.pathname)
             .then((response) => {
-
                 return response.json();
             })
             .then((json) => {
+                console.info(json)
                 console.info("casedes json-caseName:" + json.caseName);
                 this.setState({description: json.caseContent});
                 this.setState({caseName: json.caseName});

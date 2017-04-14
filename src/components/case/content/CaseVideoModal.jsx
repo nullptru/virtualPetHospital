@@ -5,7 +5,7 @@ import "../../../../node_modules/video-react/dist/video-react.css"
 
 export default function CaseVideoModal(props) {
     /*props包含video的url*/
-    console.info("video in modal", props.video);
+    console.info("CaseVideoModal video", props.videoUrl);
     return (
         <Modal
             show={props.show}
