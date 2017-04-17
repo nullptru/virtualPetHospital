@@ -83,10 +83,10 @@ export default class CaseManagement extends Component {
             let data = json.data , originJson = this.deepCopy(json.data);
             data.forEach((item)=>{
                 //解析展现的数据
-                item['symptom'] = item['symptom']['description'];
-                item['exam'] = item['exam']['description'];
-                item['result'] = item['result']['description'];
-                item['method'] = item['method']['description'];
+                item['symptom'] = item['symptom'] !== null ? item['symptom']['description'].substr(0, 10) : "无记录";
+                item['exam'] = item['exam'] !== null ? item['exam']['description'].substr(0, 10)  : "无记录";
+                item['result'] = item['result'] !== null ? item['result']['description'].substr(0, 10)  : "无记录";
+                item['method'] = item['method'] !== null ? item['method']['description'].substr(0, 10)  : "无记录";
             });
             this.setState({tableJson : json.data, originJson : originJson, pages: json.pages});
         }).catch((ex)=>{
@@ -117,12 +117,17 @@ export default class CaseManagement extends Component {
     }
 
     onSubmitHandle(){
+        let empty = {
+            description: "",
+            picture: "",
+            video: ""
+        };
         let body = {
             caseName : this.state.caseName,
-            symptom : this.state.symptom,
-            exam : this.state.exam,
-            result : this.state.result,
-            method : this.state.method,
+            symptom : this.state.symptom !== -1 ? this.state.symptom : empty,
+            exam : this.state.exam !== -1 ? this.state.exam : empty,
+            result : this.state.result !== -1 ? this.state.result : empty,
+            method : this.state.method !== -1 ? this.state.method : empty,
         };
         if (this.state.modalType === 1){body.id = this.state.id;}
         fetch(`http://localhost:8080/admin/case`,{

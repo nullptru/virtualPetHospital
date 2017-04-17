@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {FormGroup, FormControl, Checkbox, ControlLabel} from 'react-bootstrap/lib'
+import {FormGroup, FormControl, Checkbox, ControlLabel, Row, Col} from 'react-bootstrap/lib'
 import 'whatwg-fetch'
 
 import BaseAdminComponent from './BaseAdminComponent'
@@ -21,11 +21,12 @@ export default class RoleManagement extends Component {
             //modal Info
             id: '',
             roleName : '',
-            subjects : [],
+            roomAccess : [],
             modalType: 0,//0表示新建，1表示编辑
             modalTitle: '新增角色',//0表示新建，1表示编辑
             tableJson : [],
             subjectJson : [],//json数组
+            roleData: [],
             isEditable : true,
             isDeletable : false,
             isCreatable : false,
@@ -40,7 +41,8 @@ export default class RoleManagement extends Component {
     }
 
     onDataFetch(){
-        fetch(`http://localhost:8080/admin/room/1`)
+        let role = ["前台","兽医","助理"];
+        fetch(`http://localhost:8080/admin/room`)
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
@@ -49,18 +51,21 @@ export default class RoleManagement extends Component {
                         .then((response)=>{
                             return response.json();
                         }).then((json)=>{
-                        console.log(json)
-                        json.data.forEach((item)=>{
-                            let subjectJson = item.roomAccess || [],//获取可访问的科室数组
-                                subjectText = '';
-                            subjectJson.forEach((subject)=>{
-                                subjectText += subject.name + ' ';
-                            });
-                            item.subjectText = subjectText;
-                            delete item.subjects;
-                        });
-                        //console.log(json.data);
-                        this.setState({tableJson : json.data, pages: json.pages});
+                            this.setState({roleData: json.data}, ()=>{
+                                console.log(json);
+                                let rooms = this.ArrayToObject(this.state.subjectJson);
+                                json.data.forEach((item)=>{
+                                    let roomsAccess = item.roomAccess || [],//获取可访问的科室数组
+                                        subjectText = '';
+                                    roomsAccess.forEach((roomId)=>{
+                                        subjectText += rooms[roomId] + ' ';
+                                    });
+                                    item.roleName = role[item.id - 1];
+                                    item.subjectText = subjectText;
+                                    delete item.roomAccess;
+                                });
+                                this.setState({tableJson : json.data, pages: json.pages});
+                            })
                     }).catch((ex)=>{
                         console.log(ex);
                     });
@@ -92,28 +97,31 @@ export default class RoleManagement extends Component {
 
     onSubmitHandle(){
         //获取组件
-        let subjectsDom = document.getElementsByName('subject'), subjects = [];
+        let subjectsDom = document.getElementsByName('subject'), roomAccess = "";
         subjectsDom.forEach((item)=>{
            if(item.checked){
-               subjects.push(item.value);
+               roomAccess += item.value + " ";
            }
         });
         this.setState({
-            subjects : subjects
+            roomAccess : roomAccess
         },()=>{
             let body = {
                 roleName : this.state.roleName,
-                subjects : this.state.subjects,
+                roomAccess : this.state.roomAccess,
             };
             if (this.state.modalType === 1){body.id = this.state.id;}
             fetch(`http://localhost:8080/admin/role`,{
                 method : this.state.modalType === 0 ? 'post' : 'put', //判断使用新建还是编辑
-                body : body
+                body : JSON.stringify(body),
+                headers: {
+                    "Content-type": "application/json"
+                }
             })
                 .then((response)=>{
                     return response.json();
                 }).then((json)=>{
-                let data = json.data;
+                let data = json;
                 if (data.result === true){
                     this.onDataFetch();
                     this.setState({show : false});
@@ -125,14 +133,14 @@ export default class RoleManagement extends Component {
     }
 
     onEditModal(id){
-        let roleName = '', subjects = '';
+        let roleName = '', roomAccess = '';
         this.state.tableJson.forEach((item)=>{
             if (item.id === id){
                 roleName = item.roleName;
-                subjects = item.subjects;
+                roomAccess = item.roomAccess;
             }
         });
-        this.setState({show: true, id: id, roleName : roleName, subjects: subjects, modalType: 1, modalTitle : '修改角色'})
+        this.setState({show: true, id: id, roleName : roleName, roomAccess: roomAccess, modalType: 1, modalTitle : '修改角色'})
     }
 
     onPageSelect(activePage){
@@ -142,11 +150,23 @@ export default class RoleManagement extends Component {
     }
 
     getForm(){
-        let {subjectJson} = this.state, subjectDom = [];
+        let {subjectJson} = this.state, subjectDom = [], count = 0;
+        let doms = [];
         subjectJson.forEach((subject)=>{
-            subjectDom.push(<Checkbox inline key={subject.id} value={subject.id} name="subject">
-                {subject.name}&nbsp;
-            </Checkbox>);
+            if (count % 4 === 0 && count !== 0){
+                subjectDom.push(<Row>
+                    {doms}
+                </Row>);
+                doms = [];
+            }
+            doms.push(
+                <Col md={3}>
+                    <Checkbox inline key={subject.id} value={subject.id} name="subject">
+                        {subject.roomName}&nbsp;
+                    </Checkbox>
+                </Col>
+                );
+            count++;
         });
         const formInstance = (
             <form>
@@ -168,12 +188,22 @@ export default class RoleManagement extends Component {
         return formInstance;
     }
 
+    ArrayToObject(array){
+        let o = {};
+        array.forEach((item)=>{
+            if (o[item.id] === undefined){
+                o[item.id] = item.roomName;
+            }
+        })
+        return o;
+    }
+
     render() {
         let {roleName,
-            subjects,...other} = this.state;
+            roomAccess,...other} = this.state;
         //hearder, title, add, tableJson, show ,child, onClose, onSubmit, showModal
         return <BaseAdminComponent {...other}
-                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, roleName: '', subjects: 0, modalType: 0, modalTitle : '新增角色'})}}
+                                   onClose={()=>{this.setState({show: false})}} onNew={()=>{this.setState({show: true, roleName: '', roomAccess: 0, modalType: 0, modalTitle : '新增角色'})}}
                                    onDelete={this.onDeleteHandle} onEdit={this.onEditModal} onSubmit={this.onSubmitHandle} onPageSelect={this.onPageSelect}>
             {this.getForm()}
         </BaseAdminComponent>
