@@ -10,12 +10,12 @@ export default function CasePicModal(props) {
     console.info('origin str:' + str)
 
     str.split(' ').forEach((img) => {
-        let img_url = img.substring(1, img.length - 1);
-        console.info("img_url", img_url)
+        //let img_url = img.substring(1, img.length - 1);
+        console.info("img_url", img)
         itemDom.push(
             <Carousel.Item key={count++}>
                 <Image width={img_width} height={img_height}
-                       src={img_url} responsive/>
+                       src={img} responsive/>
             </Carousel.Item>
         )
     });
