@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {FormGroup, FormControl, Button, HelpBlock, ControlLabel, Col, Modal, Row} from 'react-bootstrap/lib'
+import {FormGroup, FormControl, Button, HelpBlock, ControlLabel, Col, Modal, Row, Radio} from 'react-bootstrap/lib'
 import 'whatwg-fetch'
 import Dropzone from 'react-dropzone'
 
@@ -37,6 +37,7 @@ export default class CaseManagement extends Component {
             //modal Info
             id: '',
             caseName : '',
+            classification: '',
             symptom : -1,
             exam : -1,
             result : -1,
@@ -80,6 +81,7 @@ export default class CaseManagement extends Component {
             .then((response)=>{
                 return response.json();
             }).then((json)=>{
+            console.log(json);
             let data = json.data , originJson = this.deepCopy(json.data);
             data.forEach((item)=>{
                 //解析展现的数据
@@ -124,6 +126,7 @@ export default class CaseManagement extends Component {
         };
         let body = {
             caseName : this.state.caseName,
+            classification: this.state.classification,
             symptom : this.state.symptom !== -1 ? this.state.symptom : empty,
             exam : this.state.exam !== -1 ? this.state.exam : empty,
             result : this.state.result !== -1 ? this.state.result : empty,
@@ -159,18 +162,19 @@ export default class CaseManagement extends Component {
     }
 
     onEditModal(id){
-        let caseName = '' , symptom = '', exam = '', result = '', method = '';
+        let caseName = '' , symptom = '', exam = '', result = '', method = '', classification = '';
         for(let key in this.state.originJson){
             let item = this.state.originJson[key];
             if (item.id === id){
                 caseName = item.caseName;
+                classification = item.classification;
                 symptom = item.symptom;
                 exam = item.exam;
                 result = item.result;
                 method = item.method;
             }
         }
-        this.setState({show: true, id: id, caseName : caseName, symptom: symptom, exam: exam, result: result, method: method, modalType: 1, modalTitle : '修改病例'})
+        this.setState({show: true, id: id, caseName : caseName, classification: classification, symptom: symptom, exam: exam, result: result, method: method, modalType: 1, modalTitle : '修改病例'})
     }
 
     onEditSecondModal(index){
@@ -292,6 +296,23 @@ export default class CaseManagement extends Component {
     }
 
     getForm(){
+        let doms = [], typeDom = [], count = 0;
+        ['传染病', '寄生虫病', '内科病例', '外产科病例', '常用手术', '免疫'].forEach((type)=>{
+            if (count % 4 === 0 && count !== 0){
+                typeDom.push(<Row>
+                    {doms}
+                </Row>);
+                doms = [];
+            }
+            doms.push(
+                <Col md={3}>
+                    <Radio inline key={count} value={type} name="type" checked={type === this.state.classification ? "true" : "false"}>
+                        {type}&nbsp;
+                    </Radio>
+                </Col>
+            );
+            count++;
+        });
         const formInstance = (
             <div>
                 <form>
@@ -303,6 +324,16 @@ export default class CaseManagement extends Component {
                         value={this.state.caseName}
                         onChange={(e)=>{this.setState({caseName : e.target.value})}}
                     />
+                    <Row>
+                        <FormGroup onChange={(e)=>{console.log(e.target.value);this.setState({classification: e.target.value})}} ref={(input)=>{this.input = input;}}>
+                            <Col md={2}>
+                                <ControlLabel>病例类型:</ControlLabel>
+                            </Col>
+                            <Col md={10}>
+                                {typeDom}
+                            </Col>
+                        </FormGroup>
+                    </Row>
                     <FormGroup>
                         <Col md={3}>
                             <ControlLabel>病症:</ControlLabel>
