@@ -8,22 +8,35 @@ export default function CasePicModal(props) {
     let itemDom = [], count = 0;
     let str = props.imgList;
     console.info('origin str:' + str)
-    let imgArrStr = str.substring(str.indexOf('[') + 1, str.indexOf(']'));
+    // let imgArrStr = str.substring(str.indexOf('[') + 1, str.indexOf(']'));
+    // console.info(imgArrStr)
+    //
+    // let index = 1;
+    // imgArrStr.split(',').forEach((img) => {
+    //     let trimImg = img.trim();
+    //     let img_url = trimImg.substring(1, trimImg.length - 1);
+    //     console.info("img_url:"+img_url);
+    //
+    //     itemDom.push(
+    //         <Carousel.Item key={count++}>
+    //             <Image width={img_width} height={img_height}
+    //                    src={img_url} responsive/>
+    //         </Carousel.Item>
+    //     );
+    //     index++;
+    // });
 
-    let index = 1;
-    imgArrStr.split(',').forEach((img) => {
-        let trimImg = img.trim();
-        let img_url = trimImg.substring(1, trimImg.length - 1);
-        console.info( img_url);
-
+    str.split(' ').forEach((img) => {
+        let img_url = img.substring(1, img.length - 1);
+        console.info("img_url", img_url)
         itemDom.push(
             <Carousel.Item key={count++}>
                 <Image width={img_width} height={img_height}
                        src={img_url} responsive/>
             </Carousel.Item>
-        );
-        index++;
+        )
     });
+
     return (
         <Modal
             show={props.show}
